@@ -1,5 +1,7 @@
 package me.glassware.main;
 
+import me.glassware.handlers.GameInput;
+import me.glassware.handlers.GameInputProcessor;
 import me.glassware.handlers.GameStateManager;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -25,6 +27,7 @@ public class Game implements ApplicationListener
 	
 	public void create()
 	{
+		Gdx.input.setInputProcessor(new GameInputProcessor());
 		sb = new SpriteBatch();
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
@@ -57,6 +60,7 @@ public class Game implements ApplicationListener
 			accum-=STEP;
 			gsm.update(STEP);
 			gsm.render();
+			GameInput.update();
 		}
 		
 	}

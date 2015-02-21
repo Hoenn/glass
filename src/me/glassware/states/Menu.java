@@ -3,6 +3,7 @@ package me.glassware.states;
 import static me.glassware.handlers.B2DVars.PPM;
 import me.glassware.handlers.B2DVars;
 import me.glassware.handlers.GameContactListener;
+import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameStateManager;
 import me.glassware.main.Game;
 
@@ -26,14 +27,17 @@ public class Menu extends GameState
 	
 	private OrthographicCamera b2dCam;
 	
+	private Body playerBody;
 	
-	
+	private GameContactListener contacts;
 	public Menu(GameStateManager gsm)
 	{
 		super(gsm);
 		
-		world = new World(new Vector2(0, -0.81f), true);
-		world.setContactListener(new GameContactListener());
+		world = new World(new Vector2(0, -9.81f), true);
+		contacts= new GameContactListener();
+		world.setContactListener(contacts);
+		
 		b2dr= new Box2DDebugRenderer();
 		
 		//Create Platform
@@ -47,40 +51,51 @@ public class Menu extends GameState
 		shape.setAsBox(50/PPM, 5/PPM);
 		fdef.shape = shape;
 		fdef.filter.categoryBits = B2DVars.BIT_GROUND;
-		fdef.filter.maskBits = B2DVars.BIT_BOX | B2DVars.BIT_BALL;
+		fdef.filter.maskBits = B2DVars.BIT_PLAYER;
 		body.createFixture(fdef).setUserData("Platform");
 				
-		//falling box
+		//falling Player
 		bdef.position.set(160/PPM, 200/PPM);
 		bdef.type = BodyType.DynamicBody;
-		body = world.createBody(bdef);
+		playerBody = world.createBody(bdef);
 		
 		shape.setAsBox(5/PPM, 5/PPM);
 		fdef.shape = shape;
-		fdef.restitution = .7f;
-		fdef.filter.categoryBits = B2DVars.BIT_BOX;
+		fdef.restitution = 0f;
+		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
 		fdef.filter.maskBits = B2DVars.BIT_GROUND;
-		body.createFixture(fdef).setUserData("Box");
+		playerBody.createFixture(fdef).setUserData("Player");
 		
-		//create ball
-		bdef.position.set(153/PPM, 220/PPM);
-		body = world.createBody(bdef);
-		
-		CircleShape cshape = new CircleShape();
-		cshape.setRadius(5/PPM);
-		fdef.shape = cshape;
-		fdef.filter.categoryBits = B2DVars.BIT_BALL;
+		//create foot sensor
+		shape.setAsBox(2/PPM, 2/PPM, new Vector2(0, -5/PPM), 0);
+		fdef.shape = shape;
+		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
 		fdef.filter.maskBits = B2DVars.BIT_GROUND;
-		body.createFixture(fdef).setUserData("Ball");
+		fdef.isSensor=true;
+		playerBody.createFixture(fdef).setUserData("foot");
 		
+
 		//set up b2d camera
 		b2dCam = new OrthographicCamera();
 		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
 	}
-	public void handleInput(){}
+	public void handleInput()
+	{
+		if(GameInput.isPressed(GameInput.BUTTON1))
+		{
+			if(contacts.isPlayerOnGround())
+			{
+				playerBody.applyForceToCenter(0, 150f, true);
+			}
+		}
+			
+			
+	}
 	
 	public void update(float dt)
 	{
+		handleInput();
+		
 		world.step(dt, 6, 2);
 	}
 	
