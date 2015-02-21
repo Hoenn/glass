@@ -78,6 +78,7 @@ public class Menu extends GameState
 		b2dCam = new OrthographicCamera();
 		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
 		
+
 	}
 	public void handleInput()
 	{
