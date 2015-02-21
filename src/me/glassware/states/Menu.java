@@ -88,19 +88,24 @@ public class Menu extends GameState
 				playerBody.applyForceToCenter(0, 150f, true);
 			}
 		}
-		if(GameInput.isPressed(GameInput.BUTTON_A))
+		if(GameInput.isDown(GameInput.BUTTON_A))
 		{
 			if(contacts.isPlayerOnGround())
 			{
-				playerBody.applyForceToCenter(-50f, 0, true);
+				playerBody.applyForceToCenter(-5f, 0, true);
 			}
 		}
-		if(GameInput.isPressed(GameInput.BUTTON_D))
+		if(GameInput.isDown(GameInput.BUTTON_D))
 		{
 			if(contacts.isPlayerOnGround())
 			{
-				playerBody.applyForceToCenter(50f, 0, true);
+				playerBody.applyForceToCenter(5f, 0, true);
 			}
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_Z))
+		{
+			//STUB
+			playerBody.setTransform(new Vector2(160/PPM, 200/PPM), 0);
 		}
 			
 			
