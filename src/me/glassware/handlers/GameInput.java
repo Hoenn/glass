@@ -5,9 +5,10 @@ public class GameInput
 	public static boolean[] keys;
 	public static boolean[] pkeys;
 	
-	public static final int NUM_KEYS=2;
-	public static final int BUTTON1=0;
-	public static final int BUTTON2=1;
+	public static final int NUM_KEYS=3;
+	public static final int BUTTON_SPACE=0;
+	public static final int BUTTON_A=1;
+	public static final int BUTTON_D = 2;
 	
 	static{
 		keys=new boolean[NUM_KEYS];

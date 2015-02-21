@@ -8,26 +8,34 @@ public class GameInputProcessor extends InputAdapter
 	@Override
 	public boolean keyDown(int k)
 	{
-		if(k==Keys.Z)
+		if(k==Keys.SPACE)
 		{
-			GameInput.setKey(GameInput.BUTTON1, true);
+			GameInput.setKey(GameInput.BUTTON_SPACE, true);
 		}
-		if(k==Keys.X)
+		if(k==Keys.A)
 		{
-			GameInput.setKey(GameInput.BUTTON2, true);
+			GameInput.setKey(GameInput.BUTTON_A, true);
+		}
+		if(k==Keys.D)
+		{
+			GameInput.setKey(GameInput.BUTTON_D, true);
 		}
 		return true;
 	}
 	@Override
 	public boolean keyUp(int k)
 	{
-		if(k==Keys.Z)
+		if(k==Keys.SPACE)
 		{
-			GameInput.setKey(GameInput.BUTTON1, false);
+			GameInput.setKey(GameInput.BUTTON_SPACE, false);
 		}
-		if(k==Keys.X)
+		if(k==Keys.A)
 		{
-			GameInput.setKey(GameInput.BUTTON2, false);
+			GameInput.setKey(GameInput.BUTTON_A, false);
+		}
+		if(k==Keys.D)
+		{
+			GameInput.setKey(GameInput.BUTTON_D, false);
 		}
 		return true;
 	}

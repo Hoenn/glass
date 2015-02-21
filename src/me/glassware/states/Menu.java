@@ -81,11 +81,25 @@ public class Menu extends GameState
 	}
 	public void handleInput()
 	{
-		if(GameInput.isPressed(GameInput.BUTTON1))
+		if(GameInput.isPressed(GameInput.BUTTON_SPACE))
 		{
 			if(contacts.isPlayerOnGround())
 			{
 				playerBody.applyForceToCenter(0, 150f, true);
+			}
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_A))
+		{
+			if(contacts.isPlayerOnGround())
+			{
+				playerBody.applyForceToCenter(-50f, 0, true);
+			}
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_D))
+		{
+			if(contacts.isPlayerOnGround())
+			{
+				playerBody.applyForceToCenter(50f, 0, true);
 			}
 		}
 			
