@@ -77,7 +77,6 @@ public class Menu extends GameState
 		//set up b2d camera
 		b2dCam = new OrthographicCamera();
 		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
-		//Testt
 	}
 	public void handleInput(){}
 	
