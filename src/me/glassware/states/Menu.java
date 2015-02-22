@@ -46,6 +46,7 @@ public class Menu extends GameState
 		FixtureDef fdef = new FixtureDef();
 		PolygonShape shape = new PolygonShape();
 		
+		
 		//Create Left Wall
 		bdef.position.set(0/PPM, 0/PPM);
 		bdef.type= BodyType.StaticBody;
