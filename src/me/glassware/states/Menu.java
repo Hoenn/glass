@@ -34,37 +34,77 @@ public class Menu extends GameState
 	{
 		super(gsm);
 		
-		world = new World(new Vector2(0, -9.81f), true);
+		world = new World(new Vector2(0f, 0f), true);
 		contacts= new GameContactListener();
 		world.setContactListener(contacts);
 		
 		b2dr= new Box2DDebugRenderer();
 		
-		//Create Platform
 		BodyDef bdef = new BodyDef();
-		bdef.position.set(150/PPM, 120/PPM);
-		bdef.type= BodyType.StaticBody;
-		Body body = world.createBody(bdef);
+		Body body;
 		
 		FixtureDef fdef = new FixtureDef();
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(50/PPM, 5/PPM);
+		
+		//Create Left Wall
+		bdef.position.set(0/PPM, 0/PPM);
+		bdef.type= BodyType.StaticBody;
+		body = world.createBody(bdef);
+		
+		shape.setAsBox(1/PPM, Game.V_HEIGHT/PPM);
 		fdef.shape = shape;
 		fdef.filter.categoryBits = B2DVars.BIT_GROUND;
 		fdef.filter.maskBits = B2DVars.BIT_PLAYER;
-		body.createFixture(fdef).setUserData("Platform");
+		body.createFixture(fdef).setUserData("Left Wall");
 				
-		//falling Player
+		
+		//Create Right Wall
+		bdef.position.set(Game.V_WIDTH/PPM, 0/PPM);
+		bdef.type= BodyType.StaticBody;
+		body = world.createBody(bdef);
+		
+		shape.setAsBox(1/PPM, Game.V_HEIGHT/PPM);
+		fdef.shape = shape;
+		fdef.filter.categoryBits = B2DVars.BIT_GROUND;
+		fdef.filter.maskBits = B2DVars.BIT_PLAYER;
+		body.createFixture(fdef).setUserData("Right Wall");
+		
+		//Create Top Wall
+		bdef.position.set(Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
+		bdef.type= BodyType.StaticBody;
+		body = world.createBody(bdef);
+		
+		shape.setAsBox(Game.V_WIDTH/PPM, 1/PPM);
+		fdef.shape = shape;
+		fdef.filter.categoryBits = B2DVars.BIT_GROUND;
+		fdef.filter.maskBits = B2DVars.BIT_PLAYER;
+		body.createFixture(fdef).setUserData("Top Wall");
+		
+		
+		//Create Bottom Wall
+		bdef.position.set(0/PPM, 0/PPM);
+		bdef.type= BodyType.StaticBody;
+		body = world.createBody(bdef);
+		
+		shape.setAsBox(Game.V_WIDTH/PPM, 1/PPM);
+		fdef.shape = shape;
+		fdef.filter.categoryBits = B2DVars.BIT_GROUND;
+		fdef.filter.maskBits = B2DVars.BIT_PLAYER;
+		body.createFixture(fdef).setUserData("Bottom Wall");
+		
+		
+		//Player
 		bdef.position.set(160/PPM, 200/PPM);
 		bdef.type = BodyType.DynamicBody;
 		playerBody = world.createBody(bdef);
 		
 		shape.setAsBox(5/PPM, 5/PPM);
 		fdef.shape = shape;
-		fdef.restitution = 0f;
+		fdef.restitution = .5f;
 		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
 		fdef.filter.maskBits = B2DVars.BIT_GROUND;
 		playerBody.createFixture(fdef).setUserData("Player");
+		
 		
 		//create foot sensor
 		shape.setAsBox(2/PPM, 2/PPM, new Vector2(0, -5/PPM), 0);
@@ -81,31 +121,25 @@ public class Menu extends GameState
 	}
 	public void handleInput()
 	{
-		if(GameInput.isPressed(GameInput.BUTTON_SPACE))
+		if(GameInput.isDown(GameInput.BUTTON_W))
 		{
-			if(contacts.isPlayerOnGround())
-			{
-				playerBody.applyForceToCenter(0, 150f, true);
-			}
+			playerBody.applyForceToCenter(0, 5f, true);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_A))
 		{
-			if(contacts.isPlayerOnGround())
-			{
 				playerBody.applyForceToCenter(-5f, 0, true);
-			}
+		}
+		if(GameInput.isDown(GameInput.BUTTON_S))
+		{
+			playerBody.applyForceToCenter(0, -5f, true);	
 		}
 		if(GameInput.isDown(GameInput.BUTTON_D))
 		{
-			if(contacts.isPlayerOnGround())
-			{
-				playerBody.applyForceToCenter(5f, 0, true);
-			}
+				playerBody.applyForceToCenter(5f, 0, true);	
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
-			//STUB
-			playerBody.setTransform(new Vector2(160/PPM, 200/PPM), 0);
+			playerBody.setTransform(new Vector2(120/PPM, 200/PPM), 0);
 		}
 			
 			

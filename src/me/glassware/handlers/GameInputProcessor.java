@@ -8,13 +8,17 @@ public class GameInputProcessor extends InputAdapter
 	@Override
 	public boolean keyDown(int k)
 	{
-		if(k==Keys.SPACE)
+		if(k==Keys.W)
 		{
-			GameInput.setKey(GameInput.BUTTON_SPACE, true);
+			GameInput.setKey(GameInput.BUTTON_W, true);
 		}
 		if(k==Keys.A)
 		{
 			GameInput.setKey(GameInput.BUTTON_A, true);
+		}
+		if(k==Keys.S)
+		{
+			GameInput.setKey(GameInput.BUTTON_S, true);
 		}
 		if(k==Keys.D)
 		{
@@ -29,13 +33,17 @@ public class GameInputProcessor extends InputAdapter
 	@Override
 	public boolean keyUp(int k)
 	{
-		if(k==Keys.SPACE)
+		if(k==Keys.W)
 		{
-			GameInput.setKey(GameInput.BUTTON_SPACE, false);
+			GameInput.setKey(GameInput.BUTTON_W, false);
 		}
 		if(k==Keys.A)
 		{
 			GameInput.setKey(GameInput.BUTTON_A, false);
+		}
+		if(k==Keys.S)
+		{
+			GameInput.setKey(GameInput.BUTTON_S, false);
 		}
 		if(k==Keys.D)
 		{
