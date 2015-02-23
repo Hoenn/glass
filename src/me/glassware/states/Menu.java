@@ -126,25 +126,26 @@ public class Menu extends GameState
 	{
 		if(GameInput.isDown(GameInput.BUTTON_W))
 		{
-			playerBody.applyForceToCenter(0, 5f, true);
+			playerBody.applyLinearImpulse(0	, .15f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true); //Tighter controls, immediately modifies VELOCITY
 		}
 		if(GameInput.isDown(GameInput.BUTTON_A))
 		{
-				playerBody.applyForceToCenter(-5f, 0, true);
+			playerBody.applyLinearImpulse(-.15f, 0f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_S))
 		{
-			playerBody.applyForceToCenter(0, -5f, true);	
+			playerBody.applyLinearImpulse(0	, -.15f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_D))
 		{
-				playerBody.applyForceToCenter(5f, 0, true);	
+			playerBody.applyLinearImpulse(.15f	, 0f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
 			playerBody.setTransform(new Vector2(120/PPM, 200/PPM), 0);
+			playerBody.setLinearVelocity(0f, 0f);
 		}
-			
+
 			
 	}
 	
