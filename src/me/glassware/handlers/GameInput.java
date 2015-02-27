@@ -5,7 +5,7 @@ public class GameInput
 	public static boolean[] keys;
 	public static boolean[] pkeys;
 	
-	public static final int NUM_KEYS=6;
+	public static final int NUM_KEYS=10;
 	
 	public static final int BUTTON_SPACE=0;
 	public static final int BUTTON_W=1;
@@ -13,6 +13,10 @@ public class GameInput
 	public static final int BUTTON_S=3;
 	public static final int BUTTON_D=4;
 	public static final int BUTTON_Z=5;
+	public static final int BUTTON_UP=6;
+	public static final int BUTTON_DOWN=7;
+	public static final int BUTTON_LEFT=8;
+	public static final int BUTTON_RIGHT=9;
 	
 	
 	static{

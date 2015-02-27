@@ -124,7 +124,7 @@ public class Menu extends GameState
 		
 	}
 	public void handleInput()
-	{	
+	{
 		if(GameInput.isDown(GameInput.BUTTON_W))
 		{
 			playerBody.applyLinearImpulse(0	, .30f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true); //Tighter controls, immediately modifies VELOCITY
@@ -141,10 +141,28 @@ public class Menu extends GameState
 		{
 			playerBody.applyLinearImpulse(.30f	, 0f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
 		}
+		if(GameInput.isDown(GameInput.BUTTON_UP))
+		{
+			
+		}
+		if(GameInput.isDown(GameInput.BUTTON_RIGHT))
+		{
+			
+		}
+		if(GameInput.isDown(GameInput.BUTTON_DOWN))
+		{
+			
+		}
+		if(GameInput.isDown(GameInput.BUTTON_LEFT))
+		{
+
+		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
 			playerBody.setLinearVelocity(0f, 0f);
 		}
+
+			
 	}
 	
 	public void update(float dt)
