@@ -104,6 +104,7 @@ public class Menu extends GameState
 		fdef.restitution = .5f;
 		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
 		fdef.filter.maskBits = B2DVars.BIT_GROUND;
+		playerBody.setLinearDamping(10f);
 		playerBody.createFixture(fdef).setUserData("Player");
 		
 		
@@ -123,30 +124,27 @@ public class Menu extends GameState
 		
 	}
 	public void handleInput()
-	{
+	{	
 		if(GameInput.isDown(GameInput.BUTTON_W))
 		{
-			playerBody.applyLinearImpulse(0	, .15f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true); //Tighter controls, immediately modifies VELOCITY
+			playerBody.applyLinearImpulse(0	, .30f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true); //Tighter controls, immediately modifies VELOCITY
 		}
 		if(GameInput.isDown(GameInput.BUTTON_A))
 		{
-			playerBody.applyLinearImpulse(-.15f, 0f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
+			playerBody.applyLinearImpulse(-.30f, 0f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_S))
 		{
-			playerBody.applyLinearImpulse(0	, -.15f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
+			playerBody.applyLinearImpulse(0	, -.30f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_D))
 		{
-			playerBody.applyLinearImpulse(.15f	, 0f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
+			playerBody.applyLinearImpulse(.30f	, 0f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
-			playerBody.setTransform(new Vector2(120/PPM, 200/PPM), 0);
 			playerBody.setLinearVelocity(0f, 0f);
 		}
-
-			
 	}
 	
 	public void update(float dt)
