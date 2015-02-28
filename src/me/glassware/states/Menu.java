@@ -56,52 +56,6 @@ public class Menu extends GameState
 		PolygonShape shape = new PolygonShape();
 		
 		
-		//Create Left Wall
-		bdef.position.set(0/PPM, 0/PPM);
-		bdef.type= BodyType.StaticBody;
-		body = world.createBody(bdef);
-		
-		shape.setAsBox(1/PPM, Game.V_HEIGHT/PPM);
-		fdef.shape = shape;
-		fdef.filter.categoryBits = B2DVars.BIT_GROUND;
-		fdef.filter.maskBits = B2DVars.BIT_PLAYER;
-		body.createFixture(fdef).setUserData("Left Wall");
-				
-		
-		//Create Right Wall
-		bdef.position.set(Game.V_WIDTH/PPM, 0/PPM);
-		bdef.type= BodyType.StaticBody;
-		body = world.createBody(bdef);
-		
-		shape.setAsBox(1/PPM, Game.V_HEIGHT/PPM);
-		fdef.shape = shape;
-		fdef.filter.categoryBits = B2DVars.BIT_GROUND;
-		fdef.filter.maskBits = B2DVars.BIT_PLAYER;
-		body.createFixture(fdef).setUserData("Right Wall");
-		
-		//Create Top Wall
-		bdef.position.set(Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
-		bdef.type= BodyType.StaticBody;
-		body = world.createBody(bdef);
-		
-		shape.setAsBox(Game.V_WIDTH/PPM, 1/PPM);
-		fdef.shape = shape;
-		fdef.filter.categoryBits = B2DVars.BIT_GROUND;
-		fdef.filter.maskBits = B2DVars.BIT_PLAYER;
-		body.createFixture(fdef).setUserData("Top Wall");
-		
-		
-		//Create Bottom Wall
-		bdef.position.set(0/PPM, 0/PPM);
-		bdef.type= BodyType.StaticBody;
-		body = world.createBody(bdef);
-		
-		shape.setAsBox(Game.V_WIDTH/PPM, 1/PPM);
-		fdef.shape = shape;
-		fdef.filter.categoryBits = B2DVars.BIT_GROUND;
-		fdef.filter.maskBits = B2DVars.BIT_PLAYER;
-		body.createFixture(fdef).setUserData("Bottom Wall");
-		
 		
 		//Player
 		bdef.position.set(160/PPM, 200/PPM);
