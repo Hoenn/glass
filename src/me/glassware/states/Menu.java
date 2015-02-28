@@ -10,12 +10,17 @@ import me.glassware.main.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -28,6 +33,10 @@ public class Menu extends GameState
 	private OrthographicCamera b2dCam;
 	
 	private Body playerBody;
+	
+	private TiledMap tileMap;
+	private OrthogonalTiledMapRenderer tmr;
+	private float tileSize;
 	
 	private GameContactListener contacts;
 	public Menu(GameStateManager gsm)
@@ -120,7 +129,54 @@ public class Menu extends GameState
 		b2dCam = new OrthographicCamera();
 		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
 		
-
+		///////////////////////////////////////////
+		
+		
+		//load tile map
+		tileMap = new TmxMapLoader().load("res/maps/test.tmx");
+		tmr = new OrthogonalTiledMapRenderer(tileMap);
+		
+		TiledMapTileLayer layer = (TiledMapTileLayer) tileMap.getLayers().get("Walls");
+		
+		tileSize = layer.getTileHeight();
+		
+		//go through cells in the layer
+		for(int row =0; row<layer.getHeight();row++)
+		{
+			for(int col =0; col<layer.getWidth();col++)
+			{
+				//get cell
+				Cell cell = layer.getCell(col,row);
+				
+				//check if cell exist
+				if(cell==null)continue;
+				if(cell.getTile()==null)continue;
+				
+				//create a body and fixture from cell
+				bdef.type = BodyType.StaticBody;
+				bdef.position.set((col+0.5f)*tileSize/PPM, (row+0.5f)*tileSize/PPM);
+				
+				ChainShape cs = new ChainShape();
+				Vector2[] v = new Vector2[5];
+				v[0] = new Vector2(-tileSize/2/PPM, -tileSize/2/PPM); //Bottom Left
+				v[1] = new Vector2(-tileSize/2/PPM, tileSize/2/PPM); //Top Left
+				v[2]= new Vector2(tileSize/2/PPM, tileSize/2/PPM); //Top Right
+				v[3]= new Vector2(tileSize/2/PPM, -tileSize/2/PPM); //Bottom Right
+				
+				v[4] = new Vector2(-tileSize/2/PPM, -tileSize/2/PPM);//Completes the chain
+				cs.createChain(v);
+				
+				fdef.friction=0;
+				fdef.isSensor=false;
+				fdef.shape=cs;
+				fdef.filter.categoryBits=B2DVars.BIT_GROUND;
+				fdef.filter.maskBits=B2DVars.BIT_PLAYER;
+				
+				world.createBody(bdef).createFixture(fdef);
+				
+			}
+		}
+		
 		
 	}
 	public void handleInput()
@@ -176,8 +232,12 @@ public class Menu extends GameState
 	{
 		//clear screen
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		//draw tile map
+		tmr.setView(cam);
+		tmr.render();
 		//draw world
 		b2dr.render(world, b2dCam.combined);
+		
 	}
 	
 	public void dispose(){}

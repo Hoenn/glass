@@ -1,18 +1,10 @@
 package me.glassware.entities;
 
-import com.badlogic.gdx.math.Vector2;
 
-public abstract class Entity
-{
-	private Vector2 position;
+public class Entity
+{	
 
-	public Entity(Vector2 position)
+	public Entity()
 	{
-		this.position=position;
 	}
-	public Vector2 getPosition()
-	{
-		return this.position;
-	}
-	public abstract int getHealth();
 }
