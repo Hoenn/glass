@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="20" tileheight="20" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="20" tileheight="20" nextobjectid="10">
  <tileset firstgid="1" name="Floor" tilewidth="20" tileheight="20">
   <image source="Floor.png" width="40" height="20"/>
  </tileset>
@@ -8,6 +8,10 @@
    eJxjZGBgYBzFo3iEYgAkjwDB
   </data>
  </layer>
+ <objectgroup name="PickUps">
+  <object id="8" x="115" y="114" width="14" height="15"/>
+  <object id="9" x="230" y="114" width="17" height="17"/>
+ </objectgroup>
  <layer name="Walls" width="16" height="12">
   <data encoding="base64" compression="zlib">
    eJxjYmBgYKIQkwuw6cdnHja1THjkCZlBbftJBaPhRx3/U4IBxAAAgQ==

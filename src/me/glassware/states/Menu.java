@@ -1,6 +1,7 @@
 package me.glassware.states;
 
 import static me.glassware.handlers.B2DVars.PPM;
+import me.glassware.entities.PickUp;
 import me.glassware.entities.Player;
 import me.glassware.handlers.B2DVars;
 import me.glassware.handlers.GameContactListener;
@@ -11,11 +12,15 @@ import me.glassware.main.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -25,11 +30,13 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 //This is a commit test
 public class Menu extends GameState
 {	
 	private World world;
 	private Box2DDebugRenderer b2dr;
+	private boolean debug=false;
 	
 	private OrthographicCamera b2dCam;
 		
@@ -40,6 +47,7 @@ public class Menu extends GameState
 	private GameContactListener contacts;
 	
 	private Player player;
+	private Array<PickUp> pickUps;
 	public Menu(GameStateManager gsm)
 	{
 		super(gsm);
@@ -55,6 +63,9 @@ public class Menu extends GameState
 		
 		//Create Tiles
 		createTiles();
+		
+		//create pick ups
+		createPickUps();
 			
 		//set up b2d camera
 		b2dCam = new OrthographicCamera();
@@ -107,6 +118,18 @@ public class Menu extends GameState
 		
 		world.step(dt, 6, 2);
 		player.update(dt);
+		
+		Array<Body> bodies=contacts.getBodiesToRemove();
+		for(Body b: bodies)
+		{
+			pickUps.removeValue((PickUp)b.getUserData(), true);
+			world.destroyBody(b);
+			//TODO Player to collect the object
+		}
+		bodies.clear();
+		
+		for(PickUp p: pickUps)
+			p.update(dt);
 	}
 	
 	public void render()
@@ -116,11 +139,20 @@ public class Menu extends GameState
 		//draw tile map
 		tmr.setView(cam);
 		tmr.render();
+		
+		//draw pickups
+		for(PickUp p: pickUps)
+			p.render(sb);
+		
 		//draw player
 		sb.setProjectionMatrix(cam.combined);
 		player.render(sb);
-		//draw world
-		b2dr.render(world, b2dCam.combined);
+
+		
+		
+		//draw Box2dworld
+		if(debug)
+			b2dr.render(world, b2dCam.combined);
 		
 	}
 	private void createPlayer()
@@ -137,7 +169,7 @@ public class Menu extends GameState
 		fdef.shape = shape;
 		fdef.restitution = .5f;
 		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
-		fdef.filter.maskBits = B2DVars.BIT_GROUND;
+		fdef.filter.maskBits = B2DVars.BIT_GROUND|B2DVars.BIT_PICKUP;
 		body.setLinearDamping(10f);
 		body.createFixture(fdef).setUserData("Player");
 		
@@ -210,6 +242,47 @@ public class Menu extends GameState
 			}
 		}
 	}
-	
+	private void createPickUps()
+	{
+		pickUps = new Array<PickUp>();
+		
+		MapLayer layer = tileMap.getLayers().get("PickUps");
+		
+		BodyDef bdef = new BodyDef();
+		FixtureDef fdef = new FixtureDef();
+		PolygonShape shape = new PolygonShape();
+		
+		float x=0, y=0;
+		
+		for(MapObject mo: layer.getObjects())
+		{
+			if(mo instanceof RectangleMapObject)
+			{
+				Rectangle r = ((RectangleMapObject) mo).getRectangle();
+				x = r.x;
+				y = r.y;
+			}
+			bdef.position.set(x/PPM, y/PPM);
+			
+			shape.setAsBox(9/PPM, 9/PPM);
+			fdef.shape=shape;
+			fdef.isSensor=true;
+			fdef.filter.categoryBits = B2DVars.BIT_PICKUP;
+			fdef.filter.maskBits=B2DVars.BIT_PLAYER;
+			Body body = world.createBody(bdef);
+			//TODO Set userData to a random value from list
+			// of pickups so that they can be created as 
+			// item objects and added to player inventory
+			body.createFixture(fdef).setUserData("pickUp");
+			
+			PickUp p = new PickUp(body);
+			
+			pickUps.add(p);
+			
+			body.setUserData(p);
+			
+			
+		}
+	}
 	public void dispose(){}
 }

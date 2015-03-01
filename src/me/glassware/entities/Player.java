@@ -11,6 +11,7 @@ public class Player extends B2DSprite
 	private int totalHealth;
 	private int currentHealth;
 	
+	
 	public Player(Body body)
 	{
 		super(body);
