@@ -33,7 +33,7 @@ public class Game implements ApplicationListener
 		Gdx.input.setInputProcessor(new GameInputProcessor());
 		
 		res = new Content();
-		res.loadTexture("res/images/wizardSprite.png", "wizard");
+		res.loadTexture("res/images/wizardSprite.png", "player");
 		
 		sb = new SpriteBatch();
 		cam = new OrthographicCamera();
