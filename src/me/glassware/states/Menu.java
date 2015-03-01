@@ -1,6 +1,7 @@
 package me.glassware.states;
 
 import static me.glassware.handlers.B2DVars.PPM;
+import me.glassware.entities.Player;
 import me.glassware.handlers.B2DVars;
 import me.glassware.handlers.GameContactListener;
 import me.glassware.handlers.GameInput;
@@ -31,14 +32,14 @@ public class Menu extends GameState
 	private Box2DDebugRenderer b2dr;
 	
 	private OrthographicCamera b2dCam;
-	
-	private Body playerBody;
-	
+		
 	private TiledMap tileMap;
 	private OrthogonalTiledMapRenderer tmr;
 	private float tileSize;
 	
 	private GameContactListener contacts;
+	
+	private Player player;
 	public Menu(GameStateManager gsm)
 	{
 		super(gsm);
@@ -54,32 +55,29 @@ public class Menu extends GameState
 		
 		//Create Tiles
 		createTiles();
-	
-				
+			
 		//set up b2d camera
 		b2dCam = new OrthographicCamera();
-		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
-
-		
+		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);		
 		
 	}
 	public void handleInput()
 	{
 		if(GameInput.isDown(GameInput.BUTTON_W))
 		{
-			playerBody.applyLinearImpulse(0	, .30f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true); //Tighter controls, immediately modifies VELOCITY
+			player.getBody().applyLinearImpulse(0	, .30f, player.getBody().getLocalCenter().x, player.getBody().getLocalCenter().y, true); //Tighter controls, immediately modifies VELOCITY
 		}
 		if(GameInput.isDown(GameInput.BUTTON_A))
 		{
-			playerBody.applyLinearImpulse(-.30f, 0f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
+			player.getBody().applyLinearImpulse(-.30f, 0f, player.getBody().getLocalCenter().x, player.getBody().getLocalCenter().y, true);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_S))
 		{
-			playerBody.applyLinearImpulse(0	, -.30f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
+			player.getBody().applyLinearImpulse(0	, -.30f, player.getBody().getLocalCenter().x, player.getBody().getLocalCenter().y, true);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_D))
 		{
-			playerBody.applyLinearImpulse(.30f	, 0f, playerBody.getLocalCenter().x, playerBody.getLocalCenter().y, true);
+			player.getBody().applyLinearImpulse(.30f	, 0f, player.getBody().getLocalCenter().x, player.getBody().getLocalCenter().y, true);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_UP))
 		{
@@ -99,7 +97,7 @@ public class Menu extends GameState
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
-			playerBody.setLinearVelocity(0f, 0f);
+			player.getBody().setLinearVelocity(0f, 0f);
 		}		
 	}
 	
@@ -108,6 +106,7 @@ public class Menu extends GameState
 		handleInput();
 		
 		world.step(dt, 6, 2);
+		player.update(dt);
 	}
 	
 	public void render()
@@ -117,6 +116,9 @@ public class Menu extends GameState
 		//draw tile map
 		tmr.setView(cam);
 		tmr.render();
+		//draw player
+		sb.setProjectionMatrix(cam.combined);
+		player.render(sb);
 		//draw world
 		b2dr.render(world, b2dCam.combined);
 		
@@ -129,15 +131,15 @@ public class Menu extends GameState
 		
 		bdef.position.set(160/PPM, 200/PPM);
 		bdef.type = BodyType.DynamicBody;
-		playerBody = world.createBody(bdef);
+		Body body= world.createBody(bdef);
 		
-		shape.setAsBox(5/PPM, 5/PPM);
+		shape.setAsBox(8/PPM, 8/PPM);
 		fdef.shape = shape;
 		fdef.restitution = .5f;
 		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
 		fdef.filter.maskBits = B2DVars.BIT_GROUND;
-		playerBody.setLinearDamping(10f);
-		playerBody.createFixture(fdef).setUserData("Player");
+		body.setLinearDamping(10f);
+		body.createFixture(fdef).setUserData("Player");
 		
 		
 		//create foot sensor
@@ -146,7 +148,14 @@ public class Menu extends GameState
 		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
 		fdef.filter.maskBits = B2DVars.BIT_GROUND;
 		fdef.isSensor=true;
-		playerBody.createFixture(fdef).setUserData("foot");
+		body.createFixture(fdef).setUserData("foot");
+		
+		//Create Player
+		player = new Player(body);
+		body.setUserData("player");
+		
+		//body.getUserData() -> returns player object
+		//player.getBody -> returns body
 	}
 	private void createTiles()
 	{
