@@ -1,5 +1,6 @@
 package me.glassware.main;
 
+import me.glassware.handlers.Content;
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameInputProcessor;
 import me.glassware.handlers.GameStateManager;
@@ -25,9 +26,15 @@ public class Game implements ApplicationListener
 	
 	private GameStateManager gsm;	
 	
+	public static Content res;
+	
 	public void create()
 	{
 		Gdx.input.setInputProcessor(new GameInputProcessor());
+		
+		res = new Content();
+		res.loadTexture("res/images/wizardSprite.png", "wizard");
+		
 		sb = new SpriteBatch();
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
@@ -62,6 +69,7 @@ public class Game implements ApplicationListener
 			gsm.render();
 			GameInput.update();
 		}
+
 		
 	}
 	public void dispose()
