@@ -172,16 +172,7 @@ public class Menu extends GameState
 		fdef.filter.maskBits = B2DVars.BIT_GROUND|B2DVars.BIT_PICKUP;
 		body.setLinearDamping(10f);
 		body.createFixture(fdef).setUserData("Player");
-		
-		
-		//create foot sensor
-		shape.setAsBox(2/PPM, 2/PPM, new Vector2(0, -5/PPM), 0);
-		fdef.shape = shape;
-		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
-		fdef.filter.maskBits = B2DVars.BIT_GROUND;
-		fdef.isSensor=true;
-		body.createFixture(fdef).setUserData("foot");
-		
+			
 		//Create Player
 		player = new Player(body);
 		body.setUserData("player");

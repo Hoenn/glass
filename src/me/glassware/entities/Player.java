@@ -38,6 +38,10 @@ public class Player extends B2DSprite
 		currentHealth-=dmg;
 		//TODO if dead
 	}
+	public void addItem(Item i)
+	{
+		inventory.add(i);
+	}
 	public Array<Item> getInventory()
 	{
 		return inventory;
