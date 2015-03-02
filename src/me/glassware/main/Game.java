@@ -32,6 +32,8 @@ public class Game implements ApplicationListener
 	{
 		Gdx.input.setInputProcessor(new GameInputProcessor());
 		
+		//TODO:Resource File for items
+		
 		res = new Content();
 		res.loadTexture("res/images/wizardSprite.png", "player");
 		res.loadTexture("res/images/sword.png", "sword");

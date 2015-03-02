@@ -1,6 +1,7 @@
 package me.glassware.states;
 
 import static me.glassware.handlers.B2DVars.PPM;
+import me.glassware.entities.Item;
 import me.glassware.entities.PickUp;
 import me.glassware.entities.Player;
 import me.glassware.handlers.B2DVars;
@@ -108,7 +109,8 @@ public class Menu extends GameState
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
-			player.getBody().setLinearVelocity(0f, 0f);
+			//player.getBody().setLinearVelocity(0f, 0f);
+			player.useItemAt(0);
 		}		
 	}
 	
@@ -122,9 +124,12 @@ public class Menu extends GameState
 		Array<Body> bodies=contacts.getBodiesToRemove();
 		for(Body b: bodies)
 		{
-			pickUps.removeValue((PickUp)b.getUserData(), true);
+			Item i = new Item (((PickUp)b.getUserData()).getName());
+			player.addItem(i);
+			
+			pickUps.removeValue((PickUp)b.getUserData(), true);	
 			world.destroyBody(b);
-			//TODO Player to collect the object
+
 		}
 		bodies.clear();
 		
@@ -148,8 +153,7 @@ public class Menu extends GameState
 		sb.setProjectionMatrix(cam.combined);
 		player.render(sb);
 
-		
-		
+			
 		//draw Box2dworld
 		if(debug)
 			b2dr.render(world, b2dCam.combined);
@@ -266,7 +270,7 @@ public class Menu extends GameState
 			// item objects and added to player inventory
 			body.createFixture(fdef).setUserData("pickUp");
 			
-			PickUp p = new PickUp(body);
+			PickUp p = new PickUp(body, "sword");
 			
 			pickUps.add(p);
 			

@@ -42,6 +42,14 @@ public class Player extends B2DSprite
 	{
 		inventory.add(i);
 	}
+	public void useItemAt(int i)
+	{
+		if(i<inventory.size)
+		{
+			inventory.get(i).useItem();
+			inventory.removeIndex(i);
+		}
+	}
 	public Array<Item> getInventory()
 	{
 		return inventory;
