@@ -5,7 +5,12 @@
  </tileset>
  <layer name="Floor" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJzt0MEJADAMQlGz/9I9dQILpvgFzy9mJI1RN479e9v3U5qsFtyQ3p/+AT4+Pj4+fpt/07q/3XfzwjqKXgPE
+   eJztwwEJAAAMBKH7/qXXYyi4aqqqqurrBxngBAE=
+  </data>
+ </layer>
+ <layer name="Boundry" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztzbENAAAMwjDE/0f3i7I4UmY3Scev4vP5fD6fz+fz+Xw+/9NfftJZAPk=
   </data>
  </layer>
  <objectgroup name="PickUps">
@@ -16,7 +21,7 @@
  </objectgroup>
  <layer name="Walls" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJztlUsKwDAIRMX7H7r7UjN+JlhQwU0S5hkdEhURbc6uqPKrtd++P9L28L/2vWsovPePnvHWwug/4p70J/r/3a+o/9RYz9TEnL/lA8b8kUZmD/EtLzP9yvRfxg/Z9w+xo++P9Sdm/sqIFtJk8k9nlz+bH8kMv6p5K/7On+K/5S+/k9+ZD+EYAoE=
+   eJztklEKACAIQ8P7H7r/0LIpK9AHQlhuGo7RoMjrBg5k9KdpsOf2+IlxZvLDXzFBZrutWd+LkUf1o2j9ZO/iTgO9QzwlqJmN55+j/Xp0rR298Vhjl3+tlV3T/rX9tRormFrVqbJ/7d/+P/ozmOnAAYU=
   </data>
  </layer>
 </map>
