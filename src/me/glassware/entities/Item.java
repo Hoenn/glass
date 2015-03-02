@@ -31,6 +31,8 @@ public class Item
 		{
 			case "sword":	System.out.println("Die, foul beast!");
 							break;
+			case "potion":  System.out.println("Glug, glug");
+							break;
 		}
 	}
 }

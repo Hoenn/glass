@@ -37,7 +37,7 @@ public class Menu extends GameState
 {	
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	private boolean debug=true;
+	private boolean debug=false;
 	
 	private OrthographicCamera b2dCam;
 		
@@ -319,7 +319,10 @@ public class Menu extends GameState
 			// item objects and added to player inventory
 			body.createFixture(fdef).setUserData("pickUp");
 			
-			PickUp p = new PickUp(body, "sword");
+			
+			String temp = Game.itemList.get(Game.random.nextInt(Game.itemList.size));
+
+			PickUp p = new PickUp(body, temp);
 			
 			pickUps.add(p);
 			

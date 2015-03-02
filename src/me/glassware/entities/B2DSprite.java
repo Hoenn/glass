@@ -14,7 +14,7 @@ public class B2DSprite
 	protected Animation animation;
 	protected float width;
 	protected float height;
-	
+
 	public B2DSprite(Body body)
 	{
 		this.body=body;
