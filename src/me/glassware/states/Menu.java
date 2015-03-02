@@ -37,13 +37,14 @@ public class Menu extends GameState
 {	
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	private boolean debug=false;
+	private boolean debug=true;
 	
 	private OrthographicCamera b2dCam;
 		
 	private TiledMap tileMap;
 	private OrthogonalTiledMapRenderer tmr;
 	private float tileSize;
+	private float tileSizeB2D;
 	
 	private GameContactListener contacts;
 	
@@ -59,13 +60,9 @@ public class Menu extends GameState
 		world.setContactListener(contacts);		
 		b2dr= new Box2DDebugRenderer();
 		
-		//Create Player
+		//Create objects
 		createPlayer();
-		
-		//Create Tiles
 		createTiles();
-		
-		//create pick ups
 		createPickUps();
 			
 		//set up b2d camera
@@ -161,7 +158,12 @@ public class Menu extends GameState
 			
 		//draw Box2dworld
 		if(debug)
+		{
+			b2dCam.position.set(player.getPosition().x, player.getPosition().y, 10f);
+			b2dCam.update();
 			b2dr.render(world, b2dCam.combined);
+			
+		}
 		
 	}
 	private void createPlayer()
@@ -170,7 +172,7 @@ public class Menu extends GameState
 		FixtureDef fdef= new FixtureDef();
 		PolygonShape shape = new PolygonShape();
 		
-		bdef.position.set(120/PPM, 340/PPM);
+		bdef.position.set(120/PPM, 150/PPM);
 		bdef.type = BodyType.DynamicBody;
 		Body body= world.createBody(bdef);
 		
@@ -188,6 +190,46 @@ public class Menu extends GameState
 		//body.getUserData() -> returns player object
 		//player.getBody -> returns body
 	}
+	private void createBoundries()
+	{
+		float width=(float)((int)tileMap.getProperties().get("width")*tileSize);
+		float height =(float)((int)tileMap.getProperties().get("height")*tileSize);
+		float bodyWidth=width/2/PPM;
+		float bodyHeight=height/2/PPM;
+
+		BodyDef bdef= new BodyDef();
+		FixtureDef fdef = new FixtureDef();
+		PolygonShape shape = new PolygonShape();
+		
+		bdef.type=BodyType.StaticBody;
+		fdef.filter.categoryBits=B2DVars.BIT_GROUND;
+		fdef.filter.maskBits=B2DVars.BIT_PLAYER;
+		fdef.isSensor=false;
+		
+		//LEFT BOUNDRY
+		shape.setAsBox(tileSizeB2D, height/2/PPM);
+		bdef.position.set(tileSizeB2D, height/2/PPM); //LEFT
+		fdef.shape=shape;
+		world.createBody(bdef).createFixture(fdef);
+		
+		//BOTTOM BOUNDRY
+		shape.setAsBox(bodyWidth, tileSizeB2D);
+		bdef.position.set(bodyWidth, tileSizeB2D);
+		fdef.shape=shape;
+		world.createBody(bdef).createFixture(fdef);
+		
+		//RIGHT BOUNDRY		
+		shape.setAsBox(tileSizeB2D, bodyHeight);
+		bdef.position.set(width/PPM-tileSizeB2D, bodyHeight); //
+		fdef.shape=shape;
+		world.createBody(bdef).createFixture(fdef);
+		
+		//TOP BOUNDRY
+		shape.setAsBox(bodyWidth, tileSizeB2D);
+		bdef.position.set(bodyWidth, height/PPM-tileSizeB2D);
+		fdef.shape=shape;
+		world.createBody(bdef).createFixture(fdef);
+	}
 	private void createTiles()
 	{
 		//load tile map
@@ -195,10 +237,13 @@ public class Menu extends GameState
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 		
 		tileSize = (int) tileMap.getProperties().get("tilewidth");
+		tileSizeB2D=tileSize/2/PPM;
 		
 		TiledMapTileLayer layer;
 		layer=(TiledMapTileLayer) tileMap.getLayers().get("Walls");
+		
 		createLayer(layer);
+		createBoundries();
 	}
 	private void createLayer(TiledMapTileLayer layer)
 	{
@@ -222,12 +267,12 @@ public class Menu extends GameState
 				
 				ChainShape cs = new ChainShape();
 				Vector2[] v = new Vector2[5];
-				v[0] = new Vector2(-tileSize/2/PPM, -tileSize/2/PPM); //Bottom Left
-				v[1] = new Vector2(-tileSize/2/PPM, tileSize/2/PPM); //Top Left
-				v[2]= new Vector2(tileSize/2/PPM, tileSize/2/PPM); //Top Right
-				v[3]= new Vector2(tileSize/2/PPM, -tileSize/2/PPM); //Bottom Right
+				v[0] = new Vector2(-tileSizeB2D, -tileSizeB2D); //Bottom Left
+				v[1] = new Vector2(-tileSize/2/PPM, tileSizeB2D); //Top Left
+				v[2]= new Vector2(tileSizeB2D, tileSizeB2D); //Top Right
+				v[3]= new Vector2(tileSizeB2D, -tileSizeB2D); //Bottom Right
 				
-				v[4] = new Vector2(-tileSize/2/PPM, -tileSize/2/PPM);//Completes the chain
+				v[4] = new Vector2(-tileSizeB2D, -tileSizeB2D);//Completes the chain
 				cs.createChain(v);
 				
 				fdef.friction=0;
@@ -278,9 +323,7 @@ public class Menu extends GameState
 			
 			pickUps.add(p);
 			
-			body.setUserData(p);
-			
-			
+			body.setUserData(p);			
 		}
 	}
 	public void dispose(){}
