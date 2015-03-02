@@ -5,16 +5,20 @@ import me.glassware.main.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 
 public class Player extends B2DSprite
 {
 	private int totalHealth;
 	private int currentHealth;
 	
+	private Array<Item> inventory;
 	
 	public Player(Body body)
 	{
 		super(body);
+		
+		inventory = new Array<Item>();
 		
 		Texture tex = Game.res.getTexture("player");
 		TextureRegion[] sprites = TextureRegion.split(tex, 20, 20)[0];
@@ -33,6 +37,10 @@ public class Player extends B2DSprite
 	{
 		currentHealth-=dmg;
 		//TODO if dead
+	}
+	public Array<Item> getInventory()
+	{
+		return inventory;
 	}
 }
 
