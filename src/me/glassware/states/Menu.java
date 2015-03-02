@@ -145,12 +145,17 @@ public class Menu extends GameState
 		tmr.setView(cam);
 		tmr.render();
 		
+		//Follow player cam
+		cam.position.set(player.getPosition().x*PPM, player.getPosition().y*PPM, 10f);
+		cam.update();
+		
 		//draw pickups
 		for(PickUp p: pickUps)
 			p.render(sb);
 		
 		//draw player
 		sb.setProjectionMatrix(cam.combined);
+		
 		player.render(sb);
 
 			
@@ -165,13 +170,12 @@ public class Menu extends GameState
 		FixtureDef fdef= new FixtureDef();
 		PolygonShape shape = new PolygonShape();
 		
-		bdef.position.set(160/PPM, 200/PPM);
+		bdef.position.set(120/PPM, 340/PPM);
 		bdef.type = BodyType.DynamicBody;
 		Body body= world.createBody(bdef);
 		
 		shape.setAsBox(8/PPM, 8/PPM);
-		fdef.shape = shape;
-		fdef.restitution = .5f;
+		fdef.shape = shape;	
 		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
 		fdef.filter.maskBits = B2DVars.BIT_GROUND|B2DVars.BIT_PICKUP;
 		body.setLinearDamping(10f);

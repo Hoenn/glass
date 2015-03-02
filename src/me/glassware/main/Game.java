@@ -18,6 +18,7 @@ public class Game implements ApplicationListener
 	public static final int SCALE = 2;
 	
 	public static final float STEP = 1/60f;
+	
 	private float accum;
 	
 	private SpriteBatch sb;
@@ -64,6 +65,7 @@ public class Game implements ApplicationListener
 	}
 	public void render()
 	{
+
 		accum+= Gdx.graphics.getDeltaTime();
 		while(accum>=STEP)
 		{
