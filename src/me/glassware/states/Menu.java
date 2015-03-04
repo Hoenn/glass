@@ -37,7 +37,7 @@ public class Menu extends GameState
 {	
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	private boolean debug=false;
+	private boolean debug=true;
 	
 	private OrthographicCamera b2dCam;
 		
@@ -137,11 +137,14 @@ public class Menu extends GameState
 	public void render()
 	{
 		//clear screen
-		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);		
+		
 		//draw tile map
 		tmr.setView(cam);
 		tmr.render();
 		
+		sb.setProjectionMatrix(cam.combined);	
+
 		//Follow player cam
 		cam.position.set(player.getPosition().x*PPM, player.getPosition().y*PPM, 10f);
 		cam.update();
@@ -151,11 +154,9 @@ public class Menu extends GameState
 			p.render(sb);
 		
 		//draw player
-		sb.setProjectionMatrix(cam.combined);
-		
 		player.render(sb);
-
-			
+		
+		
 		//draw Box2dworld
 		if(debug)
 		{
@@ -186,6 +187,8 @@ public class Menu extends GameState
 		//Create Player
 		player = new Player(body);
 		body.setUserData("player");
+		
+		shape.dispose();
 		
 		//body.getUserData() -> returns player object
 		//player.getBody -> returns body
@@ -229,6 +232,8 @@ public class Menu extends GameState
 		bdef.position.set(bodyWidth, height/PPM-tileSizeB2D);
 		fdef.shape=shape;
 		world.createBody(bdef).createFixture(fdef);
+		
+		shape.dispose();
 	}
 	private void createTiles()
 	{
@@ -285,6 +290,7 @@ public class Menu extends GameState
 				
 			}
 		}
+		
 	}
 	private void createPickUps()
 	{
@@ -328,6 +334,7 @@ public class Menu extends GameState
 			
 			body.setUserData(p);			
 		}
+		shape.dispose();
 	}
 	public void dispose(){}
 }
