@@ -87,14 +87,11 @@ public class Game implements ApplicationListener
 	}
 	public void render()
 	{
-		accum+= Gdx.graphics.getDeltaTime();
-		while(accum>=STEP)
-		{
-			accum-=STEP;
-			gsm.update(STEP);
-			gsm.render();
-			GameInput.update();
-		}
+
+		gsm.update(Gdx.graphics.getDeltaTime());
+		gsm.render();
+		GameInput.update();
+
 		if(showFPS)
 		{
 			sb.begin();

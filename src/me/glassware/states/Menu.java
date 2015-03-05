@@ -119,7 +119,7 @@ public class Menu extends GameState
 	{
 		handleInput();
 		
-		world.step(dt, 6, 2);
+		world.step(Game.STEP, 6, 2);
 		player.update(dt);
 		
 		Array<Body> bodies=contacts.getBodiesToRemove();
