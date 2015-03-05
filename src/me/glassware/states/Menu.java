@@ -108,7 +108,11 @@ public class Menu extends GameState
 		{
 			//player.getBody().setLinearVelocity(0f, 0f);
 			player.useItemAt(0);
-		}		
+		}	
+		if(GameInput.isPressed(GameInput.BUTTON_ESC))
+		{
+			gsm.setState(gsm.PAUSE);
+		}
 	}
 	
 	public void update(float dt)
