@@ -9,6 +9,7 @@ import me.glassware.handlers.GameStateManager;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,7 +37,7 @@ public class Game implements ApplicationListener
 		
 	private GameStateManager gsm;	
 	
-	private boolean showFPS=false;
+	private boolean showFPS=true;
 	
 	public static Content res;
 	

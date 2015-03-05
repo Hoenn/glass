@@ -5,20 +5,28 @@ import java.util.Stack;
 import me.glassware.main.Game;
 import me.glassware.states.GameState;
 import me.glassware.states.Menu;
+import me.glassware.states.Pause;
 
 public class GameStateManager
 {
 	private Game game;
 	
-	private Stack<GameState> gameStates;
+	private GameState[] gameStates;
 	
-	public final int MENU = 1;
+	public final int NUMSTATES=2;
+	public final int MENU = 0;
+	public final int PAUSE=1;
+	
+	private int currentState;
+	
+	private GameState currentGameState;
 	
 	public GameStateManager(Game game)
 	{
 		this.game = game;
-		gameStates = new Stack<GameState>();
-		pushState(MENU);
+		gameStates = new GameState[NUMSTATES];
+		currentState=0;
+		setState(currentState);
 	}
 	public Game getGame()
 	{
@@ -26,30 +34,34 @@ public class GameStateManager
 	}
 	public void update(float dt)
 	{
-		gameStates.peek().update(dt);
-	}
-	
+		currentGameState.update(dt);
+	}	
 	public void render()
 	{
-		gameStates.peek().render();
+		currentGameState.render();
 	}
 	private GameState getState(int state)
 	{
 		if(state==MENU) return new Menu(this);
+		if(state==PAUSE) return new Pause(this);
 		return null;
 	}
 	public void setState(int state)
 	{
-		popState();
-		pushState(state);
+		if(gameStates[state]==null)
+		{
+			gameStates[state]=getState(state);
+			currentGameState=gameStates[state];
+		}
+		else
+		{
+			currentGameState=gameStates[state];
+		}
 	}
-	public void pushState(int state)
+	public void disposeState(int state)
 	{
-		gameStates.push(getState(state));
-	}
-	public void popState()
-	{
-		GameState g= gameStates.pop();
+		GameState g= gameStates[state];
+		gameStates[state]=null;
 		g.dispose();
 	}
 }

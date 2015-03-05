@@ -44,6 +44,10 @@ public class GameInputProcessor extends InputAdapter
 		{
 			GameInput.setKey(GameInput.BUTTON_RIGHT, true);
 		}
+		if(k==Keys.ESCAPE)
+		{
+			GameInput.setKey(GameInput.BUTTON_ESC, true);
+		}
 		return true;
 	}
 	@Override
@@ -84,6 +88,10 @@ public class GameInputProcessor extends InputAdapter
 		if(k==Keys.RIGHT)
 		{
 			GameInput.setKey(GameInput.BUTTON_RIGHT, false);
+		}
+		if(k==Keys.ESCAPE)
+		{
+			GameInput.setKey(GameInput.BUTTON_ESC, false);
 		}
 		return true;
 	}
