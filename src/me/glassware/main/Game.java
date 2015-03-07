@@ -51,6 +51,7 @@ public class Game implements ApplicationListener
 		res.loadTexture("res/images/wizardSprite.png", "player");
 		res.loadTexture("res/images/sword.png", "sword");
 		res.loadTexture("res/images/potion.png", "potion");
+		res.loadTexture("res/images/gooSleep.png", "gooSleep");
 		
 		random = new Random();
 

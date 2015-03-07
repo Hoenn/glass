@@ -1,5 +1,6 @@
 package me.glassware.states;
 
+import me.glassware.handlers.Animation;
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameStateManager;
 import me.glassware.main.Game;
@@ -8,11 +9,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Pause extends GameState
 {
 	private OrthographicCamera cam;
+	
+	private Animation ani;
 	
 	private String pauseMessage;
 	private float pauseMessageX;
@@ -28,6 +33,12 @@ public class Pause extends GameState
 		pauseMessage="Press ESC to Continue";
 		pauseMessageX=Game.V_WIDTH/2-Game.font.getBounds(pauseMessage).width/2;
 		pauseMessageY=Game.V_HEIGHT/2+Game.font.getBounds(pauseMessage).height/2;
+	
+		ani=new Animation();
+		Texture tex = Game.res.getTexture("gooSleep");
+		TextureRegion[] sprites = TextureRegion.split(tex, 20, 20)[0];
+		ani.setFrames(sprites, .4f);
+		
 
 		font = new BitmapFont();
 		color = new Color(Color.BLACK);
@@ -42,6 +53,7 @@ public class Pause extends GameState
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);		
 		font.setColor(color);
 		font.draw(sb, pauseMessage, pauseMessageX, pauseMessageY);
+		sb.draw(ani.getFrame(), Game.V_WIDTH/2, pauseMessageY-Game.V_HEIGHT/6);
 		sb.end();
 	}
 	public void handleInput()
@@ -59,6 +71,7 @@ public class Pause extends GameState
 	{
 		handleInput();
 		updateFontColor();
+		ani.update(dt);
 
 	}
 	private void updateFontColor()
