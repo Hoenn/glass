@@ -34,7 +34,7 @@ public class Pause extends GameState
 		pauseMessageY=Game.V_HEIGHT/2+Game.font.getBounds(pauseMessage).height/2;
 	
 		ani=new Animation();
-		TextureRegion frames = game.atlas.findRegion("gooSleep");
+		TextureRegion frames = Game.atlas.findRegion("gooSleep");
 		ani.setFrames(frames.split(20,20)[0], .4f);
 		
 
