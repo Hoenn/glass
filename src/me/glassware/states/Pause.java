@@ -9,7 +9,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -35,9 +34,8 @@ public class Pause extends GameState
 		pauseMessageY=Game.V_HEIGHT/2+Game.font.getBounds(pauseMessage).height/2;
 	
 		ani=new Animation();
-		Texture tex = Game.res.getTexture("gooSleep");
-		TextureRegion[] sprites = TextureRegion.split(tex, 20, 20)[0];
-		ani.setFrames(sprites, .4f);
+		TextureRegion frames = game.atlas.findRegion("gooSleep");
+		ani.setFrames(frames.split(20,20)[0], .4f);
 		
 
 		font = new BitmapFont();

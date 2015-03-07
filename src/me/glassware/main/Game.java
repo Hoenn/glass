@@ -2,17 +2,16 @@ package me.glassware.main;
 
 import java.util.Random;
 
-import me.glassware.handlers.Content;
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameInputProcessor;
 import me.glassware.handlers.GameStateManager;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 
 public class Game implements ApplicationListener
@@ -40,7 +39,7 @@ public class Game implements ApplicationListener
 	private boolean showFPS=true;
 	private boolean vsync=true;
 	
-	public static Content res;
+	public static TextureAtlas atlas;
 	
 	public void create()
 	{
@@ -48,11 +47,8 @@ public class Game implements ApplicationListener
 		
 		//TODO:Resource File for items
 		//Need a Resource Path File
-		res = new Content();
-		res.loadTexture("res/images/wizardSprite.png", "player");
-		res.loadTexture("res/images/sword.png", "sword");
-		res.loadTexture("res/images/potion.png", "potion");
-		res.loadTexture("res/images/gooSleep.png", "gooSleep");
+
+		atlas=new TextureAtlas("res/images/assets.pack");
 		
 		random = new Random();
 

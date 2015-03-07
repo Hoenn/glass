@@ -1,0 +1,33 @@
+
+assets.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+gooSleep
+  rotate: false
+  xy: 0, 0
+  size: 100, 20
+  orig: 100, 20
+  offset: 0, 0
+  index: 0
+wizardSprite
+  rotate: false
+  xy: 100, 0
+  size: 60, 20
+  orig: 60, 20
+  offset: 0, 0
+  index: 1
+potion
+  rotate: false
+  xy: 160, 1
+  size: 18, 19
+  orig: 18, 19
+  offset: 0, 0
+  index: 2
+sword
+  rotate: false
+  xy: 178, 2
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: 3

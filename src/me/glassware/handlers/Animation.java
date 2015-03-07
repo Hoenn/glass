@@ -12,7 +12,6 @@ public class Animation
 	
 	public Animation(){}
 	
-	//Constructs animation with default values of 1/12f for delay
 	public Animation(TextureRegion[] frames) 
 	{
 		this(frames, 1/12f);

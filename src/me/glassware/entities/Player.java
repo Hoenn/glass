@@ -2,7 +2,6 @@ package me.glassware.entities;
 
 import me.glassware.main.Game;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
@@ -20,9 +19,8 @@ public class Player extends B2DSprite
 		
 		inventory = new Array<Item>();
 		
-		Texture tex = Game.res.getTexture("player");
-		TextureRegion[] sprites = TextureRegion.split(tex, 20, 20)[0];
-		setAnimation(sprites, 1/4f);
+		TextureRegion frames= Game.atlas.findRegion("wizardSprite");
+		setAnimation(frames.split(20,20)[0], 1/4f);
 		
 	}
 	public void setTotalHealth(int h)
