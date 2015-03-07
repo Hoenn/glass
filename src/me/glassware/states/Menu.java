@@ -28,6 +28,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -175,13 +176,13 @@ public class Menu extends GameState
 	{
 		BodyDef bdef = new BodyDef();
 		FixtureDef fdef= new FixtureDef();
-		PolygonShape shape = new PolygonShape();
+		CircleShape shape = new CircleShape();
 		
 		bdef.position.set(120/PPM, 150/PPM);
 		bdef.type = BodyType.DynamicBody;
 		Body body= world.createBody(bdef);
 		
-		shape.setAsBox(8/PPM, 8/PPM);
+		shape.setRadius(8/PPM);
 		fdef.shape = shape;	
 		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
 		fdef.filter.maskBits = B2DVars.BIT_GROUND|B2DVars.BIT_PICKUP;
