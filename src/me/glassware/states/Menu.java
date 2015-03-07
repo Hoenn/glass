@@ -38,7 +38,7 @@ public class Menu extends GameState
 {	
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	private boolean debug=true;
+	private boolean debug=false;
 	
 	private OrthographicCamera b2dCam;
 		

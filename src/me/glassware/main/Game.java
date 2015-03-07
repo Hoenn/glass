@@ -38,6 +38,7 @@ public class Game implements ApplicationListener
 	private GameStateManager gsm;	
 	
 	private boolean showFPS=true;
+	private boolean vsync=true;
 	
 	public static Content res;
 	
@@ -59,6 +60,8 @@ public class Game implements ApplicationListener
 		itemList.add("sword");
 		itemList.add("potion");
 		
+		
+		Gdx.graphics.setVSync(vsync);
 		
 		sb = new SpriteBatch();
 		cam = new OrthographicCamera();
