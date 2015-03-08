@@ -21,6 +21,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -38,7 +39,7 @@ public class Menu extends GameState
 {	
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	private boolean debug=true;
+	private boolean debug=false;
 	
 	private OrthographicCamera b2dCam;
 		
@@ -149,9 +150,10 @@ public class Menu extends GameState
 		tmr.render();
 		
 		sb.setProjectionMatrix(cam.combined);	
+		
 
 		//Follow player cam
-		cam.position.set(player.getPosition().x*PPM, player.getPosition().y*PPM, 10f);
+		cam.position.set(player.getPosition().x*PPM, player.getPosition().y*PPM, 0f);
 		cam.update();
 		
 		//draw pickups
@@ -245,6 +247,7 @@ public class Menu extends GameState
 		//load tile map
 		tileMap = new TmxMapLoader().load("res/maps/test.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
+
 		
 		tileSize = (int) tileMap.getProperties().get("tilewidth");
 		tileSizeB2D=tileSize/2/PPM;
@@ -311,7 +314,6 @@ public class Menu extends GameState
 		
 		for(MapObject mo: layer.getObjects())
 		{
-			if(mo instanceof RectangleMapObject)
 			{
 				Rectangle r = ((RectangleMapObject) mo).getRectangle();
 				x = r.x;

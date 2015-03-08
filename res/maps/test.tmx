@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="20" tileheight="20" nextobjectid="12">
- <tileset firstgid="1" name="Floor" tilewidth="20" tileheight="20">
-  <image source="Floor.png" width="40" height="20"/>
+ <tileset firstgid="1" name="FloorTiles" tilewidth="22" tileheight="22">
+  <image source="FloorTiles.png" width="44" height="22"/>
  </tileset>
  <layer name="Floor" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMBKH7/qXXYyi4aqqqqurrBxngBAE=
+   eJztwwEJAAAMBKHj+4dej6HgqqmqqqqvHyPACAE=
   </data>
  </layer>
  <layer name="Boundry" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJztzbENAAAMwjDE/0f3i7I4UmY3Scev4vP5fD6fz+fz+Xw+/9NfftJZAPk=
+   eJztzbENAAAMwjD4/+l+URZHyuwm6fhVfD6fz+fz+Xw+n8/nf/rLD/ElAH0=
   </data>
  </layer>
  <objectgroup name="PickUps">
@@ -21,7 +21,7 @@
  </objectgroup>
  <layer name="Walls" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJztklEKACAIQ8P7H7r/0LIpK9AHQlhuGo7RoMjrBg5k9KdpsOf2+IlxZvLDXzFBZrutWd+LkUf1o2j9ZO/iTgO9QzwlqJmN55+j/Xp0rR298Vhjl3+tlV3T/rX9tRormFrVqbJ/7d/+P/ozmOnAAYU=
+   eJztlcEKACAIQ/X/fzq6RXQwpqmsB0EEtWamIj7oNjpguacCcw/9CkTGoDrM3ldY4xDtu0OcmGvgi7zfe6dnH0XORrzrYe0WL//IXvT9q+e3Fdb6P2H2nkmF///1v36W/gsGUQEAYA==
   </data>
  </layer>
 </map>
