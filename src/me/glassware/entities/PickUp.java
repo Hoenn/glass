@@ -5,7 +5,7 @@ import me.glassware.main.Game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
-public class PickUp extends B2DSprite
+public class PickUp extends Entity
 {
 	private String name;
 

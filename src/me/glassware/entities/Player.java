@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 
-public class Player extends B2DSprite
+public class Player extends Entity
 {
 	private int totalHealth;
 	private int currentHealth;
