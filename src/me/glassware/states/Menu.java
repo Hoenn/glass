@@ -92,23 +92,22 @@ public class Menu extends GameState
 		}
 		if(GameInput.isDown(GameInput.BUTTON_UP))
 		{
-			
-		}
-		if(GameInput.isDown(GameInput.BUTTON_RIGHT))
-		{
-			
-		}
-		if(GameInput.isDown(GameInput.BUTTON_DOWN))
-		{
-			
+			player.setDirection(0);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_LEFT))
 		{
-
+			player.setDirection(90f);
+		}
+		if(GameInput.isDown(GameInput.BUTTON_DOWN))
+		{
+			player.setDirection(180f);
+		}
+		if(GameInput.isDown(GameInput.BUTTON_RIGHT))
+		{
+			player.setDirection(270f);
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
-			//player.getBody().setLinearVelocity(0f, 0f);
 			player.useItemAt(0);
 		}	
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
