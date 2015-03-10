@@ -92,19 +92,19 @@ public class Menu extends GameState
 		}
 		if(GameInput.isDown(GameInput.BUTTON_UP))
 		{
-			player.setDirection(0);
+			player.setDirection(180f);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_LEFT))
 		{
-			player.setDirection(90f);
+			player.setDirection(-90f);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_DOWN))
 		{
-			player.setDirection(180f);
+			player.setDirection(0f);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_RIGHT))
 		{
-			player.setDirection(270f);
+			player.setDirection(90f);
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
