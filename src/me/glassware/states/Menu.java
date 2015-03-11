@@ -109,6 +109,7 @@ public class Menu extends GameState
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
 			player.useItemAt(0);
+			player.takeDamage(1);
 		}	
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
