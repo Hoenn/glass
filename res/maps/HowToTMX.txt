@@ -1,0 +1,18 @@
+What layers need to be to have a working TMX file
+In top to bottom order
+"Walls"
+"PickUps"
+"Boundry"
+"Floor"
+
+Boundry and Floor are cosmetic layers that aren't intrepreted
+by the game and are just displayed. Program will crash if "Walls" and
+"PickUps" are present and spelled exactly as written as it is specifically
+searching for those layers to make colliding walls and to generate pick ups.
+
+Floor layer must be drawn specially. To avoid visual tearing Floor tiles 
+must be padded at least 1 pixel in all directions, and the tile itself needs
+to have an offset to center it for drawing. The idea is to have a 22 by 22 picture
+inside a 20 by 20 tile so that it's edges overlap with other floor tiles and
+the "space" between the tiles that has issues rendering will be colored the same
+color as the nearest pixel to each floor tile.

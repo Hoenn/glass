@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="20" tileheight="20" nextobjectid="12">
- <tileset firstgid="1" name="FloorTiles" tilewidth="22" tileheight="22">
-  <image source="FloorTiles.png" width="44" height="22"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="20" tileheight="20" nextobjectid="21">
+ <tileset firstgid="1" name="Floor" tilewidth="22" tileheight="22">
+  <tileoffset x="-1" y="1"/>
+  <image source="Dirt_Floor.png" width="22" height="22"/>
  </tileset>
- <layer name="Floor" width="32" height="32">
+ <tileset firstgid="2" name="Wall" tilewidth="20" tileheight="20">
+  <image source="Dirt_Wall.png" width="20" height="20"/>
+ </tileset>
+ <layer name="Floor" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMBKHj+4dej6HgqqmqqqqvHyPACAE=
+   eJxjZGBgYBzFo3gUj+JRPIpJxADrnAGR
   </data>
  </layer>
- <layer name="Boundry" width="32" height="32">
+ <layer name="Boundry" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJztzbENAAAMwjD4/+l+URZHyuwm6fhVfD6fz+fz+Xw+n8/nf/rLD/ElAH0=
+   eJxjYmBgYKIyphYYNW/UvFHzRs0bNY+65lETAwDifwCZ
   </data>
  </layer>
  <objectgroup name="PickUps">
-  <object id="8" x="565" y="379" width="14" height="15"/>
-  <object id="9" x="43" y="374" width="17" height="17"/>
-  <object id="10" x="57.5" y="509" width="16" height="15"/>
-  <object id="11" x="564.5" y="541" width="16" height="16"/>
+  <object id="13" x="33.5" y="350" width="20" height="13"/>
+  <object id="14" x="41.5" y="313" width="19" height="17"/>
+  <object id="15" x="45.5" y="271" width="17" height="20"/>
+  <object id="16" x="36.5" y="258" width="13" height="8"/>
+  <object id="17" x="36.5" y="239" width="10" height="9"/>
+  <object id="18" x="32.5" y="220" width="15" height="13"/>
+  <object id="19" x="32.5" y="205" width="11" height="9"/>
+  <object id="20" x="32.5" y="188" width="17" height="19"/>
  </objectgroup>
- <layer name="Walls" width="32" height="32">
+ <layer name="Walls" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJztlcEKACAIQ/X/fzq6RXQwpqmsB0EEtWamIj7oNjpguacCcw/9CkTGoDrM3ldY4xDtu0OcmGvgi7zfe6dnH0XORrzrYe0WL//IXvT9q+e3Fdb6P2H2nkmF///1v36W/gsGUQEAYA==
+   eJxjYBh6gIlEmp5gMLsNBgazGwez25DBYHUnPdxFqZ8Ga9ghAyY0dwx0ehusAABBpwBf
   </data>
  </layer>
 </map>

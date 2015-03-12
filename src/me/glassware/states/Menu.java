@@ -92,7 +92,6 @@ public class Menu extends GameState
 		}
 		if(GameInput.isDown(GameInput.BUTTON_UP))
 		{
-			player.setDirection(180f);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_LEFT))
 		{
@@ -180,7 +179,7 @@ public class Menu extends GameState
 		FixtureDef fdef= new FixtureDef();
 		CircleShape shape = new CircleShape();
 		
-		bdef.position.set(120/PPM, 150/PPM);
+		bdef.position.set(30/PPM, 30/PPM);
 		bdef.type = BodyType.DynamicBody;
 		Body body= world.createBody(bdef);
 		
