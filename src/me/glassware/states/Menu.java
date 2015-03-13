@@ -39,7 +39,7 @@ public class Menu extends GameState
 {	
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	private boolean debug=false;
+	private boolean debug=true;
 	
 	private OrthographicCamera b2dCam;
 		
@@ -60,7 +60,7 @@ public class Menu extends GameState
 		super(gsm);
 		
 		//Set up Box2D
-		world = new World(new Vector2(0f, 0f), true);
+		world = new World(new Vector2(0f, -4.8f), true);
 		contacts= new GameContactListener();
 		world.setContactListener(contacts);		
 		b2dr= new Box2DDebugRenderer();
@@ -73,6 +73,7 @@ public class Menu extends GameState
 		
 		//Create objects
 		createPlayer();
+		//createFallingBall();
 		createTiles();
 		createPickUps();
 			
@@ -190,6 +191,7 @@ public class Menu extends GameState
 		
 		bdef.position.set(30/PPM, 30/PPM);
 		bdef.type = BodyType.DynamicBody;
+		bdef.gravityScale=0;
 		Body body= world.createBody(bdef);
 		
 		shape.setRadius(8/PPM);
@@ -207,6 +209,27 @@ public class Menu extends GameState
 		
 		//body.getUserData() -> returns player object
 		//player.getBody -> returns body
+	}
+	private void createFallingBall()
+	{
+		BodyDef bdef = new BodyDef();
+		FixtureDef fdef= new FixtureDef();
+		CircleShape shape = new CircleShape();
+		
+		bdef.position.set(140/PPM, 250/PPM);
+		bdef.type= BodyType.DynamicBody;
+		bdef.gravityScale=1;
+		bdef.angularVelocity=10f;
+		Body body = world.createBody(bdef);
+		shape.setRadius(8/PPM);
+		fdef.shape=shape;
+		fdef.restitution=.5f;
+		fdef.filter.categoryBits=B2DVars.BIT_OBJECT;
+		fdef.filter.maskBits=B2DVars.BIT_GROUND|B2DVars.BIT_PLAYER;
+		
+		body.setLinearVelocity(0f, -.5f);
+		body.createFixture(fdef).setUserData("FallingBall");
+		shape.dispose();
 	}
 	private void createBoundries()
 	{
