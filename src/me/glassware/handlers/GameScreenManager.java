@@ -55,29 +55,27 @@ public class GameScreenManager
 		if(gameScreens[screen]==null) //If the desired Screen does not exist
 		{
 			gameScreens[screen]=getScreen(screen); //Make it
-			currentGameScreen=gameScreens[screen]; //Set current Screen to it
 		}
+		
 		else //If the desired Screen does exist
 		{
-			currentGameScreen.dispose(); //Dispose the calling Screen
-			currentGameScreen=gameScreens[screen];//Set current Screen to desired
-			currentGameScreen.resume();//Resume the Desired Screen (because it is exists and wasn't destroyed)
+			disposeScreen(currentScreen); //Dispose the calling Screen
 		}
+		currentGameScreen=gameScreens[screen];//Set current Screen to desired
+		currentGameScreen.resume();//Resume Desired
+		currentScreen=screen;//Update currentScreen array position
 	}
 	public void setScreenPauseThis(int screen)
 	{
+		currentGameScreen.pause(); //Pause calling Screen
+
 		if(gameScreens[screen]==null)//If the desired Screen does not exist
-		{
-			currentGameScreen.pause(); //Pause calling Screen
+		{		
 			gameScreens[screen]=getScreen(screen); //Generate Desired Screen
-			currentGameScreen=gameScreens[screen]; //Set screen to Desired Screen
 		}
-		else //If the desired Screen exists
-		{
-			currentGameScreen.pause(); //Pause Calling Screen
-			currentGameScreen=gameScreens[screen]; //Set current Screen to desired
-			currentGameScreen.resume(); //Resume Desired
-		}
+		currentGameScreen=gameScreens[screen]; //Set screen to Desired Screen
+		currentGameScreen.resume(); //Resume Desired
+		currentScreen=screen;//Update currentScreen array position
 	}
 	
 	public void disposeScreen(int screen)
