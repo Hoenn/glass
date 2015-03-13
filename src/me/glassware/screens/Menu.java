@@ -1,4 +1,4 @@
-package me.glassware.states;
+package me.glassware.screens;
 
 import static me.glassware.handlers.B2DVars.PPM;
 import me.glassware.entities.Item;
@@ -7,7 +7,7 @@ import me.glassware.entities.Player;
 import me.glassware.handlers.B2DVars;
 import me.glassware.handlers.GameContactListener;
 import me.glassware.handlers.GameInput;
-import me.glassware.handlers.GameStateManager;
+import me.glassware.handlers.GameScreenManager;
 import me.glassware.main.Game;
 
 import com.badlogic.gdx.Gdx;
@@ -35,7 +35,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 //This is a commit test
-public class Menu extends GameState
+public class Menu extends GameScreen
 {	
 	private World world;
 	private Box2DDebugRenderer b2dr;
@@ -55,7 +55,7 @@ public class Menu extends GameState
 	
 	private Player player;
 	private Array<PickUp> pickUps;
-	public Menu(GameStateManager gsm)
+	public Menu(GameScreenManager gsm)
 	{
 		super(gsm);
 		
@@ -125,8 +125,8 @@ public class Menu extends GameState
 		}	
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
-			menuSong.pause();
-			gsm.setState(gsm.PAUSE);
+
+			gsm.setScreenPauseThis(gsm.PAUSE);
 		}
 	}
 	public void update(float dt)
@@ -183,9 +183,19 @@ public class Menu extends GameState
 			b2dCam.update();
 			b2dr.render(world, b2dCam.combined);
 			
-		}
-		
+		}	
 	}
+	
+	public void pause()
+	{		
+		menuSong.pause();
+	}
+	
+	public void resume()
+	{
+		menuSong.play();
+	}
+	
 	private void createPlayer()
 	{
 		BodyDef bdef = new BodyDef();
@@ -379,5 +389,10 @@ public class Menu extends GameState
 		}
 		shape.dispose();
 	}
+	
 	public void dispose(){}
+	public void hide(){}
+	public void render(float arg0){}
+	public void resize(int arg0, int arg1){}
+	public void show(){}
 }

@@ -1,22 +1,23 @@
-package me.glassware.states;
+package me.glassware.screens;
 
 
-import me.glassware.handlers.GameStateManager;
+import me.glassware.handlers.GameScreenManager;
 import me.glassware.main.Game;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public abstract class GameState
+public abstract class GameScreen implements Screen
 {
-	protected GameStateManager gsm;
+	protected GameScreenManager gsm;
 	protected Game game;
 	
 	protected SpriteBatch sb;
 	protected OrthographicCamera cam;
 	protected OrthographicCamera hudCam;
 	
-	protected GameState(GameStateManager gsm)
+	protected GameScreen(GameScreenManager gsm)
 	{
 		this.gsm = gsm;
 		game = gsm.getGame();

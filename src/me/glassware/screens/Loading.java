@@ -1,6 +1,6 @@
-package me.glassware.states;
+package me.glassware.screens;
 
-import me.glassware.handlers.GameStateManager;
+import me.glassware.handlers.GameScreenManager;
 import me.glassware.main.Game;
 
 import com.badlogic.gdx.Gdx;
@@ -10,12 +10,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class Loading extends GameState
+public class Loading extends GameScreen
 {
 	private float progress;
 	private BitmapFont font;
 	
-	public Loading(GameStateManager gsm)
+	public Loading(GameScreenManager gsm)
 	{
 		super(gsm);
 		progress=0;
@@ -38,8 +38,8 @@ public class Loading extends GameState
 		if(Game.manager.update())
 		{
 			Game.atlas=Game.manager.get("res/images/assets.pack");
-			gsm.setState(gsm.MENU);
-			gsm.disposeState(gsm.LOADING);
+			gsm.setScreen(gsm.MENU);
+			gsm.disposeScreen(gsm.LOADING);
 		}
 
 			
@@ -51,9 +51,13 @@ public class Loading extends GameState
 		font.draw(sb, Float.toString(progress), 50, 50);
 		sb.end();
 	}
-	public void dispose()
-	{
+	public void dispose(){}
+	public void hide(){}
+	public void pause(){}
+	public void render(float arg0){}
+	public void resize(int arg0, int arg1){}
+	public void resume(){}
+	public void show(){}
 
-	}
 
 }

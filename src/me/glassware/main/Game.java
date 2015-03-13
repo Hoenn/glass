@@ -4,8 +4,7 @@ import java.util.Random;
 
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameInputProcessor;
-import me.glassware.handlers.GameStateManager;
-
+import me.glassware.handlers.GameScreenManager;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -36,7 +35,7 @@ public class Game implements ApplicationListener
 	private OrthographicCamera cam;
 	private OrthographicCamera hudCam;
 		
-	private GameStateManager gsm;	
+	private GameScreenManager gsm;	
 	
 	private boolean showFPS=true;
 	private boolean vsync=true;
@@ -68,7 +67,7 @@ public class Game implements ApplicationListener
 		
 		font=new BitmapFont();
 		
-		gsm = new GameStateManager(this);
+		gsm = new GameScreenManager(this);
 
 		
 	}

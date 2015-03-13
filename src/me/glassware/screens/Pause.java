@@ -1,8 +1,8 @@
-package me.glassware.states;
+package me.glassware.screens;
 
 import me.glassware.handlers.Animation;
 import me.glassware.handlers.GameInput;
-import me.glassware.handlers.GameStateManager;
+import me.glassware.handlers.GameScreenManager;
 import me.glassware.main.Game;
 
 import com.badlogic.gdx.Gdx;
@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Pause extends GameState
+public class Pause extends GameScreen
 {
 	private OrthographicCamera cam;
 	
@@ -26,7 +26,7 @@ public class Pause extends GameState
 	
 	private Color color;
 	
-	public Pause(GameStateManager gsm)
+	public Pause(GameScreenManager gsm)
 	{
 		super(gsm);
 		pauseMessage="Press ESC to Continue";
@@ -59,8 +59,7 @@ public class Pause extends GameState
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
 			font.setColor(Color.WHITE);
-			gsm.setState(gsm.MENU);
-			gsm.disposeState(gsm.PAUSE);
+			gsm.setScreen(gsm.MENU);
 		}
 	}
 
@@ -76,8 +75,11 @@ public class Pause extends GameState
 		color=color.lerp(Color.WHITE, .005f);
 	}
 
-	public void dispose()
-	{
-		
-	}
+	public void dispose(){}
+	public void hide(){}
+	public void pause(){}
+	public void render(float arg0){}
+	public void resize(int arg0, int arg1){}
+	public void resume(){}
+	public void show(){}
 }
