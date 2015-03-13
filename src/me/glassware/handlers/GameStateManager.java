@@ -58,6 +58,7 @@ public class GameStateManager
 			currentGameState=gameStates[state];
 		}
 	}
+
 	public void disposeState(int state)
 	{
 		GameState g= gameStates[state];

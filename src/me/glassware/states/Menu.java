@@ -11,6 +11,7 @@ import me.glassware.handlers.GameStateManager;
 import me.glassware.main.Game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayer;
@@ -21,7 +22,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -47,6 +47,9 @@ public class Menu extends GameState
 	private OrthogonalTiledMapRenderer tmr;
 	private float tileSize;
 	private float tileSizeB2D;
+		
+	private final String menuSongPath="res/songs/testmusic.ogg";
+	private Music menuSong;
 	
 	private GameContactListener contacts;
 	
@@ -61,6 +64,11 @@ public class Menu extends GameState
 		contacts= new GameContactListener();
 		world.setContactListener(contacts);		
 		b2dr= new Box2DDebugRenderer();
+		
+		//Play Music
+		menuSong= Gdx.audio.newMusic(Gdx.files.internal(menuSongPath));
+		menuSong.setVolume(.5f); //0.0 - 1.0f
+		menuSong.play();
 		
 		//Create objects
 		createPlayer();
@@ -112,10 +120,10 @@ public class Menu extends GameState
 		}	
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
+			menuSong.pause();
 			gsm.setState(gsm.PAUSE);
 		}
 	}
-	
 	public void update(float dt)
 	{
 		handleInput();

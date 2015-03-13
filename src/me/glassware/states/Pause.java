@@ -56,7 +56,6 @@ public class Pause extends GameState
 	}
 	public void handleInput()
 	{
-
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
 			font.setColor(Color.WHITE);
