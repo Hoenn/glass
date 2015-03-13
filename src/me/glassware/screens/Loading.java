@@ -38,7 +38,7 @@ public class Loading extends GameScreen
 		if(Game.manager.update())
 		{
 			Game.atlas=Game.manager.get("res/images/assets.pack");
-			gsm.setScreen(gsm.MENU);
+			gsm.setScreen(gsm.MENU, false);
 			gsm.disposeScreen(gsm.LOADING);
 		}
 

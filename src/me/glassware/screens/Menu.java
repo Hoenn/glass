@@ -127,7 +127,7 @@ public class Menu extends GameScreen
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
 
-			gsm.setScreenPauseThis(gsm.PAUSE);
+			gsm.setScreen(gsm.PAUSE, true);
 		}
 	}
 	public void update(float dt)
