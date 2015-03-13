@@ -1,6 +1,7 @@
 package me.glassware.screens;
 
 import static me.glassware.handlers.B2DVars.PPM;
+import me.glassware.entities.AttackObject;
 import me.glassware.entities.Item;
 import me.glassware.entities.PickUp;
 import me.glassware.entities.Player;
@@ -73,7 +74,7 @@ public class Menu extends GameScreen
 		
 		//Create objects
 		createPlayer();
-		for(int i =0; i<10;i++)
+		for(int i =0; i<30;i++)
 			createFallingBall();
 
 		createTiles();
@@ -120,7 +121,7 @@ public class Menu extends GameScreen
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
 			player.useItemAt(0);
-			player.takeDamage(1);
+			System.out.println(player.getHealth());
 			System.out.println(player.getPosition().x*PPM+" ,"+ player.getPosition().y*PPM);
 		}	
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
@@ -139,11 +140,20 @@ public class Menu extends GameScreen
 		Array<Body> bodies=contacts.getBodiesToRemove();
 		for(Body b: bodies)
 		{
-			Item i = new Item (((PickUp)b.getUserData()).getName());
-			player.addItem(i);
+			if(b.getUserData() instanceof PickUp)
+			{
+				Item i = new Item (((PickUp)b.getUserData()).getName());
+				player.addItem(i);
 			
-			pickUps.removeValue((PickUp)b.getUserData(), true);	
-			world.destroyBody(b);
+				pickUps.removeValue((PickUp)b.getUserData(), true);	
+				world.destroyBody(b);
+			}
+			if(b.getUserData() instanceof AttackObject)
+			{
+				AttackObject a = (AttackObject)b.getUserData();
+				player.takeDamage(a.getDamageValue());
+				world.destroyBody(b);
+			}
 
 		}
 		bodies.clear();
@@ -229,7 +239,7 @@ public class Menu extends GameScreen
 		FixtureDef fdef= new FixtureDef();
 		CircleShape shape = new CircleShape();
 		
-		bdef.position.set((190+Game.random.nextInt(40))/PPM, 371/PPM);
+		bdef.position.set((30+Game.random.nextInt(340))/PPM, 371/PPM);
 		bdef.type= BodyType.DynamicBody;
 		bdef.gravityScale=1;//Gives falling balls gravity of 4.8
 		bdef.angularVelocity=(Game.random.nextInt(20)+5)-Game.random.nextInt(30); //Reduces stuck balls
@@ -242,7 +252,9 @@ public class Menu extends GameScreen
 		fdef.filter.maskBits=B2DVars.BIT_GROUND|B2DVars.BIT_PLAYER;
 		
 		body.setLinearVelocity(0f, -.5f);
-		body.createFixture(fdef).setUserData("FallingBall");
+		body.createFixture(fdef).setUserData("attackObject");
+		AttackObject ao = new AttackObject(body, 5);
+		body.setUserData(ao);
 		shape.dispose();
 	}
 	private void createBoundries()

@@ -31,6 +31,15 @@ public class GameContactListener implements ContactListener
 		{
 			bodiesToRemove.add(fb.getBody());
 		}
+		if((fa.getUserData()!=null&&fa.getUserData().equals("attackObject"))&&(fb.getUserData()!=null&&fb.getUserData().equals("Player")))
+		{
+			System.out.println("ding");
+			bodiesToRemove.add(fa.getBody());
+		}
+		if((fb.getUserData()!=null&&fb.getUserData().equals("attackObject"))&&(fa.getUserData()!=null&&fa.getUserData().equals("Player")))
+		{
+			bodiesToRemove.add(fb.getBody());
+		}
 	}
 	//Called when two fixtures no longer collide
 	public void endContact(Contact c)

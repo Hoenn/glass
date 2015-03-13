@@ -10,5 +10,4 @@ public class B2DVars
 	public static final short BIT_PLAYER =4;
 	public static final short BIT_PICKUP =8;
 	public static final short BIT_OBJECT =12;
- 
 }

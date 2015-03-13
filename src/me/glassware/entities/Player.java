@@ -23,6 +23,7 @@ public class Player extends Entity
 		inventory = new Array<Item>();
 		hurtSound= Game.manager.get("res/sounds/magic154.ogg");
 		totalHealth=100;
+		currentHealth=totalHealth;
 		
 		TextureRegion frames= Game.atlas.findRegion("wizardSprite");
 		setAnimation(frames.split(20,20)[0], 1/4f);
