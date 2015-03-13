@@ -73,7 +73,9 @@ public class Menu extends GameState
 		
 		//Create objects
 		createPlayer();
-		//createFallingBall();
+		for(int i =0; i<10;i++)
+			createFallingBall();
+
 		createTiles();
 		createPickUps();
 			
@@ -119,6 +121,7 @@ public class Menu extends GameState
 		{
 			player.useItemAt(0);
 			player.takeDamage(1);
+			System.out.println(player.getPosition().x*PPM+" ,"+ player.getPosition().y*PPM);
 		}	
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
@@ -216,14 +219,15 @@ public class Menu extends GameState
 		FixtureDef fdef= new FixtureDef();
 		CircleShape shape = new CircleShape();
 		
-		bdef.position.set(140/PPM, 250/PPM);
+		bdef.position.set((190+Game.random.nextInt(40))/PPM, 371/PPM);
 		bdef.type= BodyType.DynamicBody;
-		bdef.gravityScale=1;
-		bdef.angularVelocity=10f;
+		bdef.gravityScale=1;//Gives falling balls gravity of 4.8
+		bdef.angularVelocity=(Game.random.nextInt(20)+5)-Game.random.nextInt(30); //Reduces stuck balls
 		Body body = world.createBody(bdef);
 		shape.setRadius(8/PPM);
 		fdef.shape=shape;
 		fdef.restitution=.5f;
+		fdef.friction=.5f;
 		fdef.filter.categoryBits=B2DVars.BIT_OBJECT;
 		fdef.filter.maskBits=B2DVars.BIT_GROUND|B2DVars.BIT_PLAYER;
 		
@@ -246,6 +250,7 @@ public class Menu extends GameState
 		fdef.filter.categoryBits=B2DVars.BIT_GROUND;
 		fdef.filter.maskBits=B2DVars.BIT_PLAYER;
 		fdef.isSensor=false;
+		fdef.friction=.5f;
 		
 		//LEFT BOUNDRY
 		shape.setAsBox(tileSizeB2D, height/2/PPM);
@@ -319,7 +324,7 @@ public class Menu extends GameState
 				v[4] = new Vector2(-tileSizeB2D, -tileSizeB2D);//Completes the chain
 				cs.createChain(v);
 				
-				fdef.friction=0;
+				fdef.friction=.3f;
 				fdef.isSensor=false;
 				fdef.shape=cs;
 				fdef.filter.categoryBits=B2DVars.BIT_GROUND;
