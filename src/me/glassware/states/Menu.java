@@ -66,8 +66,9 @@ public class Menu extends GameState
 		b2dr= new Box2DDebugRenderer();
 		
 		//Play Music
-		menuSong= Gdx.audio.newMusic(Gdx.files.internal(menuSongPath));
+		menuSong= Game.manager.get("res/songs/testmusic.ogg");
 		menuSong.setVolume(.5f); //0.0 - 1.0f
+		menuSong.setLooping(true);
 		menuSong.play();
 		
 		//Create objects

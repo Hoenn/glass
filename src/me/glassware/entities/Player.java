@@ -21,8 +21,7 @@ public class Player extends Entity
 		super(body);
 		
 		inventory = new Array<Item>();
-		hurtSoundPath= "res/sounds/magic154.ogg";
-		hurtSound= Gdx.audio.newSound(Gdx.files.internal(hurtSoundPath));
+		hurtSound= Game.manager.get("res/sounds/magic154.ogg");
 		totalHealth=100;
 		
 		TextureRegion frames= Game.atlas.findRegion("wizardSprite");
@@ -40,7 +39,7 @@ public class Player extends Entity
 	public void takeDamage(int dmg)
 	{
 		if(hurtSound!=null)
-			hurtSound.play();
+			hurtSound.play(.15f);
 		currentHealth-=dmg;
 		//TODO if dead
 	}

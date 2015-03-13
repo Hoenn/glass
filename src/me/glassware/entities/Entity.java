@@ -18,8 +18,7 @@ public class Entity
 	protected float height;	
 	
 	protected float facingDirection;
-
-
+	
 	
 	public Entity(Body body)
 	{

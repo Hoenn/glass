@@ -8,7 +8,8 @@ import me.glassware.handlers.GameStateManager;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,7 +27,7 @@ public class Game implements ApplicationListener
 	
 	public static Array<String> itemList;
 	public static Random random;
-	
+	public static AssetManager manager;
 	public static BitmapFont font;
 	
 	private float accum;
@@ -48,15 +49,14 @@ public class Game implements ApplicationListener
 		
 		//TODO:Resource File for items
 		//Need a Resource Path File
-
-		atlas=new TextureAtlas("res/images/assets.pack");
+		
+		manager= new AssetManager();
 		
 		random = new Random();
 
 		itemList = new Array<String>();
 		itemList.add("sword");
 		itemList.add("potion");
-		
 		
 		Gdx.graphics.setVSync(vsync);
 		
