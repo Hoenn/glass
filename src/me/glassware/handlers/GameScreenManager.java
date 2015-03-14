@@ -56,14 +56,13 @@ public class GameScreenManager
 		{
 			gameScreens[screen]=getScreen(screen); //Make it
 		}
-		else //If the desired Screen does exist
-		{
-			disposeScreen(currentScreen); //Dispose the calling Screen
-		}
-		if(pause)//If you want to pause the current state
-		{
+		else if(!pause)
+			disposeScreen(currentScreen); //If the desired Screen does exist and you don't want to pause it
+
+		if(pause)
 			currentGameScreen.pause(); //Pause calling Screen
-		}
+
+		
 		currentGameScreen=gameScreens[screen];//Set current Screen to desired
 		currentGameScreen.resume();//Resume Desired
 		currentScreen=screen;//Update currentScreen array position
