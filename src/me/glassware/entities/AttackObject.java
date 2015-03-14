@@ -3,6 +3,7 @@ package me.glassware.entities;
 import me.glassware.main.Game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public class AttackObject extends Entity
@@ -12,8 +13,14 @@ public class AttackObject extends Entity
 	{
 		super(body);
 		damageValue=dV;
-		//TextureRegion frames = Game.atlas.findRegion(name);
-		//setAnimation(frames.split(18,18)[0], 0f);
+		TextureRegion frames = Game.atlas.findRegion("wizardSprite");
+		setAnimation(frames.split(20,20)[0], 0f);
+	}
+	@Override
+	public void update(float dt)
+	{
+		super.update(dt);
+		facingDirection=body.getAngle()*MathUtils.radDeg;
 	}
 	public int getDamageValue()
 	{

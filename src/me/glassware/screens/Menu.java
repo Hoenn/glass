@@ -56,6 +56,7 @@ public class Menu extends GameScreen
 	
 	private Player player;
 	private Array<PickUp> pickUps;
+	private Array<AttackObject> attackObjects;
 	public Menu(GameScreenManager gsm)
 	{
 		super(gsm);
@@ -74,6 +75,7 @@ public class Menu extends GameScreen
 		
 		//Create objects
 		createPlayer();
+		attackObjects= new Array<AttackObject>();
 		for(int i =0; i<30;i++)
 			createFallingBall();
 
@@ -103,8 +105,9 @@ public class Menu extends GameScreen
 		{
 			player.getBody().applyLinearImpulse(.30f	, 0f, player.getBody().getLocalCenter().x, player.getBody().getLocalCenter().y, true);
 		}
-		if(GameInput.isDown(GameInput.BUTTON_UP))
+		if(GameInput.isPressed(GameInput.BUTTON_UP))
 		{
+			player.setDirection(180f);
 		}
 		if(GameInput.isDown(GameInput.BUTTON_LEFT))
 		{
@@ -121,12 +124,12 @@ public class Menu extends GameScreen
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
 			player.useItemAt(0);
+
 			System.out.println(player.getHealth());
 			System.out.println(player.getPosition().x*PPM+" ,"+ player.getPosition().y*PPM);
 		}	
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
-
 			gsm.setScreen(gsm.PAUSE, true);
 		}
 	}
@@ -160,6 +163,8 @@ public class Menu extends GameScreen
 		
 		for(PickUp p: pickUps)
 			p.update(dt);
+		for(AttackObject ao: attackObjects)
+			ao.update(dt);
 	}
 	
 	public void render()
@@ -181,6 +186,9 @@ public class Menu extends GameScreen
 		//draw pickups
 		for(PickUp p: pickUps)
 			p.render(sb);
+		
+		for(AttackObject ao: attackObjects)
+			ao.render(sb);
 		
 		//draw player
 		player.render(sb);
@@ -242,7 +250,7 @@ public class Menu extends GameScreen
 		bdef.position.set((30+Game.random.nextInt(340))/PPM, 371/PPM);
 		bdef.type= BodyType.DynamicBody;
 		bdef.gravityScale=1;//Gives falling balls gravity of 4.8
-		bdef.angularVelocity=(Game.random.nextInt(20)+5)-Game.random.nextInt(30); //Reduces stuck balls
+		bdef.angularVelocity=(Game.random.nextInt(100)+5)-Game.random.nextInt(110); //Reduces stuck balls
 		Body body = world.createBody(bdef);
 		shape.setRadius(8/PPM);
 		fdef.shape=shape;
@@ -255,6 +263,7 @@ public class Menu extends GameScreen
 		body.createFixture(fdef).setUserData("attackObject");
 		AttackObject ao = new AttackObject(body, 5);
 		body.setUserData(ao);
+		attackObjects.add(ao);
 		shape.dispose();
 	}
 	private void createBoundries()
