@@ -40,7 +40,7 @@ public class Menu extends GameScreen
 {	
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	private boolean debug=true;
+	private boolean debug;
 	
 	private OrthographicCamera b2dCam;
 		
@@ -65,7 +65,8 @@ public class Menu extends GameScreen
 		world = new World(new Vector2(0f, -4.8f), true);
 		contacts= new GameContactListener();
 		world.setContactListener(contacts);		
-		b2dr= new Box2DDebugRenderer();
+		b2dr= new Box2DDebugRenderer();		
+		debug=false;
 		
 		//Play Music
 		menuSong= Game.manager.get("res/songs/testmusic.ogg");
@@ -109,15 +110,15 @@ public class Menu extends GameScreen
 		{
 			player.setDirection(180f);
 		}
-		if(GameInput.isDown(GameInput.BUTTON_LEFT))
+		if(GameInput.isPressed(GameInput.BUTTON_LEFT))
 		{
 			player.setDirection(-90f);
 		}
-		if(GameInput.isDown(GameInput.BUTTON_DOWN))
+		if(GameInput.isPressed(GameInput.BUTTON_DOWN))
 		{
 			player.setDirection(0f);
 		}
-		if(GameInput.isDown(GameInput.BUTTON_RIGHT))
+		if(GameInput.isPressed(GameInput.BUTTON_RIGHT))
 		{
 			player.setDirection(90f);
 		}
@@ -128,6 +129,10 @@ public class Menu extends GameScreen
 			System.out.println(player.getHealth());
 			System.out.println(player.getPosition().x*PPM+" ,"+ player.getPosition().y*PPM);
 		}	
+		if(GameInput.isPressed(GameInput.BUTTON_X))
+		{
+			debug=!debug;
+		}
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
 			gsm.setScreen(gsm.PAUSE, true);
@@ -155,6 +160,7 @@ public class Menu extends GameScreen
 			{
 				AttackObject a = (AttackObject)b.getUserData();
 				player.takeDamage(a.getDamageValue());
+				attackObjects.removeValue(a, true);
 				world.destroyBody(b);
 			}
 
@@ -200,8 +206,8 @@ public class Menu extends GameScreen
 			b2dCam.position.set(player.getPosition().x, player.getPosition().y, 10f);
 			b2dCam.update();
 			b2dr.render(world, b2dCam.combined);
-			
 		}	
+
 	}
 	
 	public void pause()

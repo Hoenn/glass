@@ -28,6 +28,10 @@ public class GameInputProcessor extends InputAdapter
 		{
 			GameInput.setKey(GameInput.BUTTON_Z, true);
 		}
+		if(k==Keys.X)
+		{
+			GameInput.setKey(GameInput.BUTTON_X, true);
+		}
 		if(k==Keys.UP)
 		{
 			GameInput.setKey(GameInput.BUTTON_UP, true);
@@ -72,6 +76,10 @@ public class GameInputProcessor extends InputAdapter
 		if(k==Keys.Z)
 		{
 			GameInput.setKey(GameInput.BUTTON_Z, false);
+		}
+		if(k==Keys.X)
+		{
+			GameInput.setKey(GameInput.BUTTON_X, false);
 		}
 		if(k==Keys.UP)
 		{

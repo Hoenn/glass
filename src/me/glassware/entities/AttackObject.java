@@ -13,8 +13,8 @@ public class AttackObject extends Entity
 	{
 		super(body);
 		damageValue=dV;
-		TextureRegion frames = Game.atlas.findRegion("wizardSprite");
-		setAnimation(frames.split(20,20)[0], 0f);
+		TextureRegion frames = Game.atlas.findRegion("meatBall");
+		setAnimation(frames.split(16,16)[0], 0f);
 	}
 	@Override
 	public void update(float dt)
