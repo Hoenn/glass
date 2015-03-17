@@ -92,19 +92,19 @@ public class Menu extends GameScreen
 	{
 		if(GameInput.isDown(GameInput.BUTTON_W))
 		{
-			player.getBody().applyLinearImpulse(0	, .30f, player.getBody().getLocalCenter().x, player.getBody().getLocalCenter().y, true); //Tighter controls, immediately modifies VELOCITY
+			player.moveUp();
 		}
 		if(GameInput.isDown(GameInput.BUTTON_A))
 		{
-			player.getBody().applyLinearImpulse(-.30f, 0f, player.getBody().getLocalCenter().x, player.getBody().getLocalCenter().y, true);
+			player.moveLeft();
 		}
 		if(GameInput.isDown(GameInput.BUTTON_S))
 		{
-			player.getBody().applyLinearImpulse(0	, -.30f, player.getBody().getLocalCenter().x, player.getBody().getLocalCenter().y, true);
+			player.moveDown();
 		}
 		if(GameInput.isDown(GameInput.BUTTON_D))
 		{
-			player.getBody().applyLinearImpulse(.30f	, 0f, player.getBody().getLocalCenter().x, player.getBody().getLocalCenter().y, true);
+			player.moveRight();
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_UP))
 		{

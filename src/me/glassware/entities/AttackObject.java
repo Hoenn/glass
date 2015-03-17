@@ -26,5 +26,8 @@ public class AttackObject extends Entity
 	{
 		return damageValue;
 	}
-
+	public void moveUp(){}
+	public void moveLeft(){}
+	public void moveDown(){}
+	public void moveRight(){}
 }

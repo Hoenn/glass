@@ -67,7 +67,6 @@ public class GameScreenManager
 		currentGameScreen.resume();//Resume Desired
 		currentScreen=screen;//Update currentScreen array position
 	}
-
 	public void disposeScreen(int screen)
 	{
 		GameScreen g= gameScreens[screen]; //Instantiate Desired Screen

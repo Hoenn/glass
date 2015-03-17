@@ -60,5 +60,22 @@ public class Player extends Entity
 	{
 		return inventory;
 	}
+	public void moveUp()
+	{
+		getBody().applyLinearImpulse(0	, .30f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true); 
+	}
+	public void moveLeft()
+	{
+		getBody().applyLinearImpulse(-.30f, 0f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+	}
+	public void moveDown()
+	{
+		getBody().applyLinearImpulse(0	, -.30f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+	}
+	public void moveRight()
+	{
+		getBody().applyLinearImpulse(0.30f	, 0, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+
+	}
 }
 

@@ -21,4 +21,8 @@ public class PickUp extends Entity
 	{
 		return name;
 	}
+	public void moveUp(){}
+	public void moveLeft(){}
+	public void moveDown(){}
+	public void moveRight(){}
 }

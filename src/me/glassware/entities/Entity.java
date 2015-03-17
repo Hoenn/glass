@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
-public class Entity
+public abstract class Entity
 {
 
 	protected Body body;
@@ -19,6 +19,9 @@ public class Entity
 	
 	protected float facingDirection;
 	
+	public enum FacingDirection{
+		LEFT, UP, RIGHT, DOWN;
+	}
 	
 	public Entity(Body body)
 	{
@@ -71,5 +74,8 @@ public class Entity
 	{
 		return height;
 	}
-
+	public abstract void moveUp();
+	public abstract void moveDown();
+	public abstract void moveLeft();
+	public abstract void moveRight();
 }
