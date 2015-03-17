@@ -5,6 +5,8 @@ import java.util.Random;
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameInputProcessor;
 import me.glassware.handlers.GameScreenManager;
+
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -15,7 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 
-public class Game implements ApplicationListener
+public class Game extends ApplicationAdapter
 {
 	public static final String TITLE ="Glass";
 	public static final int V_WIDTH = 320;
@@ -100,25 +102,5 @@ public class Game implements ApplicationListener
 			sb.end();
 		}
 	}
-	public void dispose()
-	{
-		
-		
-	}
-	public void pause()
-	{
-		
-		
-	}
 
-	public void resize(int arg0, int arg1)
-	{
-		
-		
-	}
-	public void resume()
-	{
-		
-		
-	}
 }
