@@ -26,12 +26,15 @@ public class Player extends Entity
 		inventory = new Array<Item>();
 		hurtSound= Game.manager.get("res/sounds/magic154.ogg");
 		maxHealth=100;
-		currentHealth=5;
+		currentHealth=-15;
 		
 		healingEffect= new ParticleEffect();
 		healingEffect.load(Gdx.files.internal("res/particles/healing.p"), Gdx.files.internal("res/particles"));
 		particleManager.addParticle(healingEffect);
+		
 
+		for(int i=0;i<40;i++)
+			addItem(new Item("potion"));
 		
 		TextureRegion frames= Game.atlas.findRegion("wizardSprite");
 		setAnimation(frames.split(20,20)[0], 1/4f);

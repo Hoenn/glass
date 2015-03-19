@@ -73,13 +73,13 @@ public class Menu extends GameScreen
 		menuSong= Game.manager.get("res/songs/testmusic.ogg");
 		menuSong.setVolume(.5f); //0.0 - 1.0f
 		menuSong.setLooping(true);
-		menuSong.play();
+		//menuSong.play();
 		
 		//Create objects
 		createPlayer();
 		attackObjects= new Array<AttackObject>();
-		for(int i =0; i<30;i++)
-			createFallingBall();
+		//for(int i =0; i<30;i++)
+		//	createFallingBall();
 
 		createTiles();
 		createPickUps();
@@ -217,7 +217,8 @@ public class Menu extends GameScreen
 	
 	public void resume()
 	{
-		menuSong.play();
+	//	if(!menuSong.isPlaying())
+			//menuSong.play();
 	}
 	
 	private void createPlayer()

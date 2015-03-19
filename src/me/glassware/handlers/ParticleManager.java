@@ -23,8 +23,11 @@ public class ParticleManager
 		for(ParticleEffect p: particles)
 		{
 			if(!p.isComplete())
-				p.update(dt);
+			{
 				p.setPosition(entity.getPosition().x*B2DVars.PPM, entity.getPosition().y*B2DVars.PPM);
+				p.update(dt);
+			}
+				
 		}
 	}
 	public void render(SpriteBatch sb)
@@ -32,7 +35,7 @@ public class ParticleManager
 		for(ParticleEffect p: particles)
 		{
 			if(!p.isComplete())
-				p.draw(sb);			
+				p.draw(sb);		
 		}
 	}
 	public void addParticle(ParticleEffect e)//Adds a particle without starting it
