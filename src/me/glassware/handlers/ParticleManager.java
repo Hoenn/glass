@@ -36,6 +36,7 @@ public class ParticleManager
 		{
 			if(!p.isComplete())
 				p.draw(sb);		
+			
 		}
 	}
 	public void addParticle(ParticleEffect e)//Adds a particle without starting it
