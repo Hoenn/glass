@@ -9,6 +9,7 @@ import me.glassware.handlers.B2DVars;
 import me.glassware.handlers.GameContactListener;
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameScreenManager;
+import me.glassware.handlers.ParticleManager;
 import me.glassware.main.Game;
 
 import com.badlogic.gdx.Gdx;
@@ -198,7 +199,6 @@ public class Menu extends GameScreen
 		
 		//draw player
 		player.render(sb);
-		
 		
 		//draw Box2dworld
 		if(debug)
@@ -406,7 +406,8 @@ public class Menu extends GameScreen
 			body.createFixture(fdef).setUserData("pickUp");
 			
 			
-			String temp = Game.itemList.get(Game.random.nextInt(Game.itemList.size));
+			//String temp = Game.itemList.get(Game.random.nextInt(Game.itemList.size));
+			String temp="potion";
 
 			PickUp p = new PickUp(body, temp);
 			
