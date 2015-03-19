@@ -35,7 +35,7 @@ public class ParticleManager
 		for(ParticleEffect p: particles)
 		{
 			if(!p.isComplete())
-				p.draw(sb);		
+				p.draw(sb);
 			
 		}
 	}
