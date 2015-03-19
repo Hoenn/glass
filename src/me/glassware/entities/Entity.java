@@ -2,6 +2,7 @@ package me.glassware.entities;
 
 import me.glassware.handlers.Animation;
 import me.glassware.handlers.B2DVars;
+import me.glassware.handlers.ParticleManager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,6 +20,10 @@ public abstract class Entity
 	
 	protected float facingDirection;
 	
+	protected ParticleManager particleManager;
+	
+	public static Player player;
+	
 	public enum FacingDirection{
 		LEFT, UP, RIGHT, DOWN;
 	}
@@ -27,6 +32,7 @@ public abstract class Entity
 	{
 		this.body=body;
 		animation=new Animation();
+		particleManager=new ParticleManager(this);
 	}
 	public void setAnimation(TextureRegion[] reg, float delay)//Default one animation Entity
 	{
@@ -35,15 +41,15 @@ public abstract class Entity
 		width=reg[0].getRegionWidth();
 		height=reg[0].getRegionHeight();
 	}
-
 	public void update(float dt)
 	{	
 		animation.update(dt);
-
+		particleManager.update(dt);
 	}
 	public void render(SpriteBatch sb)
 	{
 		sb.begin();
+
 		sb.draw(animation.getFrame(), //The Image
 				body.getPosition().x*B2DVars.PPM-width/2,  //Position X
 				body.getPosition().y*B2DVars.PPM-height/2, //Position Y
@@ -51,6 +57,8 @@ public abstract class Entity
 				width, height, //width and height
 				1f, 1f, //X scale and Y Scale
 				facingDirection); //Direction in degrees
+	
+		particleManager.render(sb);
 
 		sb.end();
 	}
@@ -74,6 +82,7 @@ public abstract class Entity
 	{
 		return height;
 	}
+
 	public abstract void moveUp();
 	public abstract void moveDown();
 	public abstract void moveLeft();

@@ -8,6 +8,7 @@ public class Item
 	private int type;
 	private int id;
 	
+	
 	public Item () {}
 	public Item(String name)
 	{
@@ -32,6 +33,7 @@ public class Item
 			case "sword":	System.out.println("Die, foul beast!");
 							break;
 			case "potion":  System.out.println("Glug, glug");
+							Entity.player.healDamage(5);
 							break;
 		}
 	}
