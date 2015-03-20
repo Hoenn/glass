@@ -26,21 +26,21 @@ sword
   index: -1
 particle
   rotate: false
-  xy: 103, 31
+  xy: 63, 9
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 plusparticle
   rotate: false
-  xy: 137, 31
-  size: 32, 32
-  orig: 32, 32
+  xy: 103, 43
+  size: 20, 20
+  orig: 20, 20
   offset: 0, 0
   index: -1
 potion
   rotate: false
-  xy: 63, 22
+  xy: 97, 22
   size: 18, 19
   orig: 18, 19
   offset: 0, 0

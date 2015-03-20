@@ -75,7 +75,6 @@ public class Pause extends GameScreen
 	private void updateFontColor()
 	{
 		color=color.lerp(Color.WHITE, .005f);
-		//test
 	}
 
 	public void dispose()
