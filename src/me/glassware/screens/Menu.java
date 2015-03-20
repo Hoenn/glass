@@ -49,7 +49,6 @@ public class Menu extends GameScreen
 	private float tileSize;
 	private float tileSizeB2D;
 		
-	private final String menuSongPath="res/songs/testmusic.ogg";
 	private Music menuSong;
 	
 	private GameContactListener contacts;
