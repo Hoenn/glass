@@ -1,6 +1,5 @@
 package me.glassware.entities;
 
-import me.glassware.handlers.ParticleManager;
 import me.glassware.main.Game;
 
 import com.badlogic.gdx.Gdx;
@@ -15,7 +14,6 @@ public class Player extends Entity
 	private int maxHealth;
 	private int currentHealth;
 	private Sound hurtSound;
-	private String hurtSoundPath;
 	private Array<Item> inventory;
 	private ParticleEffect healingEffect;
 	
@@ -29,7 +27,7 @@ public class Player extends Entity
 		currentHealth=-15;
 		
 		healingEffect= new ParticleEffect();
-		healingEffect.load(Gdx.files.internal("res/particles/healing.p"), Gdx.files.internal("res/particles"));
+		healingEffect.load(Gdx.files.internal("res/particles/healing.p"), Game.atlas);
 		particleManager.addParticle(healingEffect);
 		
 

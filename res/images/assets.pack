@@ -5,35 +5,49 @@ filter: Nearest,Nearest
 repeat: none
 gooSleep
   rotate: false
-  xy: 1, 1
+  xy: 1, 43
   size: 100, 20
   orig: 100, 20
   offset: 0, 0
   index: -1
 wizardSprite
   rotate: false
-  xy: 103, 1
+  xy: 1, 21
   size: 60, 20
   orig: 60, 20
   offset: 0, 0
   index: -1
-potion
-  rotate: false
-  xy: 165, 2
-  size: 18, 19
-  orig: 18, 19
-  offset: 0, 0
-  index: -1
 sword
   rotate: false
-  xy: 185, 3
+  xy: 1, 1
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
+particle
+  rotate: false
+  xy: 103, 31
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+plusparticle
+  rotate: false
+  xy: 137, 31
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+potion
+  rotate: false
+  xy: 63, 22
+  size: 18, 19
+  orig: 18, 19
+  offset: 0, 0
+  index: -1
 meatBall
   rotate: false
-  xy: 205, 5
+  xy: 21, 3
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

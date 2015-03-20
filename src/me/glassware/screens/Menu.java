@@ -9,7 +9,6 @@ import me.glassware.handlers.B2DVars;
 import me.glassware.handlers.GameContactListener;
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameScreenManager;
-import me.glassware.handlers.ParticleManager;
 import me.glassware.main.Game;
 
 import com.badlogic.gdx.Gdx;
@@ -73,13 +72,11 @@ public class Menu extends GameScreen
 		menuSong= Game.manager.get("res/songs/testmusic.ogg");
 		menuSong.setVolume(.5f); //0.0 - 1.0f
 		menuSong.setLooping(true);
-		//menuSong.play();
+		menuSong.play();
 		
 		//Create objects
 		createPlayer();
 		attackObjects= new Array<AttackObject>();
-		//for(int i =0; i<30;i++)
-		//	createFallingBall();
 
 		createTiles();
 		createPickUps();
@@ -133,6 +130,12 @@ public class Menu extends GameScreen
 		if(GameInput.isPressed(GameInput.BUTTON_X))
 		{
 			debug=!debug;
+			menuSong.stop();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_C))
+		{
+			for(int i =0; i<30;i++)
+				createFallingBall();
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
@@ -161,6 +164,7 @@ public class Menu extends GameScreen
 			{
 				AttackObject a = (AttackObject)b.getUserData();
 				player.takeDamage(a.getDamageValue());
+				a.destroy();
 				attackObjects.removeValue(a, true);
 				world.destroyBody(b);
 			}
@@ -217,8 +221,8 @@ public class Menu extends GameScreen
 	
 	public void resume()
 	{
-	//	if(!menuSong.isPlaying())
-			//menuSong.play();
+		if(!menuSong.isPlaying())
+				menuSong.play();
 	}
 	
 	private void createPlayer()

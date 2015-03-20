@@ -32,8 +32,7 @@ public class Item
 		{
 			case "sword":	System.out.println("Die, foul beast!");
 							break;
-			case "potion":  System.out.println("Glug, glug");
-							Entity.player.healDamage(5);
+			case "potion":  Entity.player.healDamage(5);
 							break;
 		}
 	}
