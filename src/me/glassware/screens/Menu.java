@@ -422,7 +422,11 @@ public class Menu extends GameScreen
 		shape.dispose();
 	}
 	
-	public void dispose(){}
+	public void dispose()
+	{
+		tmr.dispose();
+		world.dispose();
+	}
 	public void hide(){}
 	public void render(float arg0){}
 	public void resize(int arg0, int arg1){}

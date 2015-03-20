@@ -1,27 +1,25 @@
 Untitled
 - Delay -
-active: true
-lowMin: 0.0
-lowMax: 0.0
+active: false
 - Duration - 
 lowMin: 500.0
 lowMax: 1000.0
 - Count - 
-min: 5
+min: 2
 max: 5
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 50.0
-highMax: 50.0
+highMin: 5.0
+highMax: 5.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Life - 
-lowMin: 1000.0
-lowMax: 1000.0
+lowMin: 200.0
+lowMax: 200.0
 highMin: 1000.0
 highMax: 1000.0
 relative: false
@@ -74,9 +72,9 @@ timeline0: 0.0
 - Velocity - 
 active: true
 lowMin: 0.0
-lowMax: 0.0
+lowMax: 20.0
 highMin: 20.0
-highMax: 100.0
+highMax: 40.0
 relative: false
 scalingCount: 1
 scaling0: 1.0

@@ -47,8 +47,10 @@ public class Pause extends GameScreen
 	}
 	public void render()
 	{
+		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		sb.begin();
-		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);		
+			
+		Gdx.gl20.glClearColor(0,0,0,.5f);
 		font.setColor(color);
 		font.draw(sb, pauseMessage, pauseMessageX, pauseMessageY);
 		sb.draw(ani.getFrame(), Game.V_WIDTH/2, pauseMessageY-Game.V_HEIGHT/6);
@@ -73,9 +75,13 @@ public class Pause extends GameScreen
 	private void updateFontColor()
 	{
 		color=color.lerp(Color.WHITE, .005f);
+		//test
 	}
 
-	public void dispose(){}
+	public void dispose()
+	{
+		font.dispose();
+	}
 	public void hide(){}
 	public void pause(){}
 	public void render(float arg0){}
