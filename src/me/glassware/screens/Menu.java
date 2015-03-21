@@ -74,9 +74,8 @@ public class Menu extends GameScreen
 		menuSong.play();
 		
 		//Create objects
-		createPlayer();
+		player=new Player(world);
 		attackObjects= new Array<AttackObject>();
-
 		createTiles();
 		createPickUps();
 			
@@ -105,19 +104,19 @@ public class Menu extends GameScreen
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_UP))
 		{
-			player.setDirection(180f);
+			player.faceUp();
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_LEFT))
 		{
-			player.setDirection(-90f);
+			player.faceLeft();
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_DOWN))
 		{
-			player.setDirection(0f);
+			player.faceDown();
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_RIGHT))
 		{
-			player.setDirection(90f);
+			player.faceRight();
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
@@ -210,7 +209,6 @@ public class Menu extends GameScreen
 			b2dCam.update();
 			b2dr.render(world, b2dCam.combined);
 		}	
-
 	}
 	
 	public void pause()
@@ -223,58 +221,11 @@ public class Menu extends GameScreen
 		if(!menuSong.isPlaying())
 				menuSong.play();
 	}
-	
-	private void createPlayer()
-	{
-		BodyDef bdef = new BodyDef();
-		FixtureDef fdef= new FixtureDef();
-		CircleShape shape = new CircleShape();
-		
-		bdef.position.set(30/PPM, 30/PPM);
-		bdef.type = BodyType.DynamicBody;
-		bdef.gravityScale=0;
-		Body body= world.createBody(bdef);
-		
-		shape.setRadius(8/PPM);
-		fdef.shape = shape;	
-		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
-		fdef.filter.maskBits = B2DVars.BIT_GROUND|B2DVars.BIT_PICKUP;
-		body.setLinearDamping(10f);
-		body.createFixture(fdef).setUserData("Player");
-			
-		//Create Player
-		player = new Player(body);
-		body.setUserData("player");
-		
-		shape.dispose();
-		
-		//body.getUserData() -> returns player object
-		//player.getBody -> returns body
-	}
 	private void createFallingBall()
 	{
-		BodyDef bdef = new BodyDef();
-		FixtureDef fdef= new FixtureDef();
-		CircleShape shape = new CircleShape();
-		
-		bdef.position.set((30+Game.random.nextInt(340))/PPM, 371/PPM);
-		bdef.type= BodyType.DynamicBody;
-		bdef.gravityScale=1;//Gives falling balls gravity of 4.8
-		bdef.angularVelocity=(Game.random.nextInt(100)+5)-Game.random.nextInt(110); //Reduces stuck balls
-		Body body = world.createBody(bdef);
-		shape.setRadius(8/PPM);
-		fdef.shape=shape;
-		fdef.restitution=.5f;
-		fdef.friction=.5f;
-		fdef.filter.categoryBits=B2DVars.BIT_OBJECT;
-		fdef.filter.maskBits=B2DVars.BIT_GROUND|B2DVars.BIT_PLAYER;
-		
-		body.setLinearVelocity(0f, -.5f);
-		body.createFixture(fdef).setUserData("attackObject");
-		AttackObject ao = new AttackObject(body, 5);
-		body.setUserData(ao);
+
+		AttackObject ao = new AttackObject(world, 5, "fallingball", true);
 		attackObjects.add(ao);
-		shape.dispose();
 	}
 	private void createBoundries()
 	{
@@ -382,44 +333,22 @@ public class Menu extends GameScreen
 		pickUps = new Array<PickUp>();
 		
 		MapLayer layer = tileMap.getLayers().get("PickUps");
-		
-		BodyDef bdef = new BodyDef();
-		FixtureDef fdef = new FixtureDef();
-		PolygonShape shape = new PolygonShape();
-		
-		float x=0, y=0;
-		
+	
+		float x=0, y=0;	
 		for(MapObject mo: layer.getObjects())
 		{
-			{
-				Rectangle r = ((RectangleMapObject) mo).getRectangle();
-				x = r.x;
-				y = r.y;
-			}
-			bdef.position.set(x/PPM, y/PPM);
 			
-			shape.setAsBox(9/PPM, 9/PPM);
-			fdef.shape=shape;
-			fdef.isSensor=true;
-			fdef.filter.categoryBits = B2DVars.BIT_PICKUP;
-			fdef.filter.maskBits=B2DVars.BIT_PLAYER;
-			Body body = world.createBody(bdef);
-			//TODO Set userData to a random value from list
-			// of pickups so that they can be created as 
-			// item objects and added to player inventory
-			body.createFixture(fdef).setUserData("pickUp");
-			
-			
+			Rectangle r = ((RectangleMapObject) mo).getRectangle();
+			x = r.x;
+			y = r.y;
+
 			//String temp = Game.itemList.get(Game.random.nextInt(Game.itemList.size));
 			String temp="potion";
 
-			PickUp p = new PickUp(body, temp);
-			
-			pickUps.add(p);
-			
-			body.setUserData(p);			
+			PickUp p = new PickUp(world, temp, x , y);		
+			pickUps.add(p);		
 		}
-		shape.dispose();
+		
 	}
 	
 	public void dispose()

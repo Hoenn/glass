@@ -13,15 +13,13 @@ public class GameContactListener implements ContactListener
 	private Array<Body> bodiesToRemove;
 	public GameContactListener()
 	{
-		super();
 		bodiesToRemove= new Array<Body>();
 	}
 	//Called when two fixtures begin to collide
 	public void beginContact(Contact c)
 	{
 		Fixture fa = c.getFixtureA();
-		Fixture fb = c.getFixtureB();
-		
+		Fixture fb = c.getFixtureB();	
 		
 		if(fa.getUserData()!=null&&fa.getUserData().equals("pickUp"))
 		{
@@ -33,7 +31,6 @@ public class GameContactListener implements ContactListener
 		}
 		if((fa.getUserData()!=null&&fa.getUserData().equals("attackObject"))&&(fb.getUserData()!=null&&fb.getUserData().equals("Player")))
 		{
-			System.out.println("ding");
 			bodiesToRemove.add(fa.getBody());
 		}
 		if((fb.getUserData()!=null&&fb.getUserData().equals("attackObject"))&&(fa.getUserData()!=null&&fa.getUserData().equals("Player")))

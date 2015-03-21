@@ -28,9 +28,9 @@ public abstract class Entity
 		LEFT, UP, RIGHT, DOWN;
 	}
 	
-	public Entity(Body body)
+	public Entity()
 	{
-		this.body=body;
+		//this.body=body;
 		animation=new Animation();
 		particleManager=new ParticleManager(this);
 	}

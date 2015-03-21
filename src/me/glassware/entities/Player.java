@@ -1,5 +1,7 @@
 package me.glassware.entities;
 
+import static me.glassware.handlers.B2DVars.PPM;
+import me.glassware.handlers.B2DVars;
 import me.glassware.main.Game;
 
 import com.badlogic.gdx.Gdx;
@@ -7,6 +9,11 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 public class Player extends Entity
@@ -17,9 +24,9 @@ public class Player extends Entity
 	private Array<Item> inventory;
 	private ParticleEffect healingEffect;
 	
-	public Player(Body body)
+	public Player(World world)
 	{
-		super(body);
+
 		super.player=this;
 		inventory = new Array<Item>();
 		hurtSound= Game.manager.get("res/sounds/magic154.ogg");
@@ -36,6 +43,25 @@ public class Player extends Entity
 		
 		TextureRegion frames= Game.atlas.findRegion("wizardSprite");
 		setAnimation(frames.split(20,20)[0], 1/4f);
+		
+		BodyDef bdef = new BodyDef();
+		FixtureDef fdef= new FixtureDef();
+		CircleShape shape = new CircleShape();
+		
+		bdef.position.set(30/PPM, 30/PPM);
+		bdef.type = BodyType.DynamicBody;
+		bdef.gravityScale=0;
+		body=world.createBody(bdef);
+		body.setLinearDamping(10f);
+		
+		shape.setRadius(8/PPM);
+		fdef.shape = shape;	
+		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
+		fdef.filter.maskBits = B2DVars.BIT_GROUND|B2DVars.BIT_PICKUP;
+		body.createFixture(fdef).setUserData("Player");
+		body.setUserData(this);
+		shape.dispose();
+		
 		
 	}
 	public void setMaxHealth(int h)
@@ -101,5 +127,9 @@ public class Player extends Entity
 		getBody().applyLinearImpulse(0.30f	, 0, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
 
 	}
+	public void faceUp()   { setDirection(180f); }
+	public void faceLeft() { setDirection(-90f); }
+	public void faceDown() { setDirection(0);    }
+	public void faceRight(){ setDirection(90f);  }
 }
 
