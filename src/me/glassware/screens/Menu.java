@@ -49,6 +49,11 @@ public class Menu extends GameScreen
 	private OrthogonalTiledMapRenderer tmr;
 	private float tileSize;
 	private float tileSizeB2D;
+	
+	private float maxHeightInBounds;
+	private float minHeightInBounds;
+	private float maxWidthInBounds;
+	private float minWidthInBounds;
 		
 	private Music menuSong;
 	
@@ -133,11 +138,11 @@ public class Menu extends GameScreen
 		}
 		if(GameInput.isDown(GameInput.BUTTON_C))
 		{
-			//for(int i =0; i<30;i++)
-			//	createFallingBall();
-			AttackObject ao = new AttackObject(world, 15, "statictrap",MathUtils.random(30,(int) (tileMap.getProperties().get("width"))*tileSize)-tileSize
-					, MathUtils.random(30,(int) (tileMap.getProperties().get("height"))*tileSize)-tileSize, true);
-			attackObjects.add(ao);
+			for(int i =0; i<30;i++)
+				createFallingBall();
+			//AttackObject ao = new AttackObject(world, 15, "statictrap",MathUtils.random(30,(int) (tileMap.getProperties().get("width"))*tileSize)-tileSize
+			//		, MathUtils.random(30,(int) (tileMap.getProperties().get("height"))*tileSize)-tileSize, true);
+			//attackObjects.add(ao);
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
@@ -227,9 +232,9 @@ public class Menu extends GameScreen
 	}
 	private void createFallingBall()
 	{
-		//This needs to be cleaned up
-		AttackObject ao = new AttackObject(world, 5, "fallingball", MathUtils.random(30,(int) (tileMap.getProperties().get("width"))*tileSize)
-											, ((int)(tileMap.getProperties().get("height"))*tileSize)-tileSize, true);
+
+		AttackObject ao = new AttackObject(world, 5, "fallingball", MathUtils.random(minWidthInBounds, maxWidthInBounds)
+				, maxHeightInBounds, true);
 		attackObjects.add(ao);
 	}
 	private void createBoundries()
@@ -286,10 +291,15 @@ public class Menu extends GameScreen
 		tileSizeB2D=tileSize/2/PPM;
 		
 		TiledMapTileLayer layer;
-		layer=(TiledMapTileLayer) tileMap.getLayers().get("Walls");
-		
+		layer=(TiledMapTileLayer) tileMap.getLayers().get("Walls");		
 		createLayer(layer);
 		createBoundries();
+		
+		//Initialize Tile Relevant variables
+		maxWidthInBounds=((int)(tileMap.getProperties().get("width")))*(tileSize)-tileSize;
+		minWidthInBounds=tileSize;
+		maxHeightInBounds=((int)(tileMap.getProperties().get("height")))*(tileSize)-tileSize;
+		minHeightInBounds=tileSize;
 	}
 	private void createLayer(TiledMapTileLayer layer)
 	{
