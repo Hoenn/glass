@@ -27,11 +27,9 @@ public class Game extends ApplicationAdapter
 	public static final float STEP = 1/60f;
 	
 	public static Array<String> itemList;
-	public static Random random;
-	public static AssetManager manager;
+	public static final AssetManager manager= new AssetManager();
 	public static BitmapFont font;
-	
-	private float accum;
+
 	
 	private SpriteBatch sb;
 	private OrthographicCamera cam;
@@ -50,10 +48,7 @@ public class Game extends ApplicationAdapter
 		
 		//TODO:Resource File for items
 		//Need a Resource Path File
-		
-		manager= new AssetManager();
-		
-		random = new Random();
+				
 
 		itemList = new Array<String>();
 		itemList.add("sword");

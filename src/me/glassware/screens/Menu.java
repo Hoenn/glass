@@ -23,6 +23,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -130,10 +131,13 @@ public class Menu extends GameScreen
 			debug=!debug;
 			menuSong.stop();
 		}
-		if(GameInput.isPressed(GameInput.BUTTON_C))
+		if(GameInput.isDown(GameInput.BUTTON_C))
 		{
-			for(int i =0; i<30;i++)
-				createFallingBall();
+			//for(int i =0; i<30;i++)
+			//	createFallingBall();
+			AttackObject ao = new AttackObject(world, 15, "statictrap",MathUtils.random(30,(int) (tileMap.getProperties().get("width"))*tileSize)-tileSize
+					, MathUtils.random(30,(int) (tileMap.getProperties().get("height"))*tileSize)-tileSize, true);
+			attackObjects.add(ao);
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
@@ -223,8 +227,9 @@ public class Menu extends GameScreen
 	}
 	private void createFallingBall()
 	{
-
-		AttackObject ao = new AttackObject(world, 5, "fallingball", true);
+		//This needs to be cleaned up
+		AttackObject ao = new AttackObject(world, 5, "fallingball", MathUtils.random(30,(int) (tileMap.getProperties().get("width"))*tileSize)
+											, ((int)(tileMap.getProperties().get("height"))*tileSize)-tileSize, true);
 		attackObjects.add(ao);
 	}
 	private void createBoundries()
