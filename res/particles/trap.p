@@ -152,4 +152,4 @@ additive: true
 behind: false
 premultipliedAlpha: false
 - Image Path -
-/C:/Users/Evan/Documents/JAVA PROJECTS/Libgdx/particle.png
+particle.png
