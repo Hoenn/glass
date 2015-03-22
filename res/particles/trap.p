@@ -71,8 +71,8 @@ timeline0: 0.0
 - Scale - 
 lowMin: 5.0
 lowMax: 5.0
-highMin: 15.0
-highMax: 15.0
+highMin: 7.0
+highMax: 7.0
 relative: false
 scalingCount: 2
 scaling0: 1.0
@@ -85,7 +85,7 @@ active: true
 lowMin: 0.0
 lowMax: 0.0
 highMin: 1.0
-highMax: 10.0
+highMax: 5.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -109,7 +109,18 @@ active: false
 - Wind - 
 active: false
 - Gravity - 
-active: false
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -10.0
+highMax: -10.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 0.98039216
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.5479452
 - Tint - 
 colorsCount: 3
 colors0: 1.0
@@ -141,4 +152,4 @@ additive: true
 behind: false
 premultipliedAlpha: false
 - Image Path -
-particle.png
+/C:/Users/Evan/Documents/JAVA PROJECTS/Libgdx/particle.png
