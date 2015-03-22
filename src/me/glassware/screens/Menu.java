@@ -136,13 +136,13 @@ public class Menu extends GameScreen
 			debug=!debug;
 			menuSong.stop();
 		}
-		if(GameInput.isDown(GameInput.BUTTON_C))
+		if(GameInput.isPressed(GameInput.BUTTON_C))
 		{
-			for(int i =0; i<30;i++)
-				createFallingBall();
-			//AttackObject ao = new AttackObject(world, 15, "statictrap",MathUtils.random(30,(int) (tileMap.getProperties().get("width"))*tileSize)-tileSize
-			//		, MathUtils.random(30,(int) (tileMap.getProperties().get("height"))*tileSize)-tileSize, true);
-			//attackObjects.add(ao);
+			//for(int i =0; i<30;i++)
+			//	createFallingBall();
+			AttackObject ao = new AttackObject(world, 15, "statictrap",MathUtils.random(minWidthInBounds, maxWidthInBounds)
+					, MathUtils.random(minHeightInBounds, maxHeightInBounds), true);
+			attackObjects.add(ao);
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
