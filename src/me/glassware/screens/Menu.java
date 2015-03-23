@@ -23,9 +23,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -197,8 +199,8 @@ public class Menu extends GameScreen
 		sb.setProjectionMatrix(cam.combined);	
 		
 
-		//Follow player cam
-		cam.position.set(player.getPosition().x*PPM, player.getPosition().y*PPM, 0f);
+		Vector3 target = new Vector3(player.getPixelPosition(), 0f);
+		cam.position.lerp(target, .6f);
 		cam.update();
 		
 		//draw pickups
