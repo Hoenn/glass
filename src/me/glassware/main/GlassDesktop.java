@@ -12,6 +12,7 @@ public class GlassDesktop
 		cfg.title = Game.TITLE;
 		cfg.width = Game.V_WIDTH*Game.SCALE;
 		cfg.height = Game.V_HEIGHT*Game.SCALE;
+		cfg.backgroundFPS = 60;
 		
 		new LwjglApplication(new Game(), cfg);
 	}
