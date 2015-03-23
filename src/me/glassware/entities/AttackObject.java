@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
@@ -53,21 +54,22 @@ public class AttackObject extends Entity
 	}
 	private void createStaticTrap(World world, int dV, float x, float y)
 	{
-		TextureRegion frames = Game.atlas.findRegion("sword");
-		setAnimation(frames.split(16,16)[0], 0f);
+		TextureRegion frames = Game.atlas.findRegion("footTrap");
+		setAnimation(frames.split(18,18)[0], 0f);
 		particle= new ParticleEffect();
 		particle.load(Gdx.files.internal("res/particles/trap.p"), Game.atlas);
 		
 		BodyDef bdef = new BodyDef();
 		FixtureDef fdef= new FixtureDef();
-		CircleShape shape = new CircleShape();
+		PolygonShape shape = new PolygonShape();
 		
 		bdef.position.set(x/PPM, y/PPM);
 		bdef.type= BodyType.DynamicBody;
 		bdef.gravityScale=0f;
 		
 		body = world.createBody(bdef);
-		shape.setRadius(8/PPM);
+		shape.setAsBox(5/PPM, 5/PPM);
+		fdef.shape=shape;
 		fdef.shape=shape;
 		fdef.restitution=.5f;
 		fdef.friction=.5f;

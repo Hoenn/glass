@@ -74,6 +74,10 @@ public abstract class Entity
 	{
 		return body.getPosition();
 	}
+	public Vector2 getPixelPosition()
+	{
+		return new Vector2(body.getPosition().x*B2DVars.PPM, body.getPosition().y*B2DVars.PPM);
+	}
 	public float getWidth()
 	{
 		return width;

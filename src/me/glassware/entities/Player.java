@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -64,6 +65,7 @@ public class Player extends Entity
 		
 		
 	}
+
 	public void setMaxHealth(int h)
 	{
 		maxHealth=h;
@@ -112,19 +114,19 @@ public class Player extends Entity
 	}
 	public void moveUp()
 	{
-		getBody().applyLinearImpulse(0	, .30f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true); 
+		body.applyLinearImpulse(0	, .30f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true); 
 	}
 	public void moveLeft()
 	{
-		getBody().applyLinearImpulse(-.30f, 0f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+		body.applyLinearImpulse(-.30f, 0f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
 	}
 	public void moveDown()
 	{
-		getBody().applyLinearImpulse(0	, -.30f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+		body.applyLinearImpulse(0	, -.30f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
 	}
 	public void moveRight()
 	{
-		getBody().applyLinearImpulse(0.30f	, 0, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+		body.applyLinearImpulse(0.30f	, 0, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
 
 	}
 	public void faceUp()   { setDirection(180f); }
