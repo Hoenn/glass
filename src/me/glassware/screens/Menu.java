@@ -10,9 +10,12 @@ import me.glassware.handlers.GameContactListener;
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameScreenManager;
 import me.glassware.main.Game;
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayer;
@@ -46,6 +49,9 @@ public class Menu extends GameScreen
 	private boolean debug;
 	
 	private OrthographicCamera b2dCam;
+	
+	private RayHandler rayHandler;
+	private PointLight pl;
 		
 	private TiledMap tileMap;
 	private OrthogonalTiledMapRenderer tmr;
@@ -82,15 +88,27 @@ public class Menu extends GameScreen
 		menuSong.play();
 		
 		//Create objects
-		player=new Player(world);
-		attackObjects= new Array<AttackObject>();
 		createTiles();
+		player=new Player(world);
+		player.setVisionDistance((tileSize*7)/PPM);
+
+		attackObjects= new Array<AttackObject>();
 		createPickUps();
+		
 			
 		//set up b2d camera
 		b2dCam = new OrthographicCamera();
-		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);		
+		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
 		
+		//Set up b2d lights
+		rayHandler= new RayHandler(world);
+		rayHandler.setShadows(true);
+		rayHandler.setCulling(true);//Best for when world is larger than screen
+		//2nd argument is the number of rays to be cast
+		pl =new PointLight(rayHandler, 500, Color.BLACK, player.getVisionDistance(), player.getPosition().x, player.getPosition().y);
+		pl.setSoftnessLength(0);//Makes shadows look better
+		pl.attachToBody(player.getBody()); //Light follows player
+		pl.setContactFilter( B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND); //Light has the Mask and category bits of the Player 
 	}
 	public void handleInput()
 	{
@@ -131,7 +149,7 @@ public class Menu extends GameScreen
 			player.useItemAt(0);
 
 			System.out.println(player.getHealth());
-			System.out.println(player.getPosition().x*PPM+" ,"+ player.getPosition().y*PPM);
+			System.out.println(player.getPixelPosition().x +" ,"+ player.getPixelPosition().y);
 		}	
 		if(GameInput.isPressed(GameInput.BUTTON_X))
 		{
@@ -154,9 +172,12 @@ public class Menu extends GameScreen
 	public void update(float dt)
 	{
 		handleInput();
-		
+
 		world.step(Game.STEP, 6, 2);
+		
 		player.update(dt);
+		
+		rayHandler.update();
 		
 		Array<Body> bodies=contacts.getBodiesToRemove();
 		for(Body b: bodies)
@@ -191,35 +212,41 @@ public class Menu extends GameScreen
 	{
 		//clear screen
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);		
-		
+
+
 		//draw tile map
 		tmr.setView(cam);
 		tmr.render();
-		
-		sb.setProjectionMatrix(cam.combined);	
-		
-
-		Vector3 target = new Vector3(player.getPixelPosition(), 0f);
-		cam.position.lerp(target, .6f);
+				
+		//Smooth move camera to player
+		cam.position.lerp(new Vector3(player.getPixelPosition(), 0f), .6f);
 		cam.update();
+		
+		//Must be set to draw sb properly
+		sb.setProjectionMatrix(cam.combined);	
 		
 		//draw pickups
 		for(PickUp p: pickUps)
 			p.render(sb);
-		
+		//draw attackObjects
 		for(AttackObject ao: attackObjects)
 			ao.render(sb);
 		
+		//draw light source on B2D camera
+		rayHandler.setCombinedMatrix(b2dCam.combined);
+		//Keep b2dCam with player body
+		b2dCam.position.lerp(new Vector3(player.getPosition(), 0f), .6f);
+		b2dCam.update();
+		rayHandler.render();
+		
 		//draw player
 		player.render(sb);
-		
+
 		//draw Box2dworld
 		if(debug)
 		{
-			b2dCam.position.set(player.getPosition().x, player.getPosition().y, 10f);
-			b2dCam.update();
 			b2dr.render(world, b2dCam.combined);
-		}	
+		}			
 	}
 	
 	public void pause()

@@ -24,7 +24,7 @@ public class Player extends Entity
 	private Sound hurtSound;
 	private Array<Item> inventory;
 	private ParticleEffect healingEffect;
-	
+	private float visionDistance;
 	public Player(World world)
 	{
 
@@ -34,6 +34,7 @@ public class Player extends Entity
 		maxHealth=100;
 		currentHealth=-15;
 		
+		visionDistance=5;
 		healingEffect= new ParticleEffect();
 		healingEffect.load(Gdx.files.internal("res/particles/healing.p"), Game.atlas);
 		particleManager.addParticle(healingEffect);
@@ -65,7 +66,14 @@ public class Player extends Entity
 		
 		
 	}
-
+	public float getVisionDistance()
+	{
+		return visionDistance;
+	}
+	public void setVisionDistance(float f)
+	{
+		visionDistance=f;
+	}
 	public void setMaxHealth(int h)
 	{
 		maxHealth=h;
