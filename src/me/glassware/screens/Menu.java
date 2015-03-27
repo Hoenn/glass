@@ -105,7 +105,7 @@ public class Menu extends GameScreen
 		rayHandler.setShadows(true);
 		rayHandler.setCulling(true);//Best for when world is larger than screen
 		//2nd argument is the number of rays to be cast
-		pl =new PointLight(rayHandler, 500, Color.BLACK, player.getVisionDistance(), player.getPosition().x, player.getPosition().y);
+		pl =new PointLight(rayHandler, 500, Color.CYAN, player.getVisionDistance(), player.getPosition().x, player.getPosition().y);
 		pl.setSoftnessLength(0);//Makes shadows look better
 		pl.attachToBody(player.getBody()); //Light follows player
 		pl.setContactFilter( B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND); //Light has the Mask and category bits of the Player 
