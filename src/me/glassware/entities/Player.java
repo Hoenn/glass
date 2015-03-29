@@ -3,17 +3,20 @@ package me.glassware.entities;
 import static me.glassware.handlers.B2DVars.PPM;
 import me.glassware.handlers.B2DVars;
 import me.glassware.main.Game;
+import box2dLight.ConeLight;
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
@@ -24,7 +27,10 @@ public class Player extends Entity
 	private Sound hurtSound;
 	private Array<Item> inventory;
 	private ParticleEffect healingEffect;
+	private int tileSight;
 	private float visionDistance;
+	private PointLight pointLight;
+	private ConeLight coneLight;
 	public Player(World world)
 	{
 
@@ -34,12 +40,14 @@ public class Player extends Entity
 		maxHealth=100;
 		currentHealth=-15;
 		
-		visionDistance=5;
+		tileSight=5;
+		visionDistance=0;
 		healingEffect= new ParticleEffect();
 		healingEffect.load(Gdx.files.internal("res/particles/healing.p"), Game.atlas);
 		particleManager.addParticle(healingEffect);
 		
-
+		facingDirection=0f;
+		
 		for(int i=0;i<40;i++)
 			addItem(new Item("potion"));
 		
@@ -64,15 +72,40 @@ public class Player extends Entity
 		body.setUserData(this);
 		shape.dispose();
 		
+		//Starting position
+		faceDown();
 		
+		
+	}
+	public void enablePointLight(RayHandler rh, Color color)
+	{
+		pointLight = new PointLight(rh,  500, color, visionDistance, body.getPosition().x, body.getPosition().y);
+		pointLight.setSoftnessLength(0f);//Makes shadows look better
+		pointLight.attachToBody(body); //Light follows player
+		pointLight.setContactFilter( B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND); //Light has the Mask and category bits of the Player 
+	}
+	public void enableConeLight(RayHandler rh, Color color)
+	{
+		coneLight = new ConeLight(rh, 500, color, visionDistance, body.getPosition().x, body.getPosition().x, facingDirection, 45);
+		coneLight.setSoftnessLength(0f);
+		coneLight.attachToBody(body,0, 0, facingDirection);
+		coneLight.setContactFilter(B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND);
 	}
 	public float getVisionDistance()
 	{
 		return visionDistance;
 	}
-	public void setVisionDistance(float f)
+	public void setVisionDistance(float tileSize)
 	{
-		visionDistance=f;
+		visionDistance=((tileSize*tileSight)/PPM)*2;
+	}
+	public int getTileSightDistance()
+	{
+		return tileSight;
+	}
+	public void setTileSightDistance(int ts)
+	{
+		tileSight=ts;
 	}
 	public void setMaxHealth(int h)
 	{
@@ -137,9 +170,25 @@ public class Player extends Entity
 		body.applyLinearImpulse(0.30f	, 0, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
 
 	}
-	public void faceUp()   { setDirection(180f); }
-	public void faceLeft() { setDirection(-90f); }
-	public void faceDown() { setDirection(0);    }
-	public void faceRight(){ setDirection(90f);  }
+	public void faceUp()   
+	{
+		setDirection(180f); 
+		body.setTransform(body.getPosition(), MathUtils.degRad*(90f));
+	}
+	public void faceLeft() 
+	{ 
+		setDirection(-90f);
+		body.setTransform(body.getPosition(), MathUtils.degRad*(-180f));			
+	}
+	public void faceDown() 
+	{
+		setDirection(0);
+		body.setTransform(body.getPosition(), MathUtils.degRad*(-90f));
+	}
+	public void faceRight()
+	{ 
+		setDirection(90f);
+		body.setTransform(body.getPosition(), 0);
+	}
 }
 

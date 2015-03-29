@@ -81,6 +81,15 @@ public class Menu extends GameScreen
 		b2dr= new Box2DDebugRenderer();		
 		debug=false;
 		
+		//Set up b2d lights
+		rayHandler= new RayHandler(world);
+		rayHandler.setShadows(true);
+		rayHandler.setCulling(true);
+		
+		//set up b2d camera
+		b2dCam = new OrthographicCamera();
+		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
+
 		//Play Music
 		menuSong= Game.manager.get("res/songs/testmusic.ogg");
 		menuSong.setVolume(.5f); //0.0 - 1.0f
@@ -90,25 +99,13 @@ public class Menu extends GameScreen
 		//Create objects
 		createTiles();
 		player=new Player(world);
-		player.setVisionDistance((tileSize*7)/PPM);
+		player.setVisionDistance(tileSize);
+		player.enablePointLight(rayHandler, Color.CYAN);
+		//player.enableConeLight(rayHandler, Color.PURPLE);
 
 		attackObjects= new Array<AttackObject>();
 		createPickUps();
 		
-			
-		//set up b2d camera
-		b2dCam = new OrthographicCamera();
-		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
-		
-		//Set up b2d lights
-		rayHandler= new RayHandler(world);
-		rayHandler.setShadows(true);
-		rayHandler.setCulling(true);//Best for when world is larger than screen
-		//2nd argument is the number of rays to be cast
-		pl =new PointLight(rayHandler, 500, Color.CYAN, player.getVisionDistance(), player.getPosition().x, player.getPosition().y);
-		pl.setSoftnessLength(0);//Makes shadows look better
-		pl.attachToBody(player.getBody()); //Light follows player
-		pl.setContactFilter( B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND); //Light has the Mask and category bits of the Player 
 	}
 	public void handleInput()
 	{

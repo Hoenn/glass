@@ -66,6 +66,10 @@ public abstract class Entity
 	{
 		facingDirection=dir;
 	}
+	public float getDirection()
+	{
+		return facingDirection;
+	}
 	public Body getBody()
 	{
 		return body;
