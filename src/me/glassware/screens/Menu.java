@@ -51,7 +51,6 @@ public class Menu extends GameScreen
 	private OrthographicCamera b2dCam;
 	
 	private RayHandler rayHandler;
-	private PointLight pl;
 		
 	private TiledMap tileMap;
 	private OrthogonalTiledMapRenderer tmr;
@@ -80,11 +79,11 @@ public class Menu extends GameScreen
 		world.setContactListener(contacts);		
 		b2dr= new Box2DDebugRenderer();		
 		debug=false;
-		
 		//Set up b2d lights
 		rayHandler= new RayHandler(world);
 		rayHandler.setShadows(true);
 		rayHandler.setCulling(true);
+		//rayHandler.setGammaCorrection(true);
 		
 		//set up b2d camera
 		b2dCam = new OrthographicCamera();
@@ -101,7 +100,7 @@ public class Menu extends GameScreen
 		player=new Player(world);
 		player.setVisionDistance(tileSize);
 		player.enablePointLight(rayHandler, Color.CYAN);
-		//player.enableConeLight(rayHandler, Color.PURPLE);
+		player.enableConeLight(rayHandler, Color.PURPLE);
 
 		attackObjects= new Array<AttackObject>();
 		createPickUps();

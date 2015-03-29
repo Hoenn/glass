@@ -55,7 +55,7 @@ public class Game extends ApplicationAdapter
 		itemList.add("potion");
 		
 		Gdx.graphics.setVSync(vsync);
-		//Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height,true);
+		//Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width/2, Gdx.graphics.getDesktopDisplayMode().height/2,true);
 
 		
 		sb = new SpriteBatch();
