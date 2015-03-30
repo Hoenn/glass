@@ -91,6 +91,14 @@ public class Player extends Entity
 		coneLight.attachToBody(body,0, 0, facingDirection);
 		coneLight.setContactFilter(B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND);
 	}
+	public boolean isPointLightActive()
+	{
+		return pointLight.isActive();
+	}
+	public void setPointLightActive(boolean b)
+	{
+		pointLight.setActive(b);
+	}
 	public float getVisionDistance()
 	{
 		return visionDistance;

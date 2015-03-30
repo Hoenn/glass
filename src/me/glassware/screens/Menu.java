@@ -154,11 +154,10 @@ public class Menu extends GameScreen
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_C))
 		{
-			//for(int i =0; i<30;i++)
-			//	createFallingBall();
-			AttackObject ao = new AttackObject(world, 15, "statictrap",MathUtils.random(minWidthInBounds, maxWidthInBounds)
-					, MathUtils.random(minHeightInBounds, maxHeightInBounds), true);
-			attackObjects.add(ao);
+			if(player.isPointLightActive())
+				player.setPointLightActive(false);
+			else
+				player.setPointLightActive(true);
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
