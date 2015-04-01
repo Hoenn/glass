@@ -13,10 +13,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
@@ -31,6 +33,13 @@ public class Player extends Entity
 	private float visionDistance;
 	private PointLight pointLight;
 	private ConeLight coneLight;
+	
+	private float meleeRange=20;
+	private FixtureDef melee_fDef;
+	private float swordRange=40;
+	private FixtureDef sword_fDef;
+	private FixtureDef dagger_fDef;
+	private FixtureDef spear_fDef;
 	public Player(World world)
 	{
 
@@ -54,6 +63,28 @@ public class Player extends Entity
 		TextureRegion frames= Game.atlas.findRegion("wizardSprite");
 		setAnimation(frames.split(20,20)[0], 1/4f);
 		
+		
+		//For temp cone fixtures
+		
+		//Melee attack
+		melee_fDef= new FixtureDef();		
+		melee_fDef.filter.categoryBits = B2DVars.BIT_PLAYER;
+		melee_fDef.filter.maskBits = B2DVars.BIT_NPC|B2DVars.BIT_PICKUP;
+		PolygonShape melee = new PolygonShape();
+		melee.set(getConeVertices(meleeRange));
+		melee_fDef.shape=melee;
+		melee_fDef.isSensor=true;
+		
+		//Sword Attack
+		sword_fDef= new FixtureDef();
+		sword_fDef.filter.categoryBits = B2DVars.BIT_WEAPON;
+		sword_fDef.filter.maskBits = B2DVars.BIT_NPC;
+		PolygonShape sword = new PolygonShape();
+		sword.set(getConeVertices(swordRange));
+		sword_fDef.shape=sword;
+		sword_fDef.isSensor=true;
+		
+		//Player body 
 		BodyDef bdef = new BodyDef();
 		FixtureDef fdef= new FixtureDef();
 		CircleShape shape = new CircleShape();
@@ -71,11 +102,24 @@ public class Player extends Entity
 		body.createFixture(fdef).setUserData("Player");
 		body.setUserData(this);
 		shape.dispose();
-		
 		//Starting position
 		faceDown();
 		
 		
+	}
+	private Vector2[] getConeVertices(float range)
+	{
+        Vector2[] coneVertices = new Vector2[8];
+
+		coneVertices[0] = new Vector2(0, 0f  );
+		float angle=0;
+		float adjust=(MathUtils.PI/4);
+		for(int i=0;i<7;i++)
+		{
+			angle= ((i/6f)*90f*MathUtils.degRad)-adjust;
+			coneVertices[i+1]= new Vector2((range*MathUtils.cos(angle))/PPM, (range*MathUtils.sin(angle))/PPM);
+		}
+		return coneVertices;
 	}
 	public void enablePointLight(RayHandler rh, Color color)
 	{
@@ -160,6 +204,21 @@ public class Player extends Entity
 	public Array<Item> getInventory()
 	{
 		return inventory;
+	}
+	public void toggleMelee()
+	{
+		body.createFixture(melee_fDef).setUserData("playerMelee");		
+	}
+	public void toggleSword()
+	{
+		body.createFixture(sword_fDef).setUserData("swordMelee");
+	}
+	public void removeMelee()
+	{
+		if(body.getFixtureList().size>1)
+		{
+			body.destroyFixture(body.getFixtureList().removeIndex(1));
+		}
 	}
 	public void moveUp()
 	{

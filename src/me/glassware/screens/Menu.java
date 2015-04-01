@@ -142,10 +142,10 @@ public class Menu extends GameScreen
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
-			player.useItemAt(0);
-
-			System.out.println(player.getHealth());
-			System.out.println(player.getPixelPosition().x +" ,"+ player.getPixelPosition().y);
+			//player.useItemAt(0);
+			player.removeMelee();
+			//System.out.println(player.getHealth());
+			//System.out.println(player.getPixelPosition().x +" ,"+ player.getPixelPosition().y);
 		}	
 		if(GameInput.isPressed(GameInput.BUTTON_X))
 		{
@@ -154,14 +154,16 @@ public class Menu extends GameScreen
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_C))
 		{
-			if(player.isPointLightActive())
-				player.setPointLightActive(false);
-			else
-				player.setPointLightActive(true);
+			//if(player.isPointLightActive())
+			//	player.setPointLightActive(false);
+			//else
+			//	player.setPointLightActive(true);
+			player.toggleSword();
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_ESC))
 		{
-			gsm.setScreen(gsm.PAUSE, true);
+			//gsm.setScreen(gsm.PAUSE, true);
+			player.toggleMelee();
 		}
 	}
 	public void update(float dt)
