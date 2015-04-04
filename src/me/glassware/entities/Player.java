@@ -173,14 +173,14 @@ public class Player extends Entity
 	}
 	public void createPointLight(RayHandler rh, Color color)
 	{
-		pointLight = new PointLight(rh,  1000, color, visionDistance, body.getPosition().x, body.getPosition().y);
-		pointLight.setSoftnessLength(0f);//Makes shadows look better
+		pointLight = new PointLight(rh,  500, color, visionDistance, body.getPosition().x, body.getPosition().y);
+		pointLight.setSoftnessLength(.0f);//Makes shadows look better
 		pointLight.attachToBody(body); //Light follows player
 		pointLight.setContactFilter( B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND); //Light has the Mask and category bits of the Player 
 	}
 	public void createConeLight(RayHandler rh, Color color)
 	{
-		coneLight = new ConeLight(rh, 1000, color, visionDistance, body.getPosition().x, body.getPosition().x, facingDirection, 45);
+		coneLight = new ConeLight(rh, 500, color, visionDistance, body.getPosition().x, body.getPosition().x, facingDirection, 45);
 		coneLight.setSoftnessLength(0f);
 		coneLight.attachToBody(body,0, 0, facingDirection);
 		coneLight.setContactFilter(B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND);

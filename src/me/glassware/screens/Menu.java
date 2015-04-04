@@ -81,6 +81,7 @@ public class Menu extends GameScreen
 		debug=false;
 		//Set up b2d lights
 		rayHandler=new RayHandler(world);
+		rayHandler.setBlurNum(0);
 		rayHandler.setShadows(true);
 		rayHandler.setCulling(true);
 		//set up b2d camera
