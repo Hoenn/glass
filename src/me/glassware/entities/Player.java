@@ -119,7 +119,7 @@ public class Player extends Entity
 		bdef.type = BodyType.DynamicBody;
 		bdef.gravityScale=0;
 		body=world.createBody(bdef);
-		body.setLinearDamping(10f);
+		body.setLinearDamping(15f);
 		
 		shape.setRadius(8/PPM);
 		fdef.shape = shape;	
@@ -306,19 +306,20 @@ public class Player extends Entity
 	}
 	public void moveUp()
 	{
-		body.applyLinearImpulse(0	, .30f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true); 
+		body.applyLinearImpulse(0	, .40f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+
 	}
 	public void moveLeft()
 	{
-		body.applyLinearImpulse(-.30f, 0f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+		body.applyLinearImpulse(-.40f, 0f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
 	}
 	public void moveDown()
 	{
-		body.applyLinearImpulse(0	, -.30f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+		body.applyLinearImpulse(0	, -.40f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
 	}
 	public void moveRight()
 	{
-		body.applyLinearImpulse(0.30f	, 0, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+		body.applyLinearImpulse(0.40f	, 0, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
 
 	}
 	public void faceUp()   

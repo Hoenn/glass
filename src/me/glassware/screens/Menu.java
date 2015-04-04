@@ -80,11 +80,9 @@ public class Menu extends GameScreen
 		b2dr= new Box2DDebugRenderer();		
 		debug=false;
 		//Set up b2d lights
-		rayHandler= new RayHandler(world);
+		rayHandler=new RayHandler(world);
 		rayHandler.setShadows(true);
 		rayHandler.setCulling(true);
-		//rayHandler.setGammaCorrection(true);
-		
 		//set up b2d camera
 		b2dCam = new OrthographicCamera();
 		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
@@ -224,7 +222,7 @@ public class Menu extends GameScreen
 		tmr.render();
 				
 		//Smooth move camera to player
-		cam.position.lerp(new Vector3(player.getPixelPosition(), 0f), .6f);
+		cam.position.lerp(new Vector3(player.getPixelPosition(), 0f), .5f);
 		cam.update();
 		
 		//Must be set to draw sb properly
@@ -240,7 +238,7 @@ public class Menu extends GameScreen
 		//draw light source on B2D camera
 		rayHandler.setCombinedMatrix(b2dCam.combined);
 		//Keep b2dCam with player body
-		b2dCam.position.lerp(new Vector3(player.getPosition(), 0f), .6f);
+		b2dCam.position.lerp(new Vector3(player.getPosition(), 0f), .5f);
 		b2dCam.update();
 		rayHandler.render();
 		

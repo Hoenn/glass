@@ -15,13 +15,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.profiling.GLProfiler;
+import com.badlogic.gdx.math.FloatCounter;
 import com.badlogic.gdx.utils.Array;
 
 public class Game extends ApplicationAdapter
 {
 	public static final String TITLE ="Glass";
 	public static final int V_WIDTH = 320;
-	public static final int V_HEIGHT = 240;
+	public static final int V_HEIGHT = 180;
 	public static final int SCALE = 2;
 	
 	public static final float STEP = 1/60f;
@@ -39,7 +41,7 @@ public class Game extends ApplicationAdapter
 	
 	private boolean showFPS=true;
 	private boolean vsync=true;
-	
+		
 	public static TextureAtlas atlas;
 	
 	public void create()
@@ -49,7 +51,8 @@ public class Game extends ApplicationAdapter
 		//TODO:Resource File for items
 		//Need a Resource Path File
 				
-
+		//GLProfiler.enable();
+		
 		itemList = new Array<String>();
 		itemList.add("sword");
 		itemList.add("potion");
@@ -96,6 +99,9 @@ public class Game extends ApplicationAdapter
 			sb.begin();
 			sb.setProjectionMatrix(hudCam.combined);
 			font.draw(sb, Integer.toString(Gdx.graphics.getFramesPerSecond()), 10, 15);
+			//font.draw(sb, "Draws "+Integer.toString(GLProfiler.drawCalls), 40, 15);
+			//font.draw(sb, "Bindings "+Integer.toString(GLProfiler.textureBindings),150, 15);
+			//font.draw(sb,"Shader Switches "+Integer.toString( GLProfiler.shaderSwitches), 10, 45);
 			sb.end();
 		}
 	}
