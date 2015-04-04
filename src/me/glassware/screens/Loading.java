@@ -51,7 +51,10 @@ public class Loading extends GameScreen
 		font.draw(sb, Float.toString(progress), 50, 50);
 		sb.end();
 	}
-	public void dispose(){}
+	public void dispose()
+	{
+		font.dispose();
+	}
 	public void hide(){}
 	public void pause(){}
 	public void render(float arg0){}

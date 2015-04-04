@@ -97,10 +97,9 @@ public class Menu extends GameScreen
 		
 		//Create objects
 		createTiles();
-		player=new Player(world);
-		player.setVisionDistance(tileSize);
-		player.enablePointLight(rayHandler, Color.CYAN);
-		player.enableConeLight(rayHandler, Color.PURPLE);
+		player=new Player(world, tileSize, 7);
+		player.createPointLight(rayHandler, Color.CYAN);
+		player.createConeLight(rayHandler, Color.PURPLE);
 
 		attackObjects= new Array<AttackObject>();
 		createPickUps();
@@ -140,12 +139,17 @@ public class Menu extends GameScreen
 		{
 			player.faceRight();
 		}
+		if(GameInput.isPressed(GameInput.BUTTON_SPACE))
+		{
+			player.toggleConeLight();
+			player.toggleSword();
+		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
 		{
-			//player.useItemAt(0);
-			player.removeMelee();
-			//System.out.println(player.getHealth());
-			//System.out.println(player.getPixelPosition().x +" ,"+ player.getPixelPosition().y);
+			player.useItemAt(0);
+
+			System.out.println(player.getHealth());
+			System.out.println(player.getPixelPosition().x +" ,"+ player.getPixelPosition().y);
 		}	
 		if(GameInput.isPressed(GameInput.BUTTON_X))
 		{
@@ -154,16 +158,20 @@ public class Menu extends GameScreen
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_C))
 		{
-			//if(player.isPointLightActive())
-			//	player.setPointLightActive(false);
-			//else
-			//	player.setPointLightActive(true);
-			player.toggleSword();
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_ESC))
-		{
-			//gsm.setScreen(gsm.PAUSE, true);
+			player.togglePointLight();
 			player.toggleMelee();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_R))
+		{
+			rayHandler.setShadows(false);
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_F))
+		{
+			rayHandler.setShadows(true);
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_ESCAPE))
+		{
+			gsm.setScreen(gsm.PAUSE, true);
 		}
 	}
 	public void update(float dt)
@@ -395,7 +403,7 @@ public class Menu extends GameScreen
 	public void dispose()
 	{
 		tmr.dispose();
-		world.dispose();
+		world.dispose();		
 	}
 	public void hide(){}
 	public void render(float arg0){}

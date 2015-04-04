@@ -29,7 +29,7 @@ public class Pause extends GameScreen
 	public Pause(GameScreenManager gsm)
 	{
 		super(gsm);
-		pauseMessage="Press ESC to Continue";
+		pauseMessage="Press ESC to Continue Press 1 to QUIT";
 		pauseMessageX=Game.V_WIDTH/2-Game.font.getBounds(pauseMessage).width/2;
 		pauseMessageY=Game.V_HEIGHT/2+Game.font.getBounds(pauseMessage).height/2;
 	
@@ -58,10 +58,14 @@ public class Pause extends GameScreen
 	}
 	public void handleInput()
 	{
-		if(GameInput.isPressed(GameInput.BUTTON_ESC))
+		if(GameInput.isPressed(GameInput.BUTTON_ESCAPE))
 		{
 			font.setColor(Color.WHITE);
 			gsm.setScreen(gsm.MENU, false);
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_NUM_1))
+		{
+			Gdx.app.exit();
 		}
 	}
 
