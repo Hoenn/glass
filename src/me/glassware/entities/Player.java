@@ -40,6 +40,11 @@ public class Player extends Entity
 	private FixtureDef sword_fDef;
 	private FixtureDef dagger_fDef;
 	private FixtureDef spear_fDef;
+	
+	private BodyDef bdef;
+	private FixtureDef fdef;
+	private CircleShape shape;
+	
 	public Player(World world)
 	{
 
@@ -85,9 +90,9 @@ public class Player extends Entity
 		sword_fDef.isSensor=true;
 		
 		//Player body 
-		BodyDef bdef = new BodyDef();
-		FixtureDef fdef= new FixtureDef();
-		CircleShape shape = new CircleShape();
+		bdef = new BodyDef();
+		fdef= new FixtureDef();
+		shape = new CircleShape();
 		
 		bdef.position.set(30/PPM, 30/PPM);
 		bdef.type = BodyType.DynamicBody;
@@ -107,6 +112,7 @@ public class Player extends Entity
 		
 		
 	}
+
 	private Vector2[] getConeVertices(float range)
 	{
         Vector2[] coneVertices = new Vector2[8];
@@ -186,8 +192,10 @@ public class Player extends Entity
 	{
 		if(hurtSound!=null)
 			hurtSound.play(.15f);
-		currentHealth-=dmg;
-		//TODO if dead
+
+		if(currentHealth-dmg<0)
+			currentHealth=0;
+		//die();
 	}
 	public void addItem(Item i)
 	{
