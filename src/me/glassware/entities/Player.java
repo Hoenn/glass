@@ -8,8 +8,6 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -23,7 +21,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.sun.glass.ui.EventLoop.State;
 
 public class Player extends Entity
 {
@@ -57,10 +54,6 @@ public class Player extends Entity
 	private HealthState HEALTH_STATE;
 	public enum State{IDLE, ATTACKING}
 	public enum HealthState{DEFAULT, INVINCIBLE}
-	
-	private BodyDef bdef;
-	private FixtureDef fdef;
-	private CircleShape shape;
 	
 	//@Param sight is about how many tiles the player can see with 
 	//attached light enabled
@@ -100,24 +93,25 @@ public class Player extends Entity
 		melee_fDef= new FixtureDef();		
 		melee_fDef.filter.categoryBits = B2DVars.BIT_PLAYER;
 		melee_fDef.filter.maskBits = B2DVars.BIT_NPC|B2DVars.BIT_PICKUP;
-		PolygonShape melee = new PolygonShape();
-		melee.set(getConeVertices(meleeRange));
-		melee_fDef.shape=melee;
+		PolygonShape meleeShape = new PolygonShape();
+		meleeShape.set(getConeVertices(meleeRange));
+		melee_fDef.shape=meleeShape;
 		melee_fDef.isSensor=true;
 		
 		//Sword Attack
 		sword_fDef= new FixtureDef();
 		sword_fDef.filter.categoryBits = B2DVars.BIT_WEAPON;
 		sword_fDef.filter.maskBits = B2DVars.BIT_NPC;
-		PolygonShape sword = new PolygonShape();
-		sword.set(getConeVertices(swordRange));
-		sword_fDef.shape=sword;
+		PolygonShape swordShape = new PolygonShape();
+		swordShape.set(getConeVertices(swordRange));
+		sword_fDef.shape=swordShape;
 		sword_fDef.isSensor=true;
 		
+		
 		//Player body 
-		bdef = new BodyDef();
-		fdef= new FixtureDef();
-		shape = new CircleShape();
+		BodyDef bdef = new BodyDef();
+		FixtureDef fdef= new FixtureDef();
+		CircleShape shape = new CircleShape();
 		
 		bdef.position.set(30/PPM, 30/PPM);
 		bdef.type = BodyType.DynamicBody;
