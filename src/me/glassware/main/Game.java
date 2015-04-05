@@ -1,5 +1,7 @@
 package me.glassware.main;
 
+import static me.glassware.handlers.B2DVars.PPM;
+
 import java.util.Random;
 
 import me.glassware.handlers.GameInput;
@@ -36,6 +38,7 @@ public class Game extends ApplicationAdapter
 	private SpriteBatch sb;
 	private OrthographicCamera cam;
 	private OrthographicCamera hudCam;
+	private OrthographicCamera b2dCam;
 		
 	private GameScreenManager gsm;	
 	
@@ -66,7 +69,8 @@ public class Game extends ApplicationAdapter
 		cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
 		hudCam = new OrthographicCamera();
 		hudCam.setToOrtho(false, V_WIDTH, V_HEIGHT);
-		
+		b2dCam=new OrthographicCamera();
+		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
 		font=new BitmapFont();
 		
 		gsm = new GameScreenManager(this);
@@ -84,6 +88,10 @@ public class Game extends ApplicationAdapter
 	public OrthographicCamera getHUDCamera()
 	{
 		return hudCam;
+	}
+	public OrthographicCamera getb2dCamera()
+	{
+		return b2dCam;
 	}
 	public void render()
 	{

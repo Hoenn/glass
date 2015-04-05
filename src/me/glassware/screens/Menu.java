@@ -41,15 +41,13 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-
+//This is a commit test
 public class Menu extends GameScreen
 {	
 	private World world;
 	private Box2DDebugRenderer b2dr;
 	private boolean debug;
-	
-	private OrthographicCamera b2dCam;
-	
+		
 	private RayHandler rayHandler;
 		
 	private TiledMap tileMap;
@@ -84,9 +82,6 @@ public class Menu extends GameScreen
 		rayHandler.setBlurNum(0);
 		rayHandler.setShadows(true);
 		rayHandler.setCulling(true);
-		//set up b2d camera
-		b2dCam = new OrthographicCamera();
-		b2dCam.setToOrtho(false, Game.V_WIDTH/PPM, Game.V_HEIGHT/PPM);
 
 		//Play Music
 		menuSong= Game.manager.get("res/songs/testmusic.ogg");
@@ -168,6 +163,14 @@ public class Menu extends GameScreen
 		{
 			rayHandler.setShadows(true);
 		}
+		if(GameInput.isPressed(GameInput.BUTTON_NUM_1))
+		{
+			zoomIn();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_NUM_2))
+		{
+			zoomOut();
+		}
 		if(GameInput.isPressed(GameInput.BUTTON_ESCAPE))
 		{
 			gsm.setScreen(gsm.PAUSE, true);
@@ -217,8 +220,6 @@ public class Menu extends GameScreen
 		//clear screen
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);		
 
-
-		//draw tile map
 		tmr.setView(cam);
 		tmr.render();
 				
@@ -252,7 +253,7 @@ public class Menu extends GameScreen
 			b2dr.render(world, b2dCam.combined);
 		}			
 	}
-	
+
 	public void pause()
 	{		
 		menuSong.pause();
