@@ -8,6 +8,8 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -21,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.sun.glass.ui.EventLoop.State;
 
 public class Player extends Entity
 {
@@ -34,23 +37,46 @@ public class Player extends Entity
 	private PointLight pointLight;
 	private ConeLight coneLight;
 	
+	private float attackTime=0;
+	//In seconds
+	private float attackDuration=.5f;
+	
+	private float invincTime=0;
+	//In seconds
+	private float invincDuration=1f;
+	
 	private float meleeRange=20;
 	private FixtureDef melee_fDef;
 	private float swordRange=40;
 	private FixtureDef sword_fDef;
 	private FixtureDef dagger_fDef;
 	private FixtureDef spear_fDef;
-	public Player(World world)
+	
+	
+	private State STATE;
+	private HealthState HEALTH_STATE;
+	public enum State{IDLE, ATTACKING}
+	public enum HealthState{DEFAULT, INVINCIBLE}
+	
+	//@Param sight is about how many tiles the player can see with 
+	//attached light enabled
+	public Player(World world, float tileSize, int sight)
 	{
-
 		super.player=this;
+		
+		STATE=State.IDLE;
+		HEALTH_STATE=HealthState.DEFAULT;
+		
 		inventory = new Array<Item>();
 		hurtSound= Game.manager.get("res/sounds/magic154.ogg");
 		maxHealth=100;
 		currentHealth=-15;
+
 		
-		tileSight=5;
-		visionDistance=0;
+		tileSight=sight;
+		setVisionDistance(tileSize);
+		
+		
 		healingEffect= new ParticleEffect();
 		healingEffect.load(Gdx.files.internal("res/particles/healing.p"), Game.atlas);
 		particleManager.addParticle(healingEffect);
@@ -93,7 +119,7 @@ public class Player extends Entity
 		bdef.type = BodyType.DynamicBody;
 		bdef.gravityScale=0;
 		body=world.createBody(bdef);
-		body.setLinearDamping(10f);
+		body.setLinearDamping(15f);
 		
 		shape.setRadius(8/PPM);
 		fdef.shape = shape;	
@@ -106,6 +132,30 @@ public class Player extends Entity
 		faceDown();
 		
 		
+	}
+	@Override
+	public void update(float dt)
+	{
+		if(STATE==State.ATTACKING&&attackTime<attackDuration)//ENUM FOR ATTACKING GOES HERE
+		{
+			attackTime+=dt;
+		}
+		else
+		{
+			attackTime=0;
+			removeMelee();
+			STATE=State.IDLE;
+		}
+		if(HEALTH_STATE==HealthState.INVINCIBLE&&invincTime<invincDuration)
+		{
+			invincTime+=dt;
+		}
+		else
+		{
+			invincTime=0;
+			HEALTH_STATE=HealthState.DEFAULT;
+		}
+		super.update(dt);
 	}
 	private Vector2[] getConeVertices(float range)
 	{
@@ -121,16 +171,16 @@ public class Player extends Entity
 		}
 		return coneVertices;
 	}
-	public void enablePointLight(RayHandler rh, Color color)
+	public void createPointLight(RayHandler rh, Color color)
 	{
-		pointLight = new PointLight(rh,  1000, color, visionDistance, body.getPosition().x, body.getPosition().y);
-		pointLight.setSoftnessLength(0f);//Makes shadows look better
+		pointLight = new PointLight(rh,  500, color, visionDistance, body.getPosition().x, body.getPosition().y);
+		pointLight.setSoftnessLength(.0f);//Makes shadows look better
 		pointLight.attachToBody(body); //Light follows player
 		pointLight.setContactFilter( B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND); //Light has the Mask and category bits of the Player 
 	}
-	public void enableConeLight(RayHandler rh, Color color)
+	public void createConeLight(RayHandler rh, Color color)
 	{
-		coneLight = new ConeLight(rh, 1000, color, visionDistance, body.getPosition().x, body.getPosition().x, facingDirection, 45);
+		coneLight = new ConeLight(rh, 500, color, visionDistance, body.getPosition().x, body.getPosition().x, facingDirection, 45);
 		coneLight.setSoftnessLength(0f);
 		coneLight.attachToBody(body,0, 0, facingDirection);
 		coneLight.setContactFilter(B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND);
@@ -142,6 +192,28 @@ public class Player extends Entity
 	public void setPointLightActive(boolean b)
 	{
 		pointLight.setActive(b);
+	}
+	public void togglePointLight()
+	{
+		if(pointLight.isActive())
+			pointLight.setActive(false);
+		else
+			pointLight.setActive(true);
+	}
+	public boolean isConeLightActive()
+	{
+		return coneLight.isActive();
+	}
+	public void setConeLightActive(boolean b)
+	{
+		coneLight.setActive(b);
+	}
+	public void toggleConeLight()
+	{
+		if(coneLight.isActive())
+			coneLight.setActive(false);
+		else
+			coneLight.setActive(true);
 	}
 	public float getVisionDistance()
 	{
@@ -184,10 +256,14 @@ public class Player extends Entity
 	
 	public void takeDamage(int dmg)
 	{
-		if(hurtSound!=null)
-			hurtSound.play(.15f);
-		currentHealth-=dmg;
-		//TODO if dead
+		if(HEALTH_STATE==HealthState.DEFAULT)
+		{
+			if(hurtSound!=null)
+				hurtSound.play(.15f);
+			currentHealth-=dmg;
+			
+			HEALTH_STATE=HealthState.INVINCIBLE;
+		}
 	}
 	public void addItem(Item i)
 	{
@@ -207,11 +283,19 @@ public class Player extends Entity
 	}
 	public void toggleMelee()
 	{
-		body.createFixture(melee_fDef).setUserData("playerMelee");		
+		if(STATE==State.IDLE)
+		{
+			STATE=State.ATTACKING;
+			body.createFixture(melee_fDef).setUserData("playerMelee");
+		}
 	}
 	public void toggleSword()
 	{
-		body.createFixture(sword_fDef).setUserData("swordMelee");
+		if(STATE==State.IDLE)
+		{
+			STATE=State.ATTACKING;
+			body.createFixture(sword_fDef).setUserData("swordMelee");
+		}
 	}
 	public void removeMelee()
 	{
@@ -222,19 +306,20 @@ public class Player extends Entity
 	}
 	public void moveUp()
 	{
-		body.applyLinearImpulse(0	, .30f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true); 
+		body.applyLinearImpulse(0	, .40f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+
 	}
 	public void moveLeft()
 	{
-		body.applyLinearImpulse(-.30f, 0f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+		body.applyLinearImpulse(-.40f, 0f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
 	}
 	public void moveDown()
 	{
-		body.applyLinearImpulse(0	, -.30f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+		body.applyLinearImpulse(0	, -.40f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
 	}
 	public void moveRight()
 	{
-		body.applyLinearImpulse(0.30f	, 0, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+		body.applyLinearImpulse(0.40f	, 0, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
 
 	}
 	public void faceUp()   

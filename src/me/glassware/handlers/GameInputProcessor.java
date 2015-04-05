@@ -6,109 +6,156 @@ import com.badlogic.gdx.InputAdapter;
 public class GameInputProcessor extends InputAdapter
 {
 	@Override
-	public boolean keyDown(int k)
+	public boolean keyDown(int keyCode)
 	{
-		if(k==Keys.W)
-		{
+		switch(keyCode)
+		{	
+		
+		//Movement
+		case Keys.W:
 			GameInput.setKey(GameInput.BUTTON_W, true);
-		}
-		if(k==Keys.A)
-		{
+				break;
+		case Keys.A:
 			GameInput.setKey(GameInput.BUTTON_A, true);
-		}
-		if(k==Keys.S)
-		{
+				break;
+		case Keys.S:
 			GameInput.setKey(GameInput.BUTTON_S, true);
-		}
-		if(k==Keys.D)
-		{
+				break;
+		case Keys.D:
 			GameInput.setKey(GameInput.BUTTON_D, true);
-		}
-		if(k==Keys.Z)
-		{
-			GameInput.setKey(GameInput.BUTTON_Z, true);
-		}
-		if(k==Keys.X)
-		{
+				break;
+				
+		//Actions
+		case Keys.SPACE:
+			GameInput.setKey(GameInput.BUTTON_SPACE, true);
+				break;
+		case Keys.Z:
+			GameInput.setKey(GameInput.BUTTON_Z,  true);
+				break;
+		case Keys.X:
 			GameInput.setKey(GameInput.BUTTON_X, true);
-		}
-		if(k==Keys.C)
-		{
+				break;
+		case Keys.C:
 			GameInput.setKey(GameInput.BUTTON_C, true);
-		}
-		if(k==Keys.UP)
-		{
+				break;
+		case Keys.R:
+			GameInput.setKey(GameInput.BUTTON_R, true);
+				break;
+		case Keys.F:
+			GameInput.setKey(GameInput.BUTTON_F, true);
+				break;
+		case Keys.NUM_1:
+			GameInput.setKey(GameInput.BUTTON_NUM_1, true);
+				break;
+		case Keys.NUM_2:
+			GameInput.setKey(GameInput.BUTTON_NUM_2, true);
+				break;
+		case Keys.NUM_3:
+			GameInput.setKey(GameInput.BUTTON_NUM_3, true);
+				break;
+		case Keys.NUM_4:
+			GameInput.setKey(GameInput.BUTTON_NUM_4, true);
+				break;
+		case Keys.NUM_5:
+			GameInput.setKey(GameInput.BUTTON_NUM_5, true);
+				break;
+				
+		//Rotation
+		case Keys.UP:
 			GameInput.setKey(GameInput.BUTTON_UP, true);
-		}
-		if(k==Keys.DOWN)
-		{
+				break;
+		case Keys.DOWN:
 			GameInput.setKey(GameInput.BUTTON_DOWN, true);
-		}
-		if(k==Keys.LEFT)
-		{
-			GameInput.setKey(GameInput.BUTTON_LEFT, true);
-		}
-		if(k==Keys.RIGHT)
-		{
+				break;
+		case Keys.RIGHT:
 			GameInput.setKey(GameInput.BUTTON_RIGHT, true);
+				break;
+		case Keys.LEFT:
+			GameInput.setKey(GameInput.BUTTON_LEFT, true);
+				break;	
+				
+		//Menu related
+		case Keys.ESCAPE:
+			GameInput.setKey(GameInput.BUTTON_ESCAPE, true);
+				break;
 		}
-		if(k==Keys.ESCAPE)
-		{
-			GameInput.setKey(GameInput.BUTTON_ESC, true);
-		}
+			
 		return true;
 	}
 	@Override
-	public boolean keyUp(int k)
+	public boolean keyUp(int keyCode)
 	{
-		if(k==Keys.W)
-		{
+		switch(keyCode)
+		{	
+		//Movement
+		case Keys.W:
 			GameInput.setKey(GameInput.BUTTON_W, false);
-		}
-		if(k==Keys.A)
-		{
+				break;
+		case Keys.A:
 			GameInput.setKey(GameInput.BUTTON_A, false);
-		}
-		if(k==Keys.S)
-		{
+				break;
+		case Keys.S:
 			GameInput.setKey(GameInput.BUTTON_S, false);
-		}
-		if(k==Keys.D)
-		{
+				break;
+		case Keys.D:
 			GameInput.setKey(GameInput.BUTTON_D, false);
-		}
-		if(k==Keys.Z)
-		{
-			GameInput.setKey(GameInput.BUTTON_Z, false);
-		}
-		if(k==Keys.X)
-		{
+				break;
+				
+		//Actions
+		case Keys.SPACE:
+			GameInput.setKey(GameInput.BUTTON_SPACE, false);
+				break;
+		case Keys.Z:
+			GameInput.setKey(GameInput.BUTTON_Z,  false);
+				break;
+		case Keys.X:
 			GameInput.setKey(GameInput.BUTTON_X, false);
-		}
-		if(k==Keys.C)
-		{
+				break;
+		case Keys.C:
 			GameInput.setKey(GameInput.BUTTON_C, false);
-		}
-		if(k==Keys.UP)
-		{
+				break;
+		case Keys.R:
+			GameInput.setKey(GameInput.BUTTON_R, false);
+				break;
+		case Keys.F:
+			GameInput.setKey(GameInput.BUTTON_F, false);
+				break;
+		case Keys.NUM_1:
+			GameInput.setKey(GameInput.BUTTON_NUM_1, false);
+				break;
+		case Keys.NUM_2:
+			GameInput.setKey(GameInput.BUTTON_NUM_2, false);
+				break;
+		case Keys.NUM_3:
+			GameInput.setKey(GameInput.BUTTON_NUM_3, false);
+				break;
+		case Keys.NUM_4:
+			GameInput.setKey(GameInput.BUTTON_NUM_4, false);
+				break;
+		case Keys.NUM_5:
+			GameInput.setKey(GameInput.BUTTON_NUM_5, false);
+				break;
+				
+		//Rotation
+		case Keys.UP:
 			GameInput.setKey(GameInput.BUTTON_UP, false);
-		}
-		if(k==Keys.DOWN)
-		{
+				break;
+		case Keys.DOWN:
 			GameInput.setKey(GameInput.BUTTON_DOWN, false);
-		}
-		if(k==Keys.LEFT)
-		{
-			GameInput.setKey(GameInput.BUTTON_LEFT, false);
-		}
-		if(k==Keys.RIGHT)
-		{
+				break;
+		case Keys.RIGHT:
 			GameInput.setKey(GameInput.BUTTON_RIGHT, false);
+				break;
+		case Keys.LEFT:
+			GameInput.setKey(GameInput.BUTTON_LEFT, false);
+				break;	
+				
+		//Menu related
+		case Keys.ESCAPE:
+			GameInput.setKey(GameInput.BUTTON_ESCAPE, false);
+				break;
 		}
-		if(k==Keys.ESCAPE)
-		{
-			GameInput.setKey(GameInput.BUTTON_ESC, false);
-		}
+			
 		return true;
 	}
 }
