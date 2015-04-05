@@ -68,6 +68,7 @@ public class Game extends ApplicationAdapter
 		
 		gsm = new GameScreenManager(this);
 
+		
 	}
 	public SpriteBatch getSpriteBatch()
 	{

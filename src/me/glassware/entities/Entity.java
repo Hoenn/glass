@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public abstract class Entity
 {
+
 	protected Body body;
 	protected Animation animation;
 	protected float width;
@@ -23,7 +24,9 @@ public abstract class Entity
 	
 	public static Player player;
 	
-	public enum FacingDirection{LEFT, UP, RIGHT, DOWN;}
+	public enum FacingDirection{
+		LEFT, UP, RIGHT, DOWN;
+	}
 	
 	public Entity()
 	{

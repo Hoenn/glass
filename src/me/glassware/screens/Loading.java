@@ -30,7 +30,7 @@ public class Loading extends GameScreen
 	}
 	public void handleInput()
 	{
-		//no input to be handled in loading screen
+
 	}
 	public void update(float dt)
 	{

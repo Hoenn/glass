@@ -10,7 +10,6 @@ import me.glassware.handlers.GameContactListener;
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameScreenManager;
 import me.glassware.main.Game;
-
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
@@ -42,7 +41,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-
+//This is a commit test
 public class Menu extends GameScreen
 {	
 	private World world;
