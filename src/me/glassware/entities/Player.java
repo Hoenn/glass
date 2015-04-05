@@ -27,6 +27,7 @@ import com.sun.glass.ui.EventLoop.State;
 
 public class Player extends Entity
 {
+	//This commit is a test
 	private int maxHealth;
 	private int currentHealth;
 	private Sound hurtSound;
