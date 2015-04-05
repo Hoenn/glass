@@ -70,8 +70,6 @@ public class Game extends ApplicationAdapter
 		font=new BitmapFont();
 		
 		gsm = new GameScreenManager(this);
-
-		
 	}
 	public SpriteBatch getSpriteBatch()
 	{
@@ -89,7 +87,6 @@ public class Game extends ApplicationAdapter
 	}
 	public void render()
 	{
-
 		gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render();
 		GameInput.update();

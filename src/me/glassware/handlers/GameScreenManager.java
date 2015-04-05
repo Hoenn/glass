@@ -28,7 +28,7 @@ public class GameScreenManager
 		this.game = game;
 		gameScreens = new GameScreen[NUMSTATES];
 		
-		currentScreen=0; //Set First State
+		currentScreen=0; //Set first GameState/Screen, 0 is the loading screen
 		setScreen(currentScreen, false);
 	}
 	public Game getGame()

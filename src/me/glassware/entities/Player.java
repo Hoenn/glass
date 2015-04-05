@@ -27,7 +27,6 @@ import com.sun.glass.ui.EventLoop.State;
 
 public class Player extends Entity
 {
-	//This commit is a test
 	private int maxHealth;
 	private int currentHealth;
 	private Sound hurtSound;
@@ -58,6 +57,10 @@ public class Player extends Entity
 	private HealthState HEALTH_STATE;
 	public enum State{IDLE, ATTACKING}
 	public enum HealthState{DEFAULT, INVINCIBLE}
+	
+	private BodyDef bdef;
+	private FixtureDef fdef;
+	private CircleShape shape;
 	
 	//@Param sight is about how many tiles the player can see with 
 	//attached light enabled
@@ -112,9 +115,9 @@ public class Player extends Entity
 		sword_fDef.isSensor=true;
 		
 		//Player body 
-		BodyDef bdef = new BodyDef();
-		FixtureDef fdef= new FixtureDef();
-		CircleShape shape = new CircleShape();
+		bdef = new BodyDef();
+		fdef= new FixtureDef();
+		shape = new CircleShape();
 		
 		bdef.position.set(30/PPM, 30/PPM);
 		bdef.type = BodyType.DynamicBody;

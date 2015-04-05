@@ -41,7 +41,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-//This is a commit test
+
 public class Menu extends GameScreen
 {	
 	private World world;
