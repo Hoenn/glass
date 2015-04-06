@@ -2,8 +2,6 @@ package me.glassware.entities;
 
 public class Item
 {
-	public enum ItemType{Potion, Sword}
-
 	private String name;
 	private int damage;
 	private int tier;
