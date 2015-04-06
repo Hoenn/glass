@@ -19,8 +19,9 @@ public abstract class GameScreen implements Screen
 	protected OrthographicCamera b2dCam;
 	
 	private final float[] zoomDepth = new float[]
-			{.125f, .25f, .5f, .75f, 1f, 1.25f, 1.5f, 1.75f, 2f};
-	private int currentZoomDepth=4; //1f
+				{.125f, .25f, .5f, .75f, 1f, 1.25f, 1.5f, 1.75f, 2f};
+	private final int defaultZoomDepthPosition=4; 
+	private int currentZoomDepth=defaultZoomDepthPosition;
 	
 	protected GameScreen(GameScreenManager gsm)
 	{
@@ -30,7 +31,9 @@ public abstract class GameScreen implements Screen
 		cam=game.getCamera();
 		hudCam = game.getHUDCamera();
 		b2dCam=game.getb2dCamera();
+		zoomDefault();
 	}
+	
 	protected void zoomIn()
 	{
 		if(currentZoomDepth>0)
@@ -44,6 +47,7 @@ public abstract class GameScreen implements Screen
 			currentZoomDepth--;
 		}
 	}
+	
 	protected void zoomOut()
 	{
 		if(currentZoomDepth<zoomDepth.length-1)
@@ -56,6 +60,17 @@ public abstract class GameScreen implements Screen
 			
 			currentZoomDepth++;
 		}
+	}
+	
+	protected void zoomDefault()
+	{
+		cam.zoom=zoomDepth[defaultZoomDepthPosition];
+		cam.update();
+		
+		b2dCam.zoom=zoomDepth[defaultZoomDepthPosition];
+		b2dCam.update();
+		
+		currentZoomDepth=defaultZoomDepthPosition;
 	}
 	public abstract void handleInput();
 	public abstract void update(float dt);
