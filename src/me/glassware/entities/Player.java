@@ -19,8 +19,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
@@ -85,9 +83,7 @@ public class Player extends Entity
 		TextureRegion frames= Game.atlas.findRegion("wizardSprite");
 		setAnimation(frames.split(20,20)[0], 1/4f);
 		
-		
-		//For temp cone fixtures
-		
+				
 		//Fist attack
 		fist_fDef= new FixtureDef();		
 		fist_fDef.filter.categoryBits = B2DVars.BIT_PLAYER;
@@ -105,8 +101,7 @@ public class Player extends Entity
 		swordShape.createLoop(getConeVertices(swordRange, 90, 15));
 		sword_fDef.shape=swordShape;
 		sword_fDef.isSensor=true;
-		
-		
+			
 		//Player body 
 		BodyDef bdef = new BodyDef();
 		FixtureDef fdef= new FixtureDef();
@@ -128,8 +123,7 @@ public class Player extends Entity
 		
 		//Starting position
 		faceDown();
-		
-		
+			
 	}
 	@Override
 	public void update(float dt)
@@ -161,7 +155,6 @@ public class Player extends Entity
 			int angularIncrements=(int) (arcInDegree/angularIncrementInDegree);
 	
 	        Vector2[] coneVertices = new Vector2[angularIncrements+2];
-
 			coneVertices[0] = new Vector2(0, 0);
 			
 			float angle=0;
