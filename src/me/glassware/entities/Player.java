@@ -16,9 +16,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
@@ -90,8 +92,8 @@ public class Player extends Entity
 		fist_fDef= new FixtureDef();		
 		fist_fDef.filter.categoryBits = B2DVars.BIT_PLAYER;
 		fist_fDef.filter.maskBits = B2DVars.BIT_NPC|B2DVars.BIT_PICKUP;
-		PolygonShape fistShape = new PolygonShape();
-		fistShape.set(getConeVertices(fistRange, 80, 16));
+		ChainShape fistShape = new ChainShape();
+		fistShape.createLoop(getConeVertices(fistRange, 80, 16));
 		fist_fDef.shape=fistShape;
 		fist_fDef.isSensor=true;
 		
@@ -99,8 +101,8 @@ public class Player extends Entity
 		sword_fDef= new FixtureDef();
 		sword_fDef.filter.categoryBits = B2DVars.BIT_WEAPON;
 		sword_fDef.filter.maskBits = B2DVars.BIT_NPC;
-		PolygonShape swordShape = new PolygonShape();
-		swordShape.set(getConeVertices(swordRange, 90, 15));
+		ChainShape swordShape = new ChainShape();
+		swordShape.createLoop(getConeVertices(swordRange, 90, 15));
 		sword_fDef.shape=swordShape;
 		sword_fDef.isSensor=true;
 		
@@ -153,16 +155,11 @@ public class Player extends Entity
 		}
 		super.update(dt);
 	}
-	private Vector2[] getConeVertices(float radius, float arcInDegree, int angularIncrementInDegree) throws IllegalArgumentException
+	private Vector2[] getConeVertices(float radius, float arcInDegree, int angularIncrementInDegree) 
 	{
-		try
-		{
+
 			int angularIncrements=(int) (arcInDegree/angularIncrementInDegree);
-			if(angularIncrements>6)
-			{
-				throw new IllegalArgumentException("Polygon Shape Cannot have more than 8 vertices");
-			}
-			
+	
 	        Vector2[] coneVertices = new Vector2[angularIncrements+2];
 
 			coneVertices[0] = new Vector2(0, 0);
@@ -178,13 +175,6 @@ public class Player extends Entity
 				coneVertices[i+1]= new Vector2((radius*MathUtils.cos(angle))/PPM, (radius*MathUtils.sin(angle))/PPM);
 			}
 			return coneVertices;
-		}
-		catch(IllegalArgumentException e)
-		{
-			e.printStackTrace();
-		}
-		return null;
-
 	}
 	public void createPointLight(RayHandler rh, Color color)
 	{
