@@ -91,7 +91,7 @@ public class Player extends Entity
 		fist_fDef.filter.categoryBits = B2DVars.BIT_PLAYER;
 		fist_fDef.filter.maskBits = B2DVars.BIT_NPC|B2DVars.BIT_PICKUP;
 		PolygonShape fistShape = new PolygonShape();
-		fistShape.set(getConeVertices(fistRange));
+		fistShape.set(getConeVertices(fistRange, 80, 16));
 		fist_fDef.shape=fistShape;
 		fist_fDef.isSensor=true;
 		
@@ -100,7 +100,7 @@ public class Player extends Entity
 		sword_fDef.filter.categoryBits = B2DVars.BIT_WEAPON;
 		sword_fDef.filter.maskBits = B2DVars.BIT_NPC;
 		PolygonShape swordShape = new PolygonShape();
-		swordShape.set(getConeVertices(swordRange));
+		swordShape.set(getConeVertices(swordRange, 90, 15));
 		sword_fDef.shape=swordShape;
 		sword_fDef.isSensor=true;
 		
@@ -153,19 +153,38 @@ public class Player extends Entity
 		}
 		super.update(dt);
 	}
-	private Vector2[] getConeVertices(float range)
+	private Vector2[] getConeVertices(float radius, float arcInDegree, int angularIncrementInDegree) throws IllegalArgumentException
 	{
-        Vector2[] coneVertices = new Vector2[8];
-
-		coneVertices[0] = new Vector2(0, 0f  );
-		float angle=0;
-		float adjust=(MathUtils.PI/4);
-		for(int i=0;i<7;i++)
+		try
 		{
-			angle= ((i/6f)*90f*MathUtils.degRad)-adjust;
-			coneVertices[i+1]= new Vector2((range*MathUtils.cos(angle))/PPM, (range*MathUtils.sin(angle))/PPM);
+			int angularIncrements=(int) (arcInDegree/angularIncrementInDegree);
+			if(angularIncrements>6)
+			{
+				throw new IllegalArgumentException("Polygon Shape Cannot have more than 8 vertices");
+			}
+			
+	        Vector2[] coneVertices = new Vector2[angularIncrements+2];
+
+			coneVertices[0] = new Vector2(0, 0);
+			
+			float angle=0;
+			float arcInRad=arcInDegree*MathUtils.degRad;
+			float adjust=arcInRad/2;
+			
+			for(int i=0;i<angularIncrements+1;i++)
+			{
+				angle= (i*(arcInRad/angularIncrements))-adjust;
+				System.out.println("angle "+angle);
+				coneVertices[i+1]= new Vector2((radius*MathUtils.cos(angle))/PPM, (radius*MathUtils.sin(angle))/PPM);
+			}
+			return coneVertices;
 		}
-		return coneVertices;
+		catch(IllegalArgumentException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 	public void createPointLight(RayHandler rh, Color color)
 	{
