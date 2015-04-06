@@ -1,10 +1,6 @@
 package me.glassware.entities;
 
 import static me.glassware.handlers.B2DVars.PPM;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
 import me.glassware.handlers.B2DVars;
 import me.glassware.main.Game;
 
@@ -12,44 +8,40 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class AttackObject extends Entity
 {
+	public enum TrapType{FallingBall, StaticTrap};
+	private TrapType type;
 	private int damageValue;
-	private String[] trapChoices = {"fallingball", "statictrap"};
 	private ParticleEffect particle;
-	public AttackObject(World world, int dV, String type, float x, float y, boolean spinning)
+	public AttackObject(World world, TrapType t, int dV, float xPos, float yPos, boolean spinning)
 	{
-		damageValue=dV;
-		
+		type=t;
+		damageValue=dV;	
 
 		switch(type)
 		{
-			case "fallingball": createFallingBall(world, dV, x, y, spinning);
+			case FallingBall: createFallingBall(world, dV, xPos, yPos, spinning);
 								break;
-			case "statictrap":	createStaticTrap(world, dV, x, y);
-								break;
-			default:			throw new IllegalArgumentException("String "+type+" does not match any available attack object constructors \n "
-																	+ "available choices are "+ Arrays.toString(trapChoices));
-			
+			case StaticTrap:  createStaticTrap(world, dV, xPos, yPos);
+								break;	
 		}
 
 		particleManager.addParticle(particle);
 		particleManager.playParticle(particle);
-
 	}
 	@Override
 	public void update(float dt)
 	{
 		super.update(dt);
-		facingDirection=body.getAngle()*MathUtils.radDeg;
+		facingDirectionInDegree=body.getAngle()*MathUtils.radDeg;
 
 	}
 	private void createStaticTrap(World world, int dV, float x, float y)

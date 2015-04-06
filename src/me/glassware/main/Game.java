@@ -1,24 +1,17 @@
 package me.glassware.main;
 
 import static me.glassware.handlers.B2DVars.PPM;
-
-import java.util.Random;
-
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameInputProcessor;
 import me.glassware.handlers.GameScreenManager;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.profiling.GLProfiler;
-import com.badlogic.gdx.math.FloatCounter;
 import com.badlogic.gdx.utils.Array;
 
 public class Game extends ApplicationAdapter

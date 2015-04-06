@@ -27,33 +27,30 @@ public class Player extends Entity
 	private int maxHealth;
 	private int currentHealth;
 	private Sound hurtSound;
+	private float invincTime=0;
+	private float invincDuration=1f; //In seconds
+	public enum HealthState{Default, Invincible}
+	private HealthState HEALTH_STATE;
+	
 	private Array<Item> inventory;
+	
 	private ParticleEffect healingEffect;
+	
 	private int tileSight;
 	private float visionDistance;
 	private PointLight pointLight;
 	private ConeLight coneLight;
 	
 	private float attackTime=0;
-	//In seconds
-	private float attackDuration=.5f;
-	
-	private float invincTime=0;
-	//In seconds
-	private float invincDuration=1f;
-	
-	private float meleeRange=20;
-	private FixtureDef melee_fDef;
+	private float attackDuration=.5f;//In Seconds
+	public enum State{Idle, Attacking}
+	private State STATE;
+	private float fistRange=20;
+	private FixtureDef fist_fDef;
 	private float swordRange=40;
 	private FixtureDef sword_fDef;
 	private FixtureDef dagger_fDef;
 	private FixtureDef spear_fDef;
-	
-	
-	private State STATE;
-	private HealthState HEALTH_STATE;
-	public enum State{IDLE, ATTACKING}
-	public enum HealthState{DEFAULT, INVINCIBLE}
 	
 	//@Param sight is about how many tiles the player can see with 
 	//attached light enabled
@@ -61,8 +58,8 @@ public class Player extends Entity
 	{
 		super.player=this;
 		
-		STATE=State.IDLE;
-		HEALTH_STATE=HealthState.DEFAULT;
+		STATE=State.Idle;
+		HEALTH_STATE=HealthState.Default;
 		
 		inventory = new Array<Item>();
 		hurtSound= Game.manager.get("res/sounds/magic154.ogg");
@@ -78,7 +75,7 @@ public class Player extends Entity
 		healingEffect.load(Gdx.files.internal("res/particles/healing.p"), Game.atlas);
 		particleManager.addParticle(healingEffect);
 		
-		facingDirection=0f;
+		facingDirectionInDegree=0f;
 		
 		for(int i=0;i<40;i++)
 			addItem(new Item("potion"));
@@ -89,14 +86,14 @@ public class Player extends Entity
 		
 		//For temp cone fixtures
 		
-		//Melee attack
-		melee_fDef= new FixtureDef();		
-		melee_fDef.filter.categoryBits = B2DVars.BIT_PLAYER;
-		melee_fDef.filter.maskBits = B2DVars.BIT_NPC|B2DVars.BIT_PICKUP;
-		PolygonShape meleeShape = new PolygonShape();
-		meleeShape.set(getConeVertices(meleeRange));
-		melee_fDef.shape=meleeShape;
-		melee_fDef.isSensor=true;
+		//Fist attack
+		fist_fDef= new FixtureDef();		
+		fist_fDef.filter.categoryBits = B2DVars.BIT_PLAYER;
+		fist_fDef.filter.maskBits = B2DVars.BIT_NPC|B2DVars.BIT_PICKUP;
+		PolygonShape fistShape = new PolygonShape();
+		fistShape.set(getConeVertices(fistRange));
+		fist_fDef.shape=fistShape;
+		fist_fDef.isSensor=true;
 		
 		//Sword Attack
 		sword_fDef= new FixtureDef();
@@ -126,6 +123,7 @@ public class Player extends Entity
 		body.createFixture(fdef).setUserData("Player");
 		body.setUserData(this);
 		shape.dispose();
+		
 		//Starting position
 		faceDown();
 		
@@ -134,24 +132,24 @@ public class Player extends Entity
 	@Override
 	public void update(float dt)
 	{
-		if(STATE==State.ATTACKING&&attackTime<attackDuration)//ENUM FOR ATTACKING GOES HERE
+		if(STATE==State.Attacking&&attackTime<attackDuration)//ENUM FOR ATTACKING GOES HERE
 		{
 			attackTime+=dt;
 		}
 		else
 		{
 			attackTime=0;
-			removeMelee();
-			STATE=State.IDLE;
+			removeAttack();
+			STATE=State.Idle;
 		}
-		if(HEALTH_STATE==HealthState.INVINCIBLE&&invincTime<invincDuration)
+		if(HEALTH_STATE==HealthState.Invincible&&invincTime<invincDuration)
 		{
 			invincTime+=dt;
 		}
 		else
 		{
 			invincTime=0;
-			HEALTH_STATE=HealthState.DEFAULT;
+			HEALTH_STATE=HealthState.Default;
 		}
 		super.update(dt);
 	}
@@ -178,9 +176,9 @@ public class Player extends Entity
 	}
 	public void createConeLight(RayHandler rh, Color color)
 	{
-		coneLight = new ConeLight(rh, 500, color, visionDistance, body.getPosition().x, body.getPosition().x, facingDirection, 45);
+		coneLight = new ConeLight(rh, 500, color, visionDistance, body.getPosition().x, body.getPosition().x, facingDirectionInDegree, 45);
 		coneLight.setSoftnessLength(0f);
-		coneLight.attachToBody(body,0, 0, facingDirection);
+		coneLight.attachToBody(body,0, 0, facingDirectionInDegree);
 		coneLight.setContactFilter(B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND);
 	}
 	public boolean isPointLightActive()
@@ -254,13 +252,13 @@ public class Player extends Entity
 	
 	public void takeDamage(int dmg)
 	{
-		if(HEALTH_STATE==HealthState.DEFAULT)
+		if(HEALTH_STATE==HealthState.Default)
 		{
 			if(hurtSound!=null)
 				hurtSound.play(.15f);
 			currentHealth-=dmg;
 			
-			HEALTH_STATE=HealthState.INVINCIBLE;
+			HEALTH_STATE=HealthState.Invincible;
 		}
 	}
 	public void addItem(Item i)
@@ -279,23 +277,23 @@ public class Player extends Entity
 	{
 		return inventory;
 	}
-	public void toggleMelee()
+	public void swingFist()
 	{
-		if(STATE==State.IDLE)
+		if(STATE==State.Idle)
 		{
-			STATE=State.ATTACKING;
-			body.createFixture(melee_fDef).setUserData("playerMelee");
+			STATE=State.Attacking;
+			body.createFixture(fist_fDef).setUserData("playerFist");
 		}
 	}
-	public void toggleSword()
+	public void swingSword()
 	{
-		if(STATE==State.IDLE)
+		if(STATE==State.Idle)
 		{
-			STATE=State.ATTACKING;
-			body.createFixture(sword_fDef).setUserData("swordMelee");
+			STATE=State.Attacking;
+			body.createFixture(sword_fDef).setUserData("swordFist");
 		}
 	}
-	public void removeMelee()
+	public void removeAttack()
 	{
 		if(body.getFixtureList().size>1)
 		{
@@ -341,4 +339,3 @@ public class Player extends Entity
 		body.setTransform(body.getPosition(), 0);
 	}
 }
-

@@ -2,6 +2,7 @@ package me.glassware.screens;
 
 import static me.glassware.handlers.B2DVars.PPM;
 import me.glassware.entities.AttackObject;
+import me.glassware.entities.AttackObject.TrapType;
 import me.glassware.entities.Item;
 import me.glassware.entities.PickUp;
 import me.glassware.entities.Player;
@@ -10,14 +11,12 @@ import me.glassware.handlers.GameContactListener;
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameScreenManager;
 import me.glassware.main.Game;
-import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -26,7 +25,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -36,7 +34,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -98,83 +95,6 @@ public class Menu extends GameScreen
 		createPickUps();
 		
 	}
-	public void handleInput()
-	{
-		if(GameInput.isDown(GameInput.BUTTON_W))
-		{
-			player.moveUp();
-		}
-		if(GameInput.isDown(GameInput.BUTTON_A))
-		{
-			player.moveLeft();
-		}
-		if(GameInput.isDown(GameInput.BUTTON_S))
-		{
-			player.moveDown();
-		}
-		if(GameInput.isDown(GameInput.BUTTON_D))
-		{
-			player.moveRight();
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_UP))
-		{
-			player.faceUp();
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_LEFT))
-		{
-			player.faceLeft();
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_DOWN))
-		{
-			player.faceDown();
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_RIGHT))
-		{
-			player.faceRight();
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_SPACE))
-		{
-			player.toggleConeLight();
-			player.toggleSword();
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_Z))
-		{
-			player.useItemAt(0);
-
-			System.out.println(player.getHealth());
-			System.out.println(player.getPixelPosition().x +" ,"+ player.getPixelPosition().y);
-		}	
-		if(GameInput.isPressed(GameInput.BUTTON_X))
-		{
-			debug=!debug;
-			menuSong.stop();
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_C))
-		{
-			player.togglePointLight();
-			player.toggleMelee();
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_R))
-		{
-			rayHandler.setShadows(false);
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_F))
-		{
-			rayHandler.setShadows(true);
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_NUM_1))
-		{
-			zoomIn();
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_NUM_2))
-		{
-			zoomOut();
-		}
-		if(GameInput.isPressed(GameInput.BUTTON_ESCAPE))
-		{
-			gsm.setScreen(gsm.PAUSE, true);
-		}
-	}
 	public void update(float dt)
 	{
 		handleInput();
@@ -204,7 +124,6 @@ public class Menu extends GameScreen
 				attackObjects.removeValue(a, true);
 				world.destroyBody(b);
 			}
-
 		}
 		bodies.clear();
 		
@@ -219,6 +138,7 @@ public class Menu extends GameScreen
 		//clear screen
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);		
 
+		//Move tileMap view to cam position and render
 		tmr.setView(cam);
 		tmr.render();
 				
@@ -252,22 +172,10 @@ public class Menu extends GameScreen
 			b2dr.render(world, b2dCam.combined);
 		}			
 	}
-
-	public void pause()
-	{		
-		menuSong.pause();
-	}
-	
-	public void resume()
-	{
-		if(!menuSong.isPlaying())
-				menuSong.play();
-	}
 	private void createFallingBall()
 	{
-
-		AttackObject ao = new AttackObject(world, 5, "fallingball", MathUtils.random(minWidthInBounds, maxWidthInBounds)
-				, maxHeightInBounds, true);
+		AttackObject ao = new AttackObject(world,  TrapType.FallingBall, 5, 
+				MathUtils.random(minWidthInBounds, maxWidthInBounds) , maxHeightInBounds, true);
 		attackObjects.add(ao);
 	}
 	private void createBoundries()
@@ -319,13 +227,15 @@ public class Menu extends GameScreen
 		tileMap = new TmxMapLoader().load("res/maps/test.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
-		
 		tileSize = (int) tileMap.getProperties().get("tilewidth");
 		tileSizeB2D=tileSize/2/PPM;
 		
+		//Creates Walls with collision
 		TiledMapTileLayer layer;
 		layer=(TiledMapTileLayer) tileMap.getLayers().get("Walls");		
 		createLayer(layer);
+		
+		//Create Boundry walls
 		createBoundries();
 		
 		//Initialize Tile Relevant variables
@@ -392,13 +302,98 @@ public class Menu extends GameScreen
 
 			//String temp = Game.itemList.get(Game.random.nextInt(Game.itemList.size));
 			String temp="potion";
-
 			PickUp p = new PickUp(world, temp, x , y);		
 			pickUps.add(p);		
 		}
 		
 	}
+	public void handleInput()
+	{
+		if(GameInput.isDown(GameInput.BUTTON_W))
+		{
+			player.moveUp();
+		}
+		if(GameInput.isDown(GameInput.BUTTON_A))
+		{
+			player.moveLeft();
+		}
+		if(GameInput.isDown(GameInput.BUTTON_S))
+		{
+			player.moveDown();
+		}
+		if(GameInput.isDown(GameInput.BUTTON_D))
+		{
+			player.moveRight();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_UP))
+		{
+			player.faceUp();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_LEFT))
+		{
+			player.faceLeft();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_DOWN))
+		{
+			player.faceDown();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_RIGHT))
+		{
+			player.faceRight();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_SPACE))
+		{
+			player.toggleConeLight();
+			player.swingSword();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_Z))
+		{
+			player.useItemAt(0);
+
+			System.out.println(player.getHealth());
+			System.out.println(player.getPixelPosition().x +" ,"+ player.getPixelPosition().y);
+		}	
+		if(GameInput.isPressed(GameInput.BUTTON_X))
+		{
+			debug=!debug;
+			menuSong.stop();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_C))
+		{
+			player.togglePointLight();
+			player.swingFist();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_R))
+		{
+			rayHandler.setShadows(false);
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_F))
+		{
+			rayHandler.setShadows(true);
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_NUM_1))
+		{
+			zoomIn();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_NUM_2))
+		{
+			zoomOut();
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_ESCAPE))
+		{
+			gsm.setScreen(gsm.PAUSE, true);
+		}
+	}
+	public void pause()
+	{		
+		menuSong.pause();
+	}
 	
+	public void resume()
+	{
+		if(!menuSong.isPlaying())
+				menuSong.play();
+	}
 	public void dispose()
 	{
 		tmr.dispose();

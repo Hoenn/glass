@@ -15,7 +15,6 @@ public class GameContactListener implements ContactListener
 	{
 		bodiesToRemove= new Array<Body>();
 	}
-	//Called when two fixtures begin to collide
 	public void beginContact(Contact c)
 	{
 		Fixture fa = c.getFixtureA();
@@ -59,10 +58,6 @@ public class GameContactListener implements ContactListener
 		return bodiesToRemove;
 	}
 
-	//Collision Detetction ->
-	//preSolve
-	//Collision Handling
-	//postSolve
 	public void preSolve(Contact c, Manifold m){}
 	public void postSolve(Contact c, ContactImpulse ci){}
 }

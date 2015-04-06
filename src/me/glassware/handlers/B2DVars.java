@@ -5,7 +5,7 @@ public class B2DVars
 	//Pixels Per Meter
 	public static final float PPM = 100;
 	
-	//category bits
+	//bits for filtering
 	public static final short BIT_GROUND =2;
 	public static final short BIT_PLAYER =4;
 	public static final short BIT_PICKUP =8;

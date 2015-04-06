@@ -6,7 +6,6 @@ import me.glassware.handlers.ParticleManager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
@@ -18,7 +17,7 @@ public abstract class Entity
 	protected float width;
 	protected float height;	
 	
-	protected float facingDirection;
+	protected float facingDirectionInDegree;
 	
 	protected ParticleManager particleManager;
 	
@@ -55,7 +54,7 @@ public abstract class Entity
 				width/2, height/2, //Origin of rotation
 				width, height, //width and height
 				1f, 1f, //X scale and Y Scale
-				facingDirection); //Direction in degrees
+				facingDirectionInDegree); //Direction in degrees
 	
 		particleManager.render(sb);
 
@@ -63,11 +62,11 @@ public abstract class Entity
 	}
 	public void setDirection(float dir)
 	{
-		facingDirection=dir;
+		facingDirectionInDegree=dir;
 	}
 	public float getDirection()
 	{
-		return facingDirection;
+		return facingDirectionInDegree;
 	}
 	public Body getBody()
 	{

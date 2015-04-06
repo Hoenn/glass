@@ -1,7 +1,5 @@
 package me.glassware.handlers;
 
-import java.util.Stack;
-
 import me.glassware.main.Game;
 import me.glassware.screens.GameScreen;
 import me.glassware.screens.Loading;
@@ -28,7 +26,8 @@ public class GameScreenManager
 		this.game = game;
 		gameScreens = new GameScreen[NUMSTATES];
 		
-		currentScreen=0; //Set first GameState/Screen, 0 is the loading screen
+		//LoadingScreen
+		currentScreen=0; 
 		setScreen(currentScreen, false);
 	}
 	public Game getGame()
@@ -69,8 +68,8 @@ public class GameScreenManager
 	}
 	public void disposeScreen(int screen)
 	{
-		GameScreen g= gameScreens[screen]; //Instantiate Desired Screen
-		gameScreens[screen]=null; //Set to Null for Garbage Collection
-		g.dispose(); //Proper dispose
+		GameScreen g= gameScreens[screen]; 
+		gameScreens[screen]=null;
+		g.dispose();
 	}
 }
