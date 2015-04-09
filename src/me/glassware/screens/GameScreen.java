@@ -19,7 +19,7 @@ public abstract class GameScreen implements Screen
 	protected OrthographicCamera b2dCam;
 	
 	private final float[] zoomDepth = new float[]
-				{.125f, .25f, .5f, .75f, 1f, 1.25f, 1.5f, 1.75f, 2f};
+				{.125f, .25f, .5f, .75f, 1f, 1.25f, 1.5f, 1.75f, 2f, 3f, 4f, 5f};
 	private final int defaultZoomDepthPosition=4; 
 	private int currentZoomDepth=defaultZoomDepthPosition;
 	

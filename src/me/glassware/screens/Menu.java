@@ -195,14 +195,17 @@ public class Menu extends GameScreen
 		TextureRegion floorTexture = new TextureRegion(new Texture(Gdx.files.internal("res/maps/Dirt_Floor.png")));
 		TextureRegion wallTexture = new TextureRegion(new Texture(Gdx.files.internal("res/maps/Dirt_Wall.png")));
 
+		//TODO: This method DOES NOT NEED PADDING for the floor image.
 		
-		TiledMapTileLayer floorLayer = new TiledMapTileLayer(100, 100, 20, 20);
-		for(int x=0; x<100;x++)
+		TiledMapTileLayer floorLayer = new TiledMapTileLayer(20, 20, 20, 20);
+		for(int x=0; x<floorLayer.getWidth();x++)
 		{
-			for(int y=0;y<100;y++)
+			for(int y=0;y<floorLayer.getHeight();y++)
 			{
 				Cell cell = new Cell();
 				cell.setTile(new StaticTiledMapTile(floorTexture));
+				//cell.getTile().setOffsetX(-.5f);
+				//cell.getTile().setOffsetY(-.5f);
 				floorLayer.setCell(x, y, cell);
 			}
 		}
@@ -210,10 +213,9 @@ public class Menu extends GameScreen
 		floorLayer.setName("Floor");
 		myMap.getLayers().add(floorLayer);
 		
-
+	
 		
-		
-		TiledMapTileLayer wallLayer = new TiledMapTileLayer(100, 100, 20 ,20);
+		TiledMapTileLayer wallLayer = new TiledMapTileLayer(20, 20, 20 ,20);
 		for(int x=1; x<wallLayer.getWidth()-1;x++)
 		{
 			for(int y=1;y<wallLayer.getHeight()-1;y++)
@@ -239,27 +241,24 @@ public class Menu extends GameScreen
 	}
 	private void addBorderToLayer(TiledMapTileLayer layer, TextureRegion texture)
 	{
+		Cell cell = new Cell();
 		for(int x=0;x<layer.getWidth();x++)
 		{
-			Cell cell = new Cell();
 			cell.setTile(new StaticTiledMapTile(texture));
 			layer.setCell(x, 0, cell);
 		}
 		for(int y=1;y<layer.getHeight();y++)
 		{
-			Cell cell = new Cell();
 			cell.setTile(new StaticTiledMapTile(texture));
 			layer.setCell(0, y, cell);
 		}
 		for(int x=1;x<layer.getWidth();x++)
 		{
-			Cell cell = new Cell();
 			cell.setTile(new StaticTiledMapTile(texture));
 			layer.setCell(x, layer.getHeight()-1, cell);
 		}
 		for(int y=1;y<layer.getHeight();y++)
 		{
-			Cell cell = new Cell();
 			cell.setTile(new StaticTiledMapTile(texture));
 			layer.setCell(layer.getWidth()-1, y, cell);
 		}
