@@ -164,7 +164,6 @@ public class Player extends Entity
 			for(int i=0;i<angularIncrements+1;i++)
 			{
 				angle= (i*(arcInRad/angularIncrements))-adjust;
-				System.out.println("angle "+angle);
 				coneVertices[i+1]= new Vector2((radius*MathUtils.cos(angle))/PPM, (radius*MathUtils.sin(angle))/PPM);
 			}
 			return coneVertices;
@@ -172,7 +171,7 @@ public class Player extends Entity
 	public void createPointLight(RayHandler rh, Color color)
 	{
 		pointLight = new PointLight(rh,  500, color, visionDistance, body.getPosition().x, body.getPosition().y);
-		pointLight.setSoftnessLength(.0f);//Makes shadows look better
+		pointLight.setSoftnessLength(0f);//Makes shadows look better
 		pointLight.attachToBody(body); //Light follows player
 		pointLight.setContactFilter( B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND); //Light has the Mask and category bits of the Player 
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="20" tileheight="20" nextobjectid="24">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="34" tilewidth="20" tileheight="20" nextobjectid="27">
  <tileset firstgid="1" name="Floor" tilewidth="22" tileheight="22">
   <tileoffset x="-1" y="1"/>
   <image source="Dirt_Floor.png" width="22" height="22"/>
@@ -7,24 +7,27 @@
  <tileset firstgid="2" name="Wall" tilewidth="20" tileheight="20">
   <image source="Dirt_Wall.png" width="20" height="20"/>
  </tileset>
- <layer name="Floor" width="20" height="20">
+ <layer name="Floor" width="40" height="34">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYBzFo3gUj+JRPIpJxADrnAGR
+   eJztzbENAAAIw7D2/6c5gQU2R/KcJumhrcsXAAAAAMCnAe4JBUk=
   </data>
  </layer>
- <layer name="Boundry" width="20" height="20">
+ <layer name="Boundry" width="40" height="34">
   <data encoding="base64" compression="zlib">
-   eJxjYmBgYKIyphYYNW/UvFHzRs0bNY+65lETAwDifwCZ
+   eJztzrEJADAMwLCQ/4/uEV5SkMC7d2b2eFf5a/w1/hp/jb/GX+Ov8df4a/w1/hp/jb/GX+Ov+eXvcg8MNAEh
   </data>
  </layer>
  <objectgroup name="PickUps">
   <object id="21" x="181" y="181" width="14" height="14"/>
   <object id="22" x="247" y="107" width="10" height="12"/>
   <object id="23" x="209" y="27" width="8" height="10"/>
+  <object id="24" x="642" y="447" width="10" height="12"/>
+  <object id="25" x="242" y="511" width="16" height="12"/>
+  <object id="26" x="750" y="155" width="10" height="4"/>
  </objectgroup>
- <layer name="Walls" width="20" height="20">
+ <layer name="Walls" width="40" height="34">
   <data encoding="base64" compression="zlib">
-   eJxjYBg6gIlCmpZgMLsNBgazGwez22BgMLtxMLsNBgazGwez2wYzAACrTwCB
+   eJztVdEKAyEMO/z/j97DNjiCbVOb6sEWEG6nJjlts+t6Y3yGGuOqcw/B6ORl5hVAngHP1jcr7kDJ8+VCXlY7ugcFOnrB0lmplW5/2V7q1Mf3szVsDWXeo47nkcmEmWYmpyJEZ5PJyUr+Rd6rXlgObz/6YZDlQQ/eumpvdfZohfNUfjBYzd4n4EQez/Rnc9YelXanFvIx57wyr8zgav5lPLHrO/xVcTKflTwWL6tt3cXT8nkXvPrL1nJ2n6I/GN/ed99/43z0jFqMjoVMf2DNMrkWae4ev4zd56Dojy50/SfcuVf5//3h4wVlGwNn
   </data>
  </layer>
 </map>

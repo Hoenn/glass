@@ -3,6 +3,7 @@ package me.glassware.screens;
 import static me.glassware.handlers.B2DVars.PPM;
 import me.glassware.entities.AttackObject;
 import me.glassware.entities.AttackObject.TrapType;
+import me.glassware.entities.Entity;
 import me.glassware.entities.Item;
 import me.glassware.entities.PickUp;
 import me.glassware.entities.Player;
@@ -17,7 +18,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -25,6 +29,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -51,6 +56,8 @@ public class Menu extends GameScreen
 	private OrthogonalTiledMapRenderer tmr;
 	private float tileSize;
 	private float tileSizeB2D;
+	
+	private TiledMap myMap;
 	
 	private float maxHeightInBounds;
 	private float minHeightInBounds;
@@ -86,13 +93,14 @@ public class Menu extends GameScreen
 		menuSong.play();
 		
 		//Create objects
-		createTiles();
+		//createTiles();
+		createAMap();
 		player=new Player(world, tileSize, 7);
 		player.createPointLight(rayHandler, Color.CYAN);
 		player.createConeLight(rayHandler, Color.PURPLE);
 
 		attackObjects= new Array<AttackObject>();
-		createPickUps();
+		//createPickUps();
 		
 	}
 	public void update(float dt)
@@ -127,8 +135,8 @@ public class Menu extends GameScreen
 		}
 		bodies.clear();
 		
-		for(PickUp p: pickUps)
-			p.update(dt);
+		//for(PickUp p: pickUps)
+		//	p.update(dt);
 		for(AttackObject ao: attackObjects)
 			ao.update(dt);
 	}
@@ -150,8 +158,8 @@ public class Menu extends GameScreen
 		sb.setProjectionMatrix(cam.combined);	
 		
 		//draw pickups
-		for(PickUp p: pickUps)
-			p.render(sb);
+		//for(PickUp p: pickUps)
+		//	p.render(sb);
 		//draw attackObjects
 		for(AttackObject ao: attackObjects)
 			ao.render(sb);
@@ -178,13 +186,115 @@ public class Menu extends GameScreen
 				MathUtils.random(minWidthInBounds, maxWidthInBounds) , maxHeightInBounds, true);
 		attackObjects.add(ao);
 	}
+
+	private void createAMap()
+	{
+		myMap = new TiledMap();
+		tmr = new OrthogonalTiledMapRenderer(myMap);
+		
+		TextureRegion floorTexture = new TextureRegion(new Texture(Gdx.files.internal("res/maps/Dirt_Floor.png")));
+		TextureRegion wallTexture = new TextureRegion(new Texture(Gdx.files.internal("res/maps/Dirt_Wall.png")));
+
+		
+		TiledMapTileLayer floorLayer = new TiledMapTileLayer(100, 100, 20, 20);
+		for(int x=0; x<100;x++)
+		{
+			for(int y=0;y<100;y++)
+			{
+				Cell cell = new Cell();
+				cell.setTile(new StaticTiledMapTile(floorTexture));
+				floorLayer.setCell(x, y, cell);
+			}
+		}
+		addBorderToLayer(floorLayer, wallTexture);
+		floorLayer.setName("Floor");
+		myMap.getLayers().add(floorLayer);
+		
+
+		
+		
+		TiledMapTileLayer wallLayer = new TiledMapTileLayer(100, 100, 20 ,20);
+		for(int x=1; x<wallLayer.getWidth()-1;x++)
+		{
+			for(int y=1;y<wallLayer.getHeight()-1;y++)
+			{
+				if(MathUtils.random.nextInt(5)==3)
+				{
+					Cell cell = new Cell();
+					cell.setTile(new StaticTiledMapTile(wallTexture));
+					wallLayer.setCell(x, y, cell);
+				}
+			}
+		}
+		
+		removeExtraTiles(wallLayer);
+		wallLayer.setName("Walls");
+		myMap.getLayers().add(wallLayer);
+		tileSize=20;
+		tileSizeB2D=tileSize/2/PPM;
+		
+		createBoundries();
+		createSolidWalls(wallLayer);
+		
+	}
+	private void addBorderToLayer(TiledMapTileLayer layer, TextureRegion texture)
+	{
+		for(int x=0;x<layer.getWidth();x++)
+		{
+			Cell cell = new Cell();
+			cell.setTile(new StaticTiledMapTile(texture));
+			layer.setCell(x, 0, cell);
+		}
+		for(int y=1;y<layer.getHeight();y++)
+		{
+			Cell cell = new Cell();
+			cell.setTile(new StaticTiledMapTile(texture));
+			layer.setCell(0, y, cell);
+		}
+		for(int x=1;x<layer.getWidth();x++)
+		{
+			Cell cell = new Cell();
+			cell.setTile(new StaticTiledMapTile(texture));
+			layer.setCell(x, layer.getHeight()-1, cell);
+		}
+		for(int y=1;y<layer.getHeight();y++)
+		{
+			Cell cell = new Cell();
+			cell.setTile(new StaticTiledMapTile(texture));
+			layer.setCell(layer.getWidth()-1, y, cell);
+		}
+	}
+	private void removeExtraTiles(TiledMapTileLayer layer)
+	{
+		
+		for(int x=1;x<layer.getWidth()-1;x++)
+		{
+			for(int y=1;y<layer.getHeight()-1;y++)
+			{
+				Cell neighbor1 = layer.getCell(x-1, y);
+				Cell neighbor2 = layer.getCell(x-1, y-1);
+				Cell neighbor3 = layer.getCell(x-1, y+1);
+				Cell neighbor4 = layer.getCell(x+1, y);
+				Cell neighbor5 = layer.getCell(x+1, y-1);
+				Cell neighbor6 = layer.getCell(x+1, y+1);
+				Cell neighbor7 = layer.getCell(x, y+1);
+				Cell neighbor8 = layer.getCell(x, y-1);
+				if(neighbor1!=null&&neighbor2!=null&&neighbor3!=null&&neighbor4!=null&&neighbor5!=null&&neighbor6!=null&&neighbor7!=null&&neighbor8!=null)
+					layer.setCell(x, y, null);
+			}
+		}
+		
+		
+	}
 	private void createBoundries()
 	{
-		float width=(float)((int)tileMap.getProperties().get("width")*tileSize);
-		float height =(float)((int)tileMap.getProperties().get("height")*tileSize);
+		TiledMapTileLayer temp = (TiledMapTileLayer) myMap.getLayers().get("Walls");
+		float width= temp.getWidth()*tileSize;
+		float height =temp.getHeight()*tileSize;
 		float bodyWidth=width/2/PPM;
 		float bodyHeight=height/2/PPM;
 
+		
 		BodyDef bdef= new BodyDef();
 		FixtureDef fdef = new FixtureDef();
 		PolygonShape shape = new PolygonShape();
@@ -233,7 +343,7 @@ public class Menu extends GameScreen
 		//Creates Walls with collision
 		TiledMapTileLayer layer;
 		layer=(TiledMapTileLayer) tileMap.getLayers().get("Walls");		
-		createLayer(layer);
+		createSolidWalls(layer);
 		
 		//Create Boundry walls
 		createBoundries();
@@ -244,7 +354,7 @@ public class Menu extends GameScreen
 		maxHeightInBounds=((int)(tileMap.getProperties().get("height")))*(tileSize)-tileSize;
 		minHeightInBounds=tileSize;
 	}
-	private void createLayer(TiledMapTileLayer layer)
+	private void createSolidWalls(TiledMapTileLayer layer)
 	{
 		BodyDef bdef= new BodyDef();
 		FixtureDef fdef= new FixtureDef();
