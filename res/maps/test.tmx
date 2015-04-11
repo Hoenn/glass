@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="34" tilewidth="20" tileheight="20" nextobjectid="27">
- <tileset firstgid="1" name="Floor" tilewidth="22" tileheight="22">
-  <tileoffset x="-1" y="1"/>
-  <image source="Dirt_Floor.png" width="22" height="22"/>
- </tileset>
- <tileset firstgid="2" name="Wall" tilewidth="20" tileheight="20">
+ <tileset firstgid="1" name="Wall" tilewidth="20" tileheight="20">
   <image source="Dirt_Wall.png" width="20" height="20"/>
+ </tileset>
+ <tileset firstgid="2" name="Dirt_Floor" tilewidth="20" tileheight="20">
+  <image source="Dirt_Floor.png" width="20" height="20"/>
  </tileset>
  <layer name="Floor" width="40" height="34">
   <data encoding="base64" compression="zlib">
-   eJztzbENAAAIw7D2/6c5gQU2R/KcJumhrcsXAAAAAMCnAe4JBUk=
+   eJztwwEJAAAMBKHj+4degFVQcNVUVVVVVX0PFR8KoQ==
   </data>
  </layer>
  <layer name="Boundry" width="40" height="34">
   <data encoding="base64" compression="zlib">
-   eJztzrEJADAMwLCQ/4/uEV5SkMC7d2b2eFf5a/w1/hp/jb/GX+Ov8df4a/w1/hp/jb/GX+Ov+eXvcg8MNAEh
+   eJztzrEJADAMwLDk/6d7hJcUJPDunZk93lX+Gn+Nv8Zf46/x1/hr/DX+Gn+Nv8Zf46/x1/hrfvm73AMQugCR
   </data>
  </layer>
  <objectgroup name="PickUps">
@@ -27,7 +26,7 @@
  </objectgroup>
  <layer name="Walls" width="40" height="34">
   <data encoding="base64" compression="zlib">
-   eJztVdEKAyEMO/z/j97DNjiCbVOb6sEWEG6nJjlts+t6Y3yGGuOqcw/B6ORl5hVAngHP1jcr7kDJ8+VCXlY7ugcFOnrB0lmplW5/2V7q1Mf3szVsDWXeo47nkcmEmWYmpyJEZ5PJyUr+Rd6rXlgObz/6YZDlQQ/eumpvdfZohfNUfjBYzd4n4EQez/Rnc9YelXanFvIx57wyr8zgav5lPLHrO/xVcTKflTwWL6tt3cXT8nkXvPrL1nJ2n6I/GN/ed99/43z0jFqMjoVMf2DNMrkWae4ev4zd56Dojy50/SfcuVf5//3h4wVlGwNn
+   eJztVdEKAyEMO///p/ewDY5g29SmerAFhNupSU7b7LreGJ+hxrjq3EMwOnmZeQWQZ8Cz9c2KO1DyfLmQl9WO7kGBjl6wdFZqpdtftpc69fH9bA1bQ5n3qON5ZDJhppnJqQjR2WRyspJ/kfeqF5bD249+GGR50IO3rtpbnT1a4TyVHwxWs/cJOJHHM/3ZnLVHpd2phXzMOa/MKzO4mn8ZT+z6Dn9VnMxnJY/Fy2pbd/G0fN4Fr/6ytZzdp+gPxrf33fffOB89oxajYyHTH1izTK5FmrvHL2P3OSj6owtd/wl37lX+f3/4eAG9JgG0
   </data>
  </layer>
 </map>

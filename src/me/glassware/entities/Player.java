@@ -102,24 +102,8 @@ public class Player extends Entity
 		sword_fDef.shape=swordShape;
 		sword_fDef.isSensor=true;
 			
-		//Player body 
-		BodyDef bdef = new BodyDef();
-		FixtureDef fdef= new FixtureDef();
-		CircleShape shape = new CircleShape();
-		
-		bdef.position.set(30/PPM, 30/PPM);
-		bdef.type = BodyType.DynamicBody;
-		bdef.gravityScale=0;
-		body=world.createBody(bdef);
-		body.setLinearDamping(15f);
-		
-		shape.setRadius(8/PPM);
-		fdef.shape = shape;	
-		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
-		fdef.filter.maskBits = B2DVars.BIT_GROUND|B2DVars.BIT_PICKUP;
-		body.createFixture(fdef).setUserData("Player");
-		body.setUserData(this);
-		shape.dispose();
+		//Initialize player body;
+		resetBody(world);
 		
 		//Starting position
 		faceDown();
@@ -148,6 +132,27 @@ public class Player extends Entity
 			HEALTH_STATE=HealthState.Default;
 		}
 		super.update(dt);
+	}
+	public void resetBody(World world)
+	{
+		//Player body 
+		BodyDef bdef = new BodyDef();
+		FixtureDef fdef= new FixtureDef();
+		CircleShape shape = new CircleShape();
+		
+		bdef.position.set(30/PPM, 30/PPM);
+		bdef.type = BodyType.DynamicBody;
+		bdef.gravityScale=0;
+		body=world.createBody(bdef);
+		body.setLinearDamping(15f);
+		
+		shape.setRadius(8/PPM);
+		fdef.shape = shape;	
+		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
+		fdef.filter.maskBits = B2DVars.BIT_GROUND|B2DVars.BIT_PICKUP;
+		body.createFixture(fdef).setUserData("Player");
+		body.setUserData(this);
+		shape.dispose();
 	}
 	private Vector2[] getConeVertices(float radius, float arcInDegree, int angularIncrementInDegree) 
 	{
@@ -300,6 +305,14 @@ public class Player extends Entity
 		{
 			body.destroyFixture(body.getFixtureList().removeIndex(1));
 		}
+	}
+	public void setPixelPosition(Vector2 targetPos)
+	{
+		body.setTransform(targetPos.x/PPM, targetPos.y/PPM, 0f);
+	}
+	public void setPixelPosition(float x, float y)
+	{
+		body.setTransform(x/PPM, y/PPM, 0f);
 	}
 	public void moveUp()
 	{

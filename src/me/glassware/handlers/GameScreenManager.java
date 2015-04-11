@@ -5,6 +5,7 @@ import me.glassware.screens.GameScreen;
 import me.glassware.screens.Loading;
 import me.glassware.screens.Menu;
 import me.glassware.screens.Pause;
+import me.glassware.screens.TestLevel;
 
 public class GameScreenManager 
 {
@@ -12,10 +13,11 @@ public class GameScreenManager
 	
 	private GameScreen[] gameScreens;
 	
-	public final int NUMSTATES=3;
+	public final int NUMSTATES=4;
 	public final int LOADING=0;
 	public final int MENU = 1;
 	public final int PAUSE=2;
+	public final int TESTLEVEL=3;
 	
 	private int currentScreen;
 	
@@ -47,6 +49,7 @@ public class GameScreenManager
 		if(screen==LOADING) return new Loading(this);
 		if(screen==MENU) return new Menu(this);
 		if(screen==PAUSE) return new Pause(this);
+		if(screen==TESTLEVEL) return new TestLevel(this);
 		return null;
 	}
 	public void setScreen(int screen, boolean pause)
