@@ -7,6 +7,8 @@ import me.glassware.main.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 
 public abstract class GameScreen implements Screen
 {
@@ -18,11 +20,14 @@ public abstract class GameScreen implements Screen
 	protected OrthographicCamera hudCam;
 	protected OrthographicCamera b2dCam;
 	
+	protected Array<Body> bodyList;
+	
+	
 	private final float[] zoomDepth = new float[]
 				{.125f, .25f, .5f, .75f, 1f, 1.25f, 1.5f, 1.75f, 2f, 3f, 4f, 5f};
 	private final int defaultZoomDepthPosition=4; 
 	private int currentZoomDepth=defaultZoomDepthPosition;
-	
+		
 	protected GameScreen(GameScreenManager gsm)
 	{
 		this.gsm = gsm;
@@ -33,7 +38,10 @@ public abstract class GameScreen implements Screen
 		b2dCam=game.getb2dCamera();
 		zoomDefault();
 	}
-	
+	public Array<Body> getBodyList()
+	{
+		return bodyList;
+	}
 	protected void zoomIn()
 	{
 		if(currentZoomDepth>0)

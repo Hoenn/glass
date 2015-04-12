@@ -105,8 +105,7 @@ public class Player extends Entity
 		//Initialize player body;
 		resetBody(world);
 		
-		//Starting position
-		faceDown();
+
 			
 	}
 	@Override
@@ -153,25 +152,28 @@ public class Player extends Entity
 		body.createFixture(fdef).setUserData("Player");
 		body.setUserData(this);
 		shape.dispose();
+		//Starting position
+		faceDown();
+		Game.currentScreen.getBodyList().add(body);
 	}
 	private Vector2[] getConeVertices(float radius, float arcInDegree, int angularIncrementInDegree) 
 	{
 
-			int angularIncrements=(int) (arcInDegree/angularIncrementInDegree);
-	
-	        Vector2[] coneVertices = new Vector2[angularIncrements+2];
-			coneVertices[0] = new Vector2(0, 0);
-			
-			float angle=0;
-			float arcInRad=arcInDegree*MathUtils.degRad;
-			float adjust=arcInRad/2;
-			
-			for(int i=0;i<angularIncrements+1;i++)
-			{
-				angle= (i*(arcInRad/angularIncrements))-adjust;
-				coneVertices[i+1]= new Vector2((radius*MathUtils.cos(angle))/PPM, (radius*MathUtils.sin(angle))/PPM);
-			}
-			return coneVertices;
+		int angularIncrements=(int) (arcInDegree/angularIncrementInDegree);
+
+        Vector2[] coneVertices = new Vector2[angularIncrements+2];
+		coneVertices[0] = new Vector2(0, 0);
+		
+		float angle=0;
+		float arcInRad=arcInDegree*MathUtils.degRad;
+		float adjust=arcInRad/2;
+		
+		for(int i=0;i<angularIncrements+1;i++)
+		{
+			angle= (i*(arcInRad/angularIncrements))-adjust;
+			coneVertices[i+1]= new Vector2((radius*MathUtils.cos(angle))/PPM, (radius*MathUtils.sin(angle))/PPM);
+		}
+		return coneVertices;
 	}
 	public void createPointLight(RayHandler rh, Color color)
 	{
@@ -317,7 +319,6 @@ public class Player extends Entity
 	public void moveUp()
 	{
 		body.applyLinearImpulse(0	, .40f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
-
 	}
 	public void moveLeft()
 	{

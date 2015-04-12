@@ -9,6 +9,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 
 public class Loading extends GameScreen
 {
@@ -18,6 +20,8 @@ public class Loading extends GameScreen
 	public Loading(GameScreenManager gsm)
 	{
 		super(gsm);
+		Game.currentScreen=this;
+
 		progress=0;
 		font = new BitmapFont();
 		
@@ -38,8 +42,9 @@ public class Loading extends GameScreen
 		if(Game.manager.update())
 		{
 			Game.atlas=Game.manager.get("res/images/assets.pack");
+			System.out.println("TEST1");
+
 			gsm.setScreen(gsm.MENU, false);
-			gsm.disposeScreen(gsm.LOADING);
 		}
 
 			
@@ -61,6 +66,7 @@ public class Loading extends GameScreen
 	public void resize(int arg0, int arg1){}
 	public void resume(){}
 	public void show(){}
+
 
 
 }

@@ -1,6 +1,7 @@
 package me.glassware.handlers;
 
 import static me.glassware.handlers.B2DVars.PPM;
+import me.glassware.main.Game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -38,29 +40,38 @@ public class LevelCreator
 		fdef.isSensor=false;
 		fdef.friction=.5f;
 		
-		//LEFT BOUNDRY
+		//LEFT BOUNDRY	
 		shape.setAsBox(tileSizeB2D, height/2/PPM);
 		bdef.position.set(tileSizeB2D, height/2/PPM); //LEFT
 		fdef.shape=shape;
-		world.createBody(bdef).createFixture(fdef);
+		Body leftWall=world.createBody(bdef);
+		leftWall.createFixture(fdef);
+		Game.currentScreen.getBodyList().add(leftWall);
 		
 		//BOTTOM BOUNDRY
 		shape.setAsBox(bodyWidth, tileSizeB2D);
 		bdef.position.set(bodyWidth, tileSizeB2D);
 		fdef.shape=shape;
-		world.createBody(bdef).createFixture(fdef);
+		Body bottomWall=world.createBody(bdef);
+		bottomWall.createFixture(fdef);
+		Game.currentScreen.getBodyList().add(bottomWall);		
 		
 		//RIGHT BOUNDRY		
 		shape.setAsBox(tileSizeB2D, bodyHeight);
 		bdef.position.set(width/PPM-tileSizeB2D, bodyHeight); //
 		fdef.shape=shape;
-		world.createBody(bdef).createFixture(fdef);
+		Body rightWall=world.createBody(bdef);
+		rightWall.createFixture(fdef);
+		Game.currentScreen.getBodyList().add(rightWall);		
 		
 		//TOP BOUNDRY
 		shape.setAsBox(bodyWidth, tileSizeB2D);
 		bdef.position.set(bodyWidth, height/PPM-tileSizeB2D);
 		fdef.shape=shape;
-		world.createBody(bdef).createFixture(fdef);
+		Body topWall=world.createBody(bdef);
+		topWall.createFixture(fdef);
+		Game.currentScreen.getBodyList().add(topWall);	
+
 		
 		shape.dispose();
 	}
@@ -99,8 +110,9 @@ public class LevelCreator
 				fdef.shape=cs;
 				fdef.filter.categoryBits=B2DVars.BIT_GROUND;
 				fdef.filter.maskBits=B2DVars.BIT_PLAYER;
-				
-				world.createBody(bdef).createFixture(fdef);
+				Body temp = world.createBody(bdef);
+				temp.createFixture(fdef);
+				Game.currentScreen.getBodyList().add(temp);
 				
 			}
 		}

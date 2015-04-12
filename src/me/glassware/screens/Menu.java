@@ -47,7 +47,6 @@ import com.badlogic.gdx.utils.Array;
 //This is a commit test
 public class Menu extends GameScreen
 {	
-	private World world;
 	private Box2DDebugRenderer b2dr;
 	private boolean debug;
 		
@@ -57,6 +56,7 @@ public class Menu extends GameScreen
 	private OrthogonalTiledMapRenderer tmr;
 	private float tileSize;
 	private float tileSizeB2D;
+	
 	
 	private TiledMap myMap;
 	
@@ -76,14 +76,16 @@ public class Menu extends GameScreen
 	{
 		super(gsm);
 		
+		Game.currentScreen=this;
+
 		//Set up Box2D
-		world = new World(new Vector2(0f, -4.8f), true);
 		contacts= new GameContactListener();
-		world.setContactListener(contacts);		
+		Game.world.setContactListener(contacts);		
 		b2dr= new Box2DDebugRenderer();		
 		debug=false;
+		bodyList=new Array<Body>();
 		//Set up b2d lights
-		rayHandler=new RayHandler(world);
+		rayHandler=new RayHandler(Game.world);
 		rayHandler.setShadows(true);
 		rayHandler.setCulling(true);
 
@@ -96,7 +98,7 @@ public class Menu extends GameScreen
 		//Create objects
 		createMapFromTMX();
 		//createAMap();
-		player=new Player(world, tileSize, 7);
+		player=new Player(Game.world, tileSize, 7);
 		player.createPointLight(rayHandler, Color.CYAN);
 		player.createConeLight(rayHandler, Color.PURPLE);
 		
@@ -108,7 +110,7 @@ public class Menu extends GameScreen
 	{
 		handleInput();
 
-		world.step(Game.STEP, 6, 2);
+		Game.world.step(Game.STEP, 6, 2);
 		
 		player.update(dt);
 		
@@ -123,7 +125,7 @@ public class Menu extends GameScreen
 				player.addItem(i);
 			
 				pickUps.removeValue((PickUp)b.getUserData(), true);	
-				world.destroyBody(b);
+				Game.world.destroyBody(b);
 			}
 			if(b.getUserData() instanceof AttackObject)
 			{
@@ -131,7 +133,7 @@ public class Menu extends GameScreen
 				player.takeDamage(a.getDamageValue());
 				a.destroy();
 				attackObjects.removeValue(a, true);
-				world.destroyBody(b);
+				Game.world.destroyBody(b);
 			}
 		}
 		bodies.clear();
@@ -178,12 +180,12 @@ public class Menu extends GameScreen
 		//draw Box2dworld
 		if(debug)
 		{
-			b2dr.render(world, b2dCam.combined);
+			b2dr.render(Game.world, b2dCam.combined);
 		}			
 	}
 	private void createFallingBall()
 	{
-		AttackObject ao = new AttackObject(world,  TrapType.FallingBall, 5, 
+		AttackObject ao = new AttackObject(Game.world,  TrapType.FallingBall, 5, 
 				MathUtils.random(minWidthInBounds, maxWidthInBounds) , maxHeightInBounds, true);
 		attackObjects.add(ao);
 	}
@@ -239,8 +241,8 @@ public class Menu extends GameScreen
 		LevelCreator.tileSize=this.tileSize;
 		LevelCreator.tileSizeB2D=this.tileSizeB2D;
 		
-		LevelCreator.createBoundries(tileMap, world);
-		LevelCreator.createSolidWalls(wallLayer, world);
+		LevelCreator.createBoundries(tileMap, Game.world);
+		LevelCreator.createSolidWalls(wallLayer, Game.world);
 		
 	}
 
@@ -260,10 +262,10 @@ public class Menu extends GameScreen
 		//Creates Walls with collision
 		TiledMapTileLayer layer;
 		layer=(TiledMapTileLayer) tileMap.getLayers().get("Walls");		
-		LevelCreator.createSolidWalls(layer, world);
+		LevelCreator.createSolidWalls(layer,Game.world);
 		
 		//Create Boundry walls
-		LevelCreator.createBoundries(tileMap, world);
+		LevelCreator.createBoundries(tileMap, Game.world);
 		
 		//Initialize Tile Relevant variables
 		maxWidthInBounds=((int)(tileMap.getProperties().get("width")))*(tileSize)-tileSize;
@@ -288,7 +290,7 @@ public class Menu extends GameScreen
 
 			//String temp = Game.itemList.get(Game.random.nextInt(Game.itemList.size));
 			String temp="potion";
-			PickUp p = new PickUp(world, temp, x , y);		
+			PickUp p = new PickUp(Game.world, temp, x , y);		
 			pickUps.add(p);		
 		}
 		
@@ -387,10 +389,11 @@ public class Menu extends GameScreen
 	public void dispose()
 	{
 		tmr.dispose();
-		world.dispose();		
+		Game.clearWorld();
 	}
 	public void hide(){}
 	public void render(float arg0){}
 	public void resize(int arg0, int arg1){}
 	public void show(){}
+
 }

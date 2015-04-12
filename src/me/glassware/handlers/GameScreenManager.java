@@ -29,8 +29,7 @@ public class GameScreenManager
 		gameScreens = new GameScreen[NUMSTATES];
 		
 		//LoadingScreen
-		currentScreen=0; 
-		setScreen(currentScreen, false);
+		setScreen(LOADING);
 	}
 	public Game getGame()
 	{
@@ -52,25 +51,30 @@ public class GameScreenManager
 		if(screen==TESTLEVEL) return new TestLevel(this);
 		return null;
 	}
-	public void setScreen(int screen, boolean pause)
+	public void setScreen(int screen)
 	{
 		if(gameScreens[screen]==null) //If the desired Screen does not exist
 		{
 			gameScreens[screen]=getScreen(screen); //Make it
+
 		}
-		else if(!pause)
-			disposeScreen(currentScreen); //If the desired Screen does exist and you don't want to pause it
-
-		if(pause)
-			currentGameScreen.pause(); //Pause calling Screen
-
-		
+		Game.currentScreen = gameScreens[screen];
 		currentGameScreen=gameScreens[screen];//Set current Screen to desired
 		currentGameScreen.resume();//Resume Desired
 		currentScreen=screen;//Update currentScreen array position
 	}
+	public void setScreen(int screen, boolean pause)
+	{
+		if(pause)
+			currentGameScreen.pause(); //Pause calling Screen
+		else if(!pause)
+			disposeScreen(currentScreen);//Dispose calling Screen
+		setScreen(screen);
+	}
+
 	public void disposeScreen(int screen)
 	{
+		System.out.println("Disposing "+screen);
 		GameScreen g= gameScreens[screen]; 
 		gameScreens[screen]=null;
 		g.dispose();

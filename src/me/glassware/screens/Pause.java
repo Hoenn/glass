@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 
 public class Pause extends GameScreen
 {
@@ -22,6 +24,7 @@ public class Pause extends GameScreen
 	private float pauseMessageX;
 	private float pauseMessageY;
 	
+	
 	private BitmapFont font;
 	
 	private Color color;
@@ -29,6 +32,8 @@ public class Pause extends GameScreen
 	public Pause(GameScreenManager gsm)
 	{
 		super(gsm);
+		Game.currentScreen=this;
+
 		pauseMessage="Press ESC to Continue Press 1 to QUIT";
 		pauseMessageX=Game.V_WIDTH/2-Game.font.getBounds(pauseMessage).width/2;
 		pauseMessageY=Game.V_HEIGHT/2+Game.font.getBounds(pauseMessage).height/2;
@@ -91,4 +96,5 @@ public class Pause extends GameScreen
 	public void resize(int arg0, int arg1){}
 	public void resume(){}
 	public void show(){}
+
 }

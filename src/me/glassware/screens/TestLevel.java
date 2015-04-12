@@ -10,6 +10,7 @@ import me.glassware.handlers.B2DVars;
 import me.glassware.handlers.GameContactListener;
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameScreenManager;
+import me.glassware.handlers.LevelCreator;
 import me.glassware.main.Game;
 import box2dLight.RayHandler;
 
@@ -40,16 +41,16 @@ import com.badlogic.gdx.utils.Array;
 
 public class TestLevel extends GameScreen
 {
-	private World world;
 		
 	private TiledMap levelMap;
-	private TiledMapRenderer tmr;
+	private OrthogonalTiledMapRenderer tmr;
 	private float tileSize;
 	private float tileSizeB2D;
 	
 	private GameContactListener contacts;
 	private Box2DDebugRenderer b2dr;
 	private boolean debug;
+	
 	
 	private RayHandler rayHandler;
 	
@@ -59,19 +60,21 @@ public class TestLevel extends GameScreen
 	private Array<PickUp> pickUps;
 	
 	private Player player;
-	private final Vector2 spawnPoint= new Vector2(40, 40);
+	private final Vector2 spawnPoint= new Vector2(30, 30);
 	public TestLevel(GameScreenManager gsm)
 	{
 		super(gsm);
+		Game.currentScreen=this;
 
+		
 		//Set up Box2D
-		world = new World(new Vector2(0f, -4.8f), true);
 		contacts= new GameContactListener();
-		world.setContactListener(contacts);		
+		Game.world.setContactListener(contacts);		
 		b2dr= new Box2DDebugRenderer();		
 		debug=true;
+		bodyList=new Array<Body>();
 		//Set up b2d lights
-		rayHandler=new RayHandler(world);
+		rayHandler=new RayHandler(Game.world);
 		rayHandler.setShadows(false);
 		rayHandler.setCulling(true);
 		createAMap();
@@ -86,7 +89,7 @@ public class TestLevel extends GameScreen
 		pickUps = new Array<PickUp>();
 		
 		this.player = Entity.player;
-		player.resetBody(world);
+		player.resetBody(Game.world);
 		player.setPixelPosition(spawnPoint);
 		
 		
@@ -95,9 +98,9 @@ public class TestLevel extends GameScreen
 	public void update(float dt)
 	{
 		
-		handleInput();
+		handleInput();		
 
-		world.step(Game.STEP, 6, 2);
+		Game.world.step(Game.STEP, 6, 2);
 		
 		player.update(dt);
 		
@@ -112,7 +115,7 @@ public class TestLevel extends GameScreen
 				player.addItem(i);
 			
 				pickUps.removeValue((PickUp)b.getUserData(), true);	
-				world.destroyBody(b);
+				Game.world.destroyBody(b);
 			}
 			if(b.getUserData() instanceof AttackObject)
 			{
@@ -120,7 +123,7 @@ public class TestLevel extends GameScreen
 				player.takeDamage(a.getDamageValue());
 				a.destroy();
 				attackObjects.removeValue(a, true);
-				world.destroyBody(b);
+				Game.world.destroyBody(b);
 			}
 		}
 		bodies.clear();
@@ -168,7 +171,7 @@ public class TestLevel extends GameScreen
 		//draw Box2dworld
 		if(debug)
 		{
-			b2dr.render(world, b2dCam.combined);
+			b2dr.render(Game.world, b2dCam.combined);
 		}		
 	}
 	private void createAMap()
@@ -193,7 +196,7 @@ public class TestLevel extends GameScreen
 				floorLayer.setCell(x, y, cell);
 			}
 		}
-		addBorderToLayer(floorLayer, wallTexture);
+		LevelCreator.addBorderToLayer(floorLayer, wallTexture);
 		floorLayer.setName("Floor");
 		levelMap.getLayers().add(floorLayer);
 		
@@ -213,149 +216,17 @@ public class TestLevel extends GameScreen
 			}
 		}
 		
-		removeExtraTiles(wallLayer);
+		LevelCreator.removeExtraTiles(wallLayer);
 		wallLayer.setName("Walls");
 		levelMap.getLayers().add(wallLayer);
 		tileSize=20;
 		tileSizeB2D=tileSize/2/PPM;
 		
-		createBoundries();
-		createSolidWalls(wallLayer);
+		LevelCreator.createBoundries(levelMap, Game.world);
+		LevelCreator.createSolidWalls(wallLayer, Game.world);
 		
 	}
-	private void addBorderToLayer(TiledMapTileLayer layer, TextureRegion texture)
-	{
-		Cell cell = new Cell();
-		for(int x=0;x<layer.getWidth();x++)
-		{
-			cell.setTile(new StaticTiledMapTile(texture));
-			layer.setCell(x, 0, cell);
-		}
-		for(int y=1;y<layer.getHeight();y++)
-		{
-			cell.setTile(new StaticTiledMapTile(texture));
-			layer.setCell(0, y, cell);
-		}
-		for(int x=1;x<layer.getWidth();x++)
-		{
-			cell.setTile(new StaticTiledMapTile(texture));
-			layer.setCell(x, layer.getHeight()-1, cell);
-		}
-		for(int y=1;y<layer.getHeight();y++)
-		{
-			cell.setTile(new StaticTiledMapTile(texture));
-			layer.setCell(layer.getWidth()-1, y, cell);
-		}
-	}
-	private void removeExtraTiles(TiledMapTileLayer layer)
-	{
-		
-		for(int x=1;x<layer.getWidth()-1;x++)
-		{
-			for(int y=1;y<layer.getHeight()-1;y++)
-			{
-				Cell neighbor1 = layer.getCell(x-1, y);
-				Cell neighbor2 = layer.getCell(x-1, y-1);
-				Cell neighbor3 = layer.getCell(x-1, y+1);
-				Cell neighbor4 = layer.getCell(x+1, y);
-				Cell neighbor5 = layer.getCell(x+1, y-1);
-				Cell neighbor6 = layer.getCell(x+1, y+1);
-				Cell neighbor7 = layer.getCell(x, y+1);
-				Cell neighbor8 = layer.getCell(x, y-1);
-				if(neighbor1!=null&&neighbor2!=null&&neighbor3!=null&&neighbor4!=null&&neighbor5!=null&&neighbor6!=null&&neighbor7!=null&&neighbor8!=null)
-					layer.setCell(x, y, null);
-			}
-		}
-		
-		
-	}
-	private void createBoundries()
-	{
-		TiledMapTileLayer temp = (TiledMapTileLayer) levelMap.getLayers().get("Walls");
-		float width= temp.getWidth()*tileSize;
-		float height =temp.getHeight()*tileSize;
-		float bodyWidth=width/2/PPM;
-		float bodyHeight=height/2/PPM;
 
-		
-		BodyDef bdef= new BodyDef();
-		FixtureDef fdef = new FixtureDef();
-		PolygonShape shape = new PolygonShape();
-		
-		bdef.type=BodyType.StaticBody;
-		fdef.filter.categoryBits=B2DVars.BIT_GROUND;
-		fdef.filter.maskBits=B2DVars.BIT_PLAYER;
-		fdef.isSensor=false;
-		fdef.friction=.5f;
-		
-		//LEFT BOUNDRY
-		shape.setAsBox(tileSizeB2D, height/2/PPM);
-		bdef.position.set(tileSizeB2D, height/2/PPM); //LEFT
-		fdef.shape=shape;
-		world.createBody(bdef).createFixture(fdef);
-		
-		//BOTTOM BOUNDRY
-		shape.setAsBox(bodyWidth, tileSizeB2D);
-		bdef.position.set(bodyWidth, tileSizeB2D);
-		fdef.shape=shape;
-		world.createBody(bdef).createFixture(fdef);
-		
-		//RIGHT BOUNDRY		
-		shape.setAsBox(tileSizeB2D, bodyHeight);
-		bdef.position.set(width/PPM-tileSizeB2D, bodyHeight); //
-		fdef.shape=shape;
-		world.createBody(bdef).createFixture(fdef);
-		
-		//TOP BOUNDRY
-		shape.setAsBox(bodyWidth, tileSizeB2D);
-		bdef.position.set(bodyWidth, height/PPM-tileSizeB2D);
-		fdef.shape=shape;
-		world.createBody(bdef).createFixture(fdef);
-		
-		shape.dispose();
-	}
-	private void createSolidWalls(TiledMapTileLayer layer)
-	{
-		BodyDef bdef= new BodyDef();
-		FixtureDef fdef= new FixtureDef();
-		
-		for(int row =0; row<layer.getHeight();row++)
-		{
-			for(int col =0; col<layer.getWidth();col++)
-			{
-				//get cell
-				Cell cell = layer.getCell(col,row);
-				
-				//check if cell exist
-				if(cell==null)continue;
-				if(cell.getTile()==null)continue;
-				
-				//create a body and fixture from cell
-				bdef.type = BodyType.StaticBody;
-				bdef.position.set((col+0.5f)*tileSize/PPM, (row+0.5f)*tileSize/PPM);
-				
-				ChainShape cs = new ChainShape();
-				Vector2[] v = new Vector2[5];
-				v[0] = new Vector2(-tileSizeB2D, -tileSizeB2D); //Bottom Left
-				v[1] = new Vector2(-tileSize/2/PPM, tileSizeB2D); //Top Left
-				v[2]= new Vector2(tileSizeB2D, tileSizeB2D); //Top Right
-				v[3]= new Vector2(tileSizeB2D, -tileSizeB2D); //Bottom Right
-				
-				v[4] = new Vector2(-tileSizeB2D, -tileSizeB2D);//Completes the chain
-				cs.createChain(v);
-				
-				fdef.friction=.3f;
-				fdef.isSensor=false;
-				fdef.shape=cs;
-				fdef.filter.categoryBits=B2DVars.BIT_GROUND;
-				fdef.filter.maskBits=B2DVars.BIT_PLAYER;
-				
-				world.createBody(bdef).createFixture(fdef);
-				
-			}
-		}
-		
-	}
 	@Override
 	public void handleInput()
 	{
@@ -391,6 +262,19 @@ public class TestLevel extends GameScreen
 		{
 			player.faceRight();
 		}
+		if(GameInput.isPressed(GameInput.BUTTON_X))
+		{
+			debug=!debug;
+			System.out.println(player.getPixelPosition());
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_NUM_3))
+		{
+			gsm.setScreen(gsm.MENU, false);
+		}
+		if(GameInput.isPressed(GameInput.BUTTON_ESCAPE))
+		{
+			gsm.setScreen(gsm.PAUSE, false);
+		}
 		
 	}
 
@@ -416,8 +300,7 @@ public class TestLevel extends GameScreen
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
-		
+	
 	}
 	@Override
 	public void hide()
@@ -428,7 +311,9 @@ public class TestLevel extends GameScreen
 	@Override
 	public void dispose()
 	{
-		// TODO Auto-generated method stub
-		
+		tmr.dispose();
+		Game.clearWorld();
+
 	}
+
 }

@@ -1,9 +1,13 @@
 package me.glassware.main;
 
 import static me.glassware.handlers.B2DVars.PPM;
+
+import java.util.Iterator;
+
 import me.glassware.handlers.GameInput;
 import me.glassware.handlers.GameInputProcessor;
 import me.glassware.handlers.GameScreenManager;
+import me.glassware.screens.GameScreen;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -12,6 +16,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 public class Game extends ApplicationAdapter
@@ -22,6 +29,9 @@ public class Game extends ApplicationAdapter
 	public static final int SCALE = 2;
 	
 	public static final float STEP = 1/60f;
+	
+	public static final World world = new World(new Vector2(0f, -4.8f), true);
+	public static GameScreen currentScreen;
 	
 	public static Array<String> itemList;
 	public static final AssetManager manager= new AssetManager();
@@ -52,7 +62,7 @@ public class Game extends ApplicationAdapter
 		itemList = new Array<String>();
 		itemList.add("sword");
 		itemList.add("potion");
-		
+				
 		Gdx.graphics.setVSync(vsync);
 		Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height,true);
 
@@ -84,6 +94,21 @@ public class Game extends ApplicationAdapter
 	public OrthographicCamera getb2dCamera()
 	{
 		return b2dCam;
+	}
+	public static void clearWorld()
+	{
+		Array<Body> destroy = currentScreen.getBodyList();
+
+		if(currentScreen.getBodyList().size>0)
+		{
+			for(Body b: destroy)
+			{				
+				world.destroyBody(b);
+			}
+			destroy.clear();
+		}
+		
+
 	}
 	public void render()
 	{
