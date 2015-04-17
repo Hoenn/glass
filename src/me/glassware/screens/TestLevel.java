@@ -277,33 +277,8 @@ public class TestLevel extends GameScreen
 		}
 		
 	}
-
-
-	@Override
-	public void show()
-	{		
-	}
-	@Override
-	public void render(float delta)
-	{	
-	}
-	@Override
-	public void resize(int width, int height)
-	{		
-	}
 	@Override
 	public void pause()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void resume()
-	{
-	
-	}
-	@Override
-	public void hide()
 	{
 		// TODO Auto-generated method stub
 		
@@ -314,6 +289,11 @@ public class TestLevel extends GameScreen
 		tmr.dispose();
 		Game.clearWorld();
 
+	}
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+	
 	}
 
 }

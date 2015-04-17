@@ -85,5 +85,10 @@ public abstract class GameScreen implements Screen
 	public abstract void update(float dt);
 	public abstract void render();
 	public abstract void dispose();
+	public void show(){}//Children will implement resume and pause
+	public void hide(){}
+	public void render(float dt){} //Children implement update and render separately
+	public void resize(int arg0, int arg1){}
+
 
 }

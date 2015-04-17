@@ -60,13 +60,8 @@ public class Loading extends GameScreen
 	{
 		font.dispose();
 	}
-	public void hide(){}
+
 	public void pause(){}
-	public void render(float arg0){}
-	public void resize(int arg0, int arg1){}
 	public void resume(){}
-	public void show(){}
-
-
 
 }

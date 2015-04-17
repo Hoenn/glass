@@ -391,9 +391,6 @@ public class Menu extends GameScreen
 		tmr.dispose();
 		Game.clearWorld();
 	}
-	public void hide(){}
-	public void render(float arg0){}
-	public void resize(int arg0, int arg1){}
-	public void show(){}
+
 
 }
