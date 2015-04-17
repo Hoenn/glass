@@ -38,7 +38,6 @@ public class PickUp extends Entity
 		body.createFixture(fdef).setUserData("pickUp");
 		body.setUserData(this);
 		
-		Game.currentScreen.getBodyList().add(body);		
 		shape.dispose();
 	}
 	public String getName()

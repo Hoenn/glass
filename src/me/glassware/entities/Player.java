@@ -154,7 +154,6 @@ public class Player extends Entity
 		shape.dispose();
 		//Starting position
 		faceDown();
-		Game.currentScreen.getBodyList().add(body);
 	}
 	private Vector2[] getConeVertices(float radius, float arcInDegree, int angularIncrementInDegree) 
 	{

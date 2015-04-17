@@ -80,7 +80,7 @@ public class Menu extends GameScreen
 
 		//Set up Box2D
 		contacts= new GameContactListener();
-		Game.world.setContactListener(contacts);		
+		Game.world.setContactListener(contacts);	
 		b2dr= new Box2DDebugRenderer();		
 		debug=false;
 		bodyList=new Array<Body>();

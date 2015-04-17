@@ -40,6 +40,7 @@ public abstract class GameScreen implements Screen
 	}
 	public Array<Body> getBodyList()
 	{
+		Game.world.getBodies(bodyList);
 		return bodyList;
 	}
 	protected void zoomIn()

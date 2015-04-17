@@ -71,7 +71,6 @@ public class AttackObject extends Entity
 		body.createFixture(fdef).setUserData("attackObject");
 		body.setUserData(this);
 		
-		Game.currentScreen.getBodyList().add(body);
 		shape.dispose();
 	}
 	private void createFallingBall(World world, int dV, float x, float y, boolean spinning)		
@@ -102,7 +101,6 @@ public class AttackObject extends Entity
 		body.setLinearVelocity(0f, -.5f);
 		body.createFixture(fdef).setUserData("attackObject");
 		body.setUserData(this);
-		Game.currentScreen.getBodyList().add(body);
 		shape.dispose();
 	}
 	public int getDamageValue()

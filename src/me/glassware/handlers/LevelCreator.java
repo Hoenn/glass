@@ -46,15 +46,12 @@ public class LevelCreator
 		fdef.shape=shape;
 		Body leftWall=world.createBody(bdef);
 		leftWall.createFixture(fdef);
-		Game.currentScreen.getBodyList().add(leftWall);
-		
 		//BOTTOM BOUNDRY
 		shape.setAsBox(bodyWidth, tileSizeB2D);
 		bdef.position.set(bodyWidth, tileSizeB2D);
 		fdef.shape=shape;
 		Body bottomWall=world.createBody(bdef);
 		bottomWall.createFixture(fdef);
-		Game.currentScreen.getBodyList().add(bottomWall);		
 		
 		//RIGHT BOUNDRY		
 		shape.setAsBox(tileSizeB2D, bodyHeight);
@@ -62,7 +59,6 @@ public class LevelCreator
 		fdef.shape=shape;
 		Body rightWall=world.createBody(bdef);
 		rightWall.createFixture(fdef);
-		Game.currentScreen.getBodyList().add(rightWall);		
 		
 		//TOP BOUNDRY
 		shape.setAsBox(bodyWidth, tileSizeB2D);
@@ -70,7 +66,6 @@ public class LevelCreator
 		fdef.shape=shape;
 		Body topWall=world.createBody(bdef);
 		topWall.createFixture(fdef);
-		Game.currentScreen.getBodyList().add(topWall);	
 
 		
 		shape.dispose();
@@ -112,7 +107,6 @@ public class LevelCreator
 				fdef.filter.maskBits=B2DVars.BIT_PLAYER;
 				Body temp = world.createBody(bdef);
 				temp.createFixture(fdef);
-				Game.currentScreen.getBodyList().add(temp);
 				
 			}
 		}
