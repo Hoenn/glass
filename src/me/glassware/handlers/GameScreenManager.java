@@ -74,7 +74,6 @@ public class GameScreenManager
 
 	public void disposeScreen(int screen)
 	{
-		System.out.println("Disposing "+screen);
 		GameScreen g= gameScreens[screen]; 
 		gameScreens[screen]=null;
 		g.dispose();
