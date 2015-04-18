@@ -97,13 +97,12 @@ public class Menu extends GameScreen
 		
 		//Create objects
 		createMapFromTMX();
-		//createAMap();
 		player=new Player(Game.world, tileSize, 7);
 		player.activatePointLight(rayHandler, Color.CYAN);
 		player.activateConeLight(rayHandler, Color.PURPLE);
 		
 		attackObjects= new Array<AttackObject>();
-		//createPickUps();
+		createPickUps();
 		
 	}
 	public void update(float dt)
@@ -138,8 +137,8 @@ public class Menu extends GameScreen
 		}
 		bodies.clear();
 		
-		//for(PickUp p: pickUps)
-		//	p.update(dt);
+		for(PickUp p: pickUps)
+			p.update(dt);
 		for(AttackObject ao: attackObjects)
 			ao.update(dt);
 	}
@@ -161,8 +160,9 @@ public class Menu extends GameScreen
 		sb.setProjectionMatrix(cam.combined);	
 		
 		//draw pickups
-		//for(PickUp p: pickUps)
-		//	p.render(sb);
+		
+		for(PickUp p: pickUps)
+			p.render(sb);
 		//draw attackObjects
 		for(AttackObject ao: attackObjects)
 			ao.render(sb);
@@ -182,118 +182,6 @@ public class Menu extends GameScreen
 		{
 			b2dr.render(Game.world, b2dCam.combined);
 		}			
-	}
-	private void createFallingBall()
-	{
-		AttackObject ao = new AttackObject(Game.world,  TrapType.FallingBall, 5, 
-				MathUtils.random(minWidthInBounds, maxWidthInBounds) , maxHeightInBounds, true);
-		attackObjects.add(ao);
-	}
-
-	private void createAMap()
-	{
-		myMap = new TiledMap();
-		tmr = new OrthogonalTiledMapRenderer(myMap);
-		
-		TextureRegion floorTexture = new TextureRegion(new Texture(Gdx.files.internal("res/maps/Dirt_Floor.png")));
-		TextureRegion wallTexture = new TextureRegion(new Texture(Gdx.files.internal("res/maps/Dirt_Wall.png")));
-		
-		TiledMapTileLayer floorLayer = new TiledMapTileLayer(20, 20, 20, 20);
-		for(int x=0; x<floorLayer.getWidth();x++)
-		{
-			for(int y=0;y<floorLayer.getHeight();y++)
-			{
-				Cell cell = new Cell();
-				cell.setTile(new StaticTiledMapTile(floorTexture));
-				//cell.getTile().setOffsetX(-.5f);
-				//cell.getTile().setOffsetY(-.5f);
-				floorLayer.setCell(x, y, cell);
-			}
-		}
-		LevelCreator.addBorderToLayer(floorLayer, wallTexture);
-		floorLayer.setName("Floor");
-		myMap.getLayers().add(floorLayer);
-		
-	
-		
-		TiledMapTileLayer wallLayer = new TiledMapTileLayer(20, 20, 20 ,20);
-		for(int x=1; x<wallLayer.getWidth()-1;x++)
-		{
-			for(int y=1;y<wallLayer.getHeight()-1;y++)
-			{
-				if(MathUtils.random.nextInt(4)==1)
-				{
-					Cell cell = new Cell();
-					cell.setTile(new StaticTiledMapTile(wallTexture));
-					wallLayer.setCell(x, y, cell);
-				}
-			}
-		}
-		
-		LevelCreator.removeExtraTiles(wallLayer);
-		wallLayer.setName("Walls");
-		myMap.getLayers().add(wallLayer);
-		
-		tileSize=floorTexture.getRegionWidth();
-		tileSizeB2D=tileSize/2/PPM;
-
-		
-		LevelCreator.tileSize=this.tileSize;
-		LevelCreator.tileSizeB2D=this.tileSizeB2D;
-		
-		LevelCreator.createBoundries(tileMap, Game.world);
-		LevelCreator.createSolidWalls(wallLayer, Game.world);
-		
-	}
-
-
-	private void createMapFromTMX()
-	{
-		//load tile map
-		tileMap = new TmxMapLoader().load("res/maps/test.tmx");
-		tmr = new OrthogonalTiledMapRenderer(tileMap);
-
-		tileSize = (int) tileMap.getProperties().get("tilewidth");
-		tileSizeB2D= tileSize/2/PPM;
-		
-		LevelCreator.tileSize=this.tileSize;
-		LevelCreator.tileSizeB2D=this.tileSizeB2D;
-		
-		//Creates Walls with collision
-		TiledMapTileLayer layer;
-		layer=(TiledMapTileLayer) tileMap.getLayers().get("Walls");		
-		LevelCreator.createSolidWalls(layer,Game.world);
-		
-		//Create Boundry walls
-		LevelCreator.createBoundries(tileMap, Game.world);
-		
-		//Initialize Tile Relevant variables
-		maxWidthInBounds=((int)(tileMap.getProperties().get("width")))*(tileSize)-tileSize;
-		minWidthInBounds=tileSize;
-		maxHeightInBounds=((int)(tileMap.getProperties().get("height")))*(tileSize)-tileSize;
-		minHeightInBounds=tileSize;
-	}
-
-	private void createPickUps()
-	{
-		pickUps = new Array<PickUp>();
-		
-		MapLayer layer = tileMap.getLayers().get("PickUps");
-	
-		float x=0, y=0;	
-		for(MapObject mo: layer.getObjects())
-		{
-			
-			Rectangle r = ((RectangleMapObject) mo).getRectangle();
-			x = r.x;
-			y = r.y;
-
-			//String temp = Game.itemList.get(Game.random.nextInt(Game.itemList.size));
-			String temp="potion";
-			PickUp p = new PickUp(Game.world, temp, x , y);		
-			pickUps.add(p);		
-		}
-		
 	}
 	public void handleInput()
 	{
@@ -375,6 +263,62 @@ public class Menu extends GameScreen
 		{
 			gsm.pauseScreen(gsm.MENU);
 		}
+	}
+	private void createFallingBall()
+	{
+		AttackObject ao = new AttackObject(Game.world,  TrapType.FallingBall, 5, 
+				MathUtils.random(minWidthInBounds, maxWidthInBounds) , maxHeightInBounds, true);
+		attackObjects.add(ao);
+	}
+
+	
+	private void createMapFromTMX()
+	{
+		//load tile map
+		tileMap = new TmxMapLoader().load("res/maps/test.tmx");
+		tmr = new OrthogonalTiledMapRenderer(tileMap);
+
+		tileSize = (int) tileMap.getProperties().get("tilewidth");
+		tileSizeB2D= tileSize/2/PPM;
+		
+		LevelCreator.tileSize=this.tileSize;
+		LevelCreator.tileSizeB2D=this.tileSizeB2D;
+		
+		//Creates Walls with collision
+		TiledMapTileLayer layer;
+		layer=(TiledMapTileLayer) tileMap.getLayers().get("Walls");		
+		LevelCreator.createSolidWalls(layer,Game.world);
+		
+		//Create Boundry walls
+		LevelCreator.createBoundries(tileMap, Game.world);
+		
+		//Initialize Tile Relevant variables
+		maxWidthInBounds=((int)(tileMap.getProperties().get("width")))*(tileSize)-tileSize;
+		minWidthInBounds=tileSize;
+		maxHeightInBounds=((int)(tileMap.getProperties().get("height")))*(tileSize)-tileSize;
+		minHeightInBounds=tileSize;
+	}
+
+	private void createPickUps()
+	{
+		pickUps = new Array<PickUp>();
+		
+		MapLayer layer = tileMap.getLayers().get("PickUps");
+	
+		float x=0, y=0;	
+		for(MapObject mo: layer.getObjects())
+		{
+			
+			Rectangle r = ((RectangleMapObject) mo).getRectangle();
+			x = r.x;
+			y = r.y;
+
+			//String temp = Game.itemList.get(Game.random.nextInt(Game.itemList.size));
+			String temp="potion";
+			PickUp p = new PickUp(Game.world, temp, x , y);		
+			pickUps.add(p);		
+		}
+		
 	}
 	public void pause()
 	{		

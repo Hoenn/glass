@@ -174,6 +174,91 @@ public class TestLevel extends GameScreen
 			b2dr.render(Game.world, b2dCam.combined);
 		}		
 	}
+	@Override
+	public void handleInput()
+	{
+		{
+			if(GameInput.isDown(GameInput.BUTTON_W))
+			{
+				player.moveUp();
+			}
+			if(GameInput.isDown(GameInput.BUTTON_A))
+			{
+				player.moveLeft();
+			}
+			if(GameInput.isDown(GameInput.BUTTON_S))
+			{
+				player.moveDown();
+			}
+			if(GameInput.isDown(GameInput.BUTTON_D))
+			{
+				player.moveRight();
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_UP))
+			{
+				player.faceUp();
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_LEFT))
+			{
+				player.faceLeft();
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_DOWN))
+			{
+				player.faceDown();
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_RIGHT))
+			{
+				player.faceRight();
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_SPACE))
+			{
+				player.getLightComponent().toggleConeLight();
+				player.swingSword();
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_Z))
+			{
+				player.useItemAt(0);
+	
+				System.out.println(player.getHealth());
+				System.out.println(player.getPixelPosition().x +" ,"+ player.getPixelPosition().y);
+			}	
+			if(GameInput.isPressed(GameInput.BUTTON_X))
+			{
+				debug=!debug;
+				levelSong.stop();
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_C))
+			{
+				player.getLightComponent().togglePointLight();
+				player.swingFist();
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_R))
+			{
+				rayHandler.setShadows(false);
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_F))
+			{
+				rayHandler.setShadows(true);
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_NUM_1))
+			{
+				zoomIn();
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_NUM_2))
+			{
+				zoomOut();
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_NUM_3))
+			{
+				gsm.setScreen(gsm.MENU, false);
+			}
+			if(GameInput.isPressed(GameInput.BUTTON_ESCAPE))
+			{
+				gsm.pauseScreen(gsm.TESTLEVEL);
+			}
+		}
+		
+	}
 	private void createAMap()
 	{
 		levelMap = new TiledMap();
@@ -224,92 +309,6 @@ public class TestLevel extends GameScreen
 		
 		LevelCreator.createBoundries(levelMap, Game.world);
 		LevelCreator.createSolidWalls(wallLayer, Game.world);
-		
-	}
-
-	@Override
-	public void handleInput()
-	{
-		{
-			if(GameInput.isDown(GameInput.BUTTON_W))
-			{
-				player.moveUp();
-			}
-			if(GameInput.isDown(GameInput.BUTTON_A))
-			{
-				player.moveLeft();
-			}
-			if(GameInput.isDown(GameInput.BUTTON_S))
-			{
-				player.moveDown();
-			}
-			if(GameInput.isDown(GameInput.BUTTON_D))
-			{
-				player.moveRight();
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_UP))
-			{
-				player.faceUp();
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_LEFT))
-			{
-				player.faceLeft();
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_DOWN))
-			{
-				player.faceDown();
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_RIGHT))
-			{
-				player.faceRight();
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_SPACE))
-			{
-				player.getLightComponent().toggleConeLight();
-				player.swingSword();
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_Z))
-			{
-				player.useItemAt(0);
-
-				System.out.println(player.getHealth());
-				System.out.println(player.getPixelPosition().x +" ,"+ player.getPixelPosition().y);
-			}	
-			if(GameInput.isPressed(GameInput.BUTTON_X))
-			{
-				debug=!debug;
-				levelSong.stop();
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_C))
-			{
-				player.getLightComponent().togglePointLight();
-				player.swingFist();
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_R))
-			{
-				rayHandler.setShadows(false);
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_F))
-			{
-				rayHandler.setShadows(true);
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_NUM_1))
-			{
-				zoomIn();
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_NUM_2))
-			{
-				zoomOut();
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_NUM_3))
-			{
-				gsm.setScreen(gsm.MENU, false);
-			}
-			if(GameInput.isPressed(GameInput.BUTTON_ESCAPE))
-			{
-				gsm.pauseScreen(gsm.TESTLEVEL);
-			}
-		}
 		
 	}
 	@Override

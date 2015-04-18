@@ -2,8 +2,11 @@ package me.glassware.entities;
 
 import me.glassware.handlers.Animation;
 import me.glassware.handlers.B2DVars;
+import me.glassware.handlers.GameScreenManager;
 import me.glassware.handlers.ParticleManager;
+import me.glassware.screens.GameScreen;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -11,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public abstract class Entity
 {
-
 	protected Body body;
 	protected Animation animation;
 	protected float width;
@@ -20,6 +22,8 @@ public abstract class Entity
 	protected float facingDirectionInDegree;
 	
 	protected ParticleManager particleManager;
+	
+	private Camera cam;
 	
 	public static Player player;
 	
@@ -47,14 +51,13 @@ public abstract class Entity
 	public void render(SpriteBatch sb)
 	{
 		sb.begin();
-
-		sb.draw(animation.getFrame(), //The Image
-				body.getPosition().x*B2DVars.PPM-width/2,  //Position X
-				body.getPosition().y*B2DVars.PPM-height/2, //Position Y
-				width/2, height/2, //Origin of rotation
-				width, height, //width and height
-				1f, 1f, //X scale and Y Scale
-				facingDirectionInDegree); //Direction in degrees
+		sb.draw(animation.getFrame(),			//The Image
+				getPixelPosition().x-width/2,  	//Position X
+				getPixelPosition().y-height/2,	//Position Y
+				width/2, height/2, 				//Origin of rotation
+				width, height, 					//width and height
+				1f, 1f, 						//X scale and Y Scale
+				facingDirectionInDegree); 		//Direction in degrees
 	
 		particleManager.render(sb);
 
@@ -88,7 +91,6 @@ public abstract class Entity
 	{
 		return height;
 	}
-
 	public abstract void moveUp();
 	public abstract void moveDown();
 	public abstract void moveLeft();

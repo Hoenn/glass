@@ -7,6 +7,7 @@ import me.glassware.main.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 
@@ -81,6 +82,7 @@ public abstract class GameScreen implements Screen
 		
 		currentZoomDepth=defaultZoomDepthPosition;
 	}
+
 	public abstract void handleInput();
 	public abstract void update(float dt);
 	public abstract void render();
