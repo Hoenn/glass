@@ -66,7 +66,7 @@ public class Pause extends GameScreen
 		if(GameInput.isPressed(GameInput.BUTTON_ESCAPE))
 		{
 			font.setColor(Color.WHITE);
-			gsm.setScreen(gsm.MENU, false);
+			gsm.unpauseScreen();
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_NUM_1))
 		{

@@ -3,8 +3,6 @@ package me.glassware.entities;
 import static me.glassware.handlers.B2DVars.PPM;
 import me.glassware.handlers.B2DVars;
 import me.glassware.main.Game;
-import box2dLight.ConeLight;
-import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
@@ -38,13 +36,15 @@ public class Player extends Entity
 	
 	private int tileSight;
 	private float visionDistance;
-	private PointLight pointLight;
-	private ConeLight coneLight;
 	
-	private float attackTime=0;
-	private float attackDuration=.5f;//In Seconds
+	private LightComponent lightComponent;
+	
+	private Activity ACTIVITY;
+	
 	public enum State{Idle, Attacking}
 	private State STATE;
+	private float attackTime=0; //Accumulator
+	private float attackDuration=.5f;//In Seconds
 	private float fistRange=20;
 	private FixtureDef fist_fDef;
 	private float swordRange=40;
@@ -64,12 +64,12 @@ public class Player extends Entity
 		inventory = new Array<Item>();
 		hurtSound= Game.manager.get("res/sounds/magic154.ogg");
 		maxHealth=100;
-		currentHealth=-15;
+		currentHealth=maxHealth;
 
-		
 		tileSight=sight;
 		setVisionDistance(tileSize);
 		
+		lightComponent = new LightComponent();
 		
 		healingEffect= new ParticleEffect();
 		healingEffect.load(Gdx.files.internal("res/particles/healing.p"), Game.atlas);
@@ -104,14 +104,13 @@ public class Player extends Entity
 			
 		//Initialize player body;
 		resetBody(world);
-		
-
 			
 	}
 	@Override
 	public void update(float dt)
 	{
-		if(STATE==State.Attacking&&attackTime<attackDuration)//ENUM FOR ATTACKING GOES HERE
+
+		if(STATE==State.Attacking&&attackTime<attackDuration)
 		{
 			attackTime+=dt;
 		}
@@ -121,6 +120,7 @@ public class Player extends Entity
 			removeAttack();
 			STATE=State.Idle;
 		}
+
 		if(HEALTH_STATE==HealthState.Invincible&&invincTime<invincDuration)
 		{
 			invincTime+=dt;
@@ -174,49 +174,17 @@ public class Player extends Entity
 		}
 		return coneVertices;
 	}
-	public void createPointLight(RayHandler rh, Color color)
+	public void activatePointLight(RayHandler rh, Color color)
 	{
-		pointLight = new PointLight(rh,  500, color, visionDistance, body.getPosition().x, body.getPosition().y);
-		pointLight.setSoftnessLength(0f);//Makes shadows look better
-		pointLight.attachToBody(body); //Light follows player
-		pointLight.setContactFilter( B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND); //Light has the Mask and category bits of the Player 
+		lightComponent.createPointLight(this.body, rh, color, visionDistance);
 	}
-	public void createConeLight(RayHandler rh, Color color)
+	public void activateConeLight(RayHandler rh, Color color)
 	{
-		coneLight = new ConeLight(rh, 500, color, visionDistance, body.getPosition().x, body.getPosition().x, facingDirectionInDegree, 45);
-		coneLight.setSoftnessLength(0f);
-		coneLight.attachToBody(body,0, 0, facingDirectionInDegree);
-		coneLight.setContactFilter(B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND);
+		lightComponent.createConeLight(this.body, rh, color, visionDistance, facingDirectionInDegree);
 	}
-	public boolean isPointLightActive()
+	public LightComponent getLightComponent()
 	{
-		return pointLight.isActive();
-	}
-	public void setPointLightActive(boolean b)
-	{
-		pointLight.setActive(b);
-	}
-	public void togglePointLight()
-	{
-		if(pointLight.isActive())
-			pointLight.setActive(false);
-		else
-			pointLight.setActive(true);
-	}
-	public boolean isConeLightActive()
-	{
-		return coneLight.isActive();
-	}
-	public void setConeLightActive(boolean b)
-	{
-		coneLight.setActive(b);
-	}
-	public void toggleConeLight()
-	{
-		if(coneLight.isActive())
-			coneLight.setActive(false);
-		else
-			coneLight.setActive(true);
+		return lightComponent;
 	}
 	public float getVisionDistance()
 	{
@@ -243,8 +211,7 @@ public class Player extends Entity
 		return currentHealth;
 	}
 	public void healDamage(int healing)
-	{
-		
+	{	
 		if(currentHealth==maxHealth)
 			System.out.println("full health");
 		else 
@@ -255,8 +222,7 @@ public class Player extends Entity
 				currentHealth+=healing;
 			particleManager.playParticle(healingEffect);
 		}
-	}
-	
+	}	
 	public void takeDamage(int dmg)
 	{
 		if(HEALTH_STATE==HealthState.Default)
@@ -317,7 +283,7 @@ public class Player extends Entity
 	}
 	public void moveUp()
 	{
-		body.applyLinearImpulse(0	, .40f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
+		body.applyLinearImpulse(0	, .40f, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);		
 	}
 	public void moveLeft()
 	{
@@ -330,7 +296,6 @@ public class Player extends Entity
 	public void moveRight()
 	{
 		body.applyLinearImpulse(0.40f	, 0, getBody().getLocalCenter().x, getBody().getLocalCenter().y, true);
-
 	}
 	public void faceUp()   
 	{

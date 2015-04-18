@@ -20,6 +20,7 @@ public class GameScreenManager
 	public final int TESTLEVEL=3;
 	
 	private int currentScreen;
+	private int pausedScreen;
 	
 	private GameScreen currentGameScreen;
 	
@@ -71,7 +72,16 @@ public class GameScreenManager
 			disposeScreen(currentScreen);//Dispose calling Screen
 		setScreen(screen);
 	}
-
+	public void pauseScreen(int screen)
+	{
+		setScreen(PAUSE, true);
+		pausedScreen=screen;
+	}
+	public void unpauseScreen()
+	{
+		setScreen(pausedScreen);
+		pausedScreen=-1;
+	}
 	public void disposeScreen(int screen)
 	{
 		GameScreen g= gameScreens[screen]; 

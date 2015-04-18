@@ -30,6 +30,7 @@ public class Loading extends GameScreen
 		//Make animation of loading textures
 		//animated loading textures with progress float
 		Game.manager.load("res/songs/testmusic.ogg", Music.class); //Menu music
+		Game.manager.load("res/songs/Oblivion_main.ogg", Music.class);
 		Game.manager.load("res/sounds/magic154.ogg", Sound.class);
 	}
 	public void handleInput()
@@ -42,7 +43,6 @@ public class Loading extends GameScreen
 		if(Game.manager.update())
 		{
 			Game.atlas=Game.manager.get("res/images/assets.pack");
-			System.out.println("TEST1");
 
 			gsm.setScreen(gsm.MENU, false);
 		}

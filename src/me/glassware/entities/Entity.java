@@ -23,8 +23,8 @@ public abstract class Entity
 	
 	public static Player player;
 	
-	public enum FacingDirection{LEFT, UP, RIGHT, DOWN;
-	}
+	public enum FacingDirection{LEFT, UP, RIGHT, DOWN;}
+	public enum Activity{Moving, Idle};
 	
 	public Entity()
 	{

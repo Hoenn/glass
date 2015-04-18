@@ -65,7 +65,7 @@ public class Menu extends GameScreen
 	private float maxWidthInBounds;
 	private float minWidthInBounds;
 		
-	private Music menuSong;
+	private Music levelSong;
 	
 	private GameContactListener contacts;
 	
@@ -90,17 +90,17 @@ public class Menu extends GameScreen
 		rayHandler.setCulling(true);
 
 		//Play Music
-		menuSong= Game.manager.get("res/songs/testmusic.ogg");
-		menuSong.setVolume(.5f); //0.0 - 1.0f
-		menuSong.setLooping(true);
-		menuSong.play();
+		levelSong= Game.manager.get("res/songs/testmusic.ogg");
+		levelSong.setVolume(.5f); //0.0 - 1.0f
+		levelSong.setLooping(true);
+		levelSong.play();
 		
 		//Create objects
 		createMapFromTMX();
 		//createAMap();
 		player=new Player(Game.world, tileSize, 7);
-		player.createPointLight(rayHandler, Color.CYAN);
-		player.createConeLight(rayHandler, Color.PURPLE);
+		player.activatePointLight(rayHandler, Color.CYAN);
+		player.activateConeLight(rayHandler, Color.PURPLE);
 		
 		attackObjects= new Array<AttackObject>();
 		//createPickUps();
@@ -331,7 +331,7 @@ public class Menu extends GameScreen
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_SPACE))
 		{
-			player.toggleConeLight();
+			player.getLightComponent().toggleConeLight();
 			player.swingSword();
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_Z))
@@ -344,11 +344,11 @@ public class Menu extends GameScreen
 		if(GameInput.isPressed(GameInput.BUTTON_X))
 		{
 			debug=!debug;
-			menuSong.stop();
+			levelSong.stop();
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_C))
 		{
-			player.togglePointLight();
+			player.getLightComponent().togglePointLight();
 			player.swingFist();
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_R))
@@ -373,22 +373,23 @@ public class Menu extends GameScreen
 		}
 		if(GameInput.isPressed(GameInput.BUTTON_ESCAPE))
 		{
-			gsm.setScreen(gsm.PAUSE, true);
+			gsm.pauseScreen(gsm.MENU);
 		}
 	}
 	public void pause()
 	{		
-		menuSong.pause();
+		levelSong.pause();
 	}
 	
 	public void resume()
 	{
-		if(!menuSong.isPlaying())
-				menuSong.play();
+		if(!levelSong.isPlaying())
+				levelSong.play();
 	}
 	public void dispose()
 	{
 		tmr.dispose();
+		levelSong.dispose();
 		Game.clearWorld();
 	}
 
