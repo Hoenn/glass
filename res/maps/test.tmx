@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="34" tilewidth="20" tileheight="20" nextobjectid="27">
- <tileset firstgid="1" name="Wall" tilewidth="20" tileheight="20">
-  <image source="Dirt_Wall.png" width="20" height="20"/>
+ <tileset firstgid="1" name="wallTile.v1" tilewidth="20" tileheight="20">
+  <image source="wallTile.v1.png" width="20" height="20"/>
  </tileset>
- <tileset firstgid="2" name="Dirt_Floor" tilewidth="20" tileheight="20">
-  <image source="Dirt_Floor.png" width="20" height="20"/>
+ <tileset firstgid="2" name="dirtTile.v1" tilewidth="20" tileheight="20">
+  <image source="dirtTile.v1.png" width="20" height="20"/>
  </tileset>
  <layer name="Floor" width="40" height="34">
   <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMBKHj+4degFVQcNVUVVVVVX0PFR8KoQ==
+   eJztwwENAAAIA6Df/qEtYANho0l6HFVVVVXV5xeVzAqb
   </data>
  </layer>
  <layer name="Boundry" width="40" height="34">
@@ -26,7 +26,7 @@
  </objectgroup>
  <layer name="Walls" width="40" height="34">
   <data encoding="base64" compression="zlib">
-   eJztVdEKAyEMO///p/ewDY5g29SmerAFhNupSU7b7LreGJ+hxrjq3EMwOnmZeQWQZ8Cz9c2KO1DyfLmQl9WO7kGBjl6wdFZqpdtftpc69fH9bA1bQ5n3qON5ZDJhppnJqQjR2WRyspJ/kfeqF5bD249+GGR50IO3rtpbnT1a4TyVHwxWs/cJOJHHM/3ZnLVHpd2phXzMOa/MKzO4mn8ZT+z6Dn9VnMxnJY/Fy2pbd/G0fN4Fr/6ytZzdp+gPxrf33fffOB89oxajYyHTH1izTK5FmrvHL2P3OSj6owtd/wl37lX+f3/4eAG9JgG0
+   eJzlVdEOxDAIcv//0/d6MVah4trckSxZWgesU2Z2Nx7RNcGNcJit9Vl4nsfdI/66+gxPVhd5R7Wrd1VAxYPo7PTKtD92lib1/XpUg/YQs+51Mo9ILkSaTE5VqM6GyclObeW960XpzxZrEVge7yGr687W5Ix2OE/lB4Ld7L0BJ/I40o/2Vs+otCe1PB9yzjv7qgxW5B/jCa2f8NfFyXxW8qx4Ue3Vt7gtn99C1n9sL7PPKeYD8V29tyV1fo+dD7SvmPlg+nQywxTf9x/x9jl05mMaU/+Eb+5d/l+bD7W/D3XqAcE=
   </data>
  </layer>
 </map>
