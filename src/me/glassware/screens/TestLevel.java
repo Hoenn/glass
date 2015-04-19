@@ -75,7 +75,7 @@ public class TestLevel extends GameScreen
 		bodyList=new Array<Body>();
 		//Set up b2d lights
 		rayHandler=new RayHandler(Game.world);
-		rayHandler.setShadows(false);
+		rayHandler.setShadows(true);
 		rayHandler.setCulling(true);
 		createAMap();
 
@@ -91,7 +91,11 @@ public class TestLevel extends GameScreen
 		this.player = Entity.player;
 		player.resetBody(Game.world);
 		player.setPixelPosition(spawnPoint);
-		
+		player.faceDown();
+
+		player.activatePointLight(rayHandler, Color.BLACK);
+		player.activateConeLight(rayHandler, Color.PURPLE);
+
 		
 	}
 	@Override
@@ -264,10 +268,8 @@ public class TestLevel extends GameScreen
 		levelMap = new TiledMap();
 		tmr = new OrthogonalTiledMapRenderer(levelMap);
 		
-		TextureRegion floorTexture = new TextureRegion(new Texture(Gdx.files.internal("res/maps/Dirt_Floor.png")));
-		TextureRegion wallTexture = new TextureRegion(new Texture(Gdx.files.internal("res/maps/Dirt_Wall.png")));
-
-		//TODO: This method DOES NOT NEED PADDING for the floor image.
+		TextureRegion floorTexture = new TextureRegion(new Texture(Gdx.files.internal("res/maps/dirtTile.v1.png")));
+		TextureRegion wallTexture = new TextureRegion(new Texture(Gdx.files.internal("res/maps/wallTile.v1.png")));
 		
 		TiledMapTileLayer floorLayer = new TiledMapTileLayer(20, 20, 20, 20);
 		for(int x=0; x<floorLayer.getWidth();x++)
@@ -276,8 +278,6 @@ public class TestLevel extends GameScreen
 			{
 				Cell cell = new Cell();
 				cell.setTile(new StaticTiledMapTile(floorTexture));
-				//cell.getTile().setOffsetX(-.5f);
-				//cell.getTile().setOffsetY(-.5f);
 				floorLayer.setCell(x, y, cell);
 			}
 		}
