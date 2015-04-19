@@ -98,7 +98,7 @@ public class Menu extends GameScreen
 		//Create objects
 		createMapFromTMX();
 		player=new Player(Game.world, tileSize, 7);
-		player.activatePointLight(rayHandler, Color.CYAN);
+		player.activatePointLight(rayHandler, Color.BLACK);
 		player.activateConeLight(rayHandler, Color.PURPLE);
 		
 		attackObjects= new Array<AttackObject>();
