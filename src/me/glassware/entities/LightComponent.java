@@ -23,7 +23,7 @@ public class LightComponent
 		pointLight = new PointLight(rh,  maxRaysCast, color, distance, b.getPosition().x, b.getPosition().y);
 		pointLight.setSoftnessLength(0f);//Makes shadows look better
 		pointLight.attachToBody(b); //Light follows player
-		pointLight.setContactFilter( B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_GROUND); //Light has the Mask and category bits of the Player 
+		pointLight.setContactFilter( B2DVars.BIT_PLAYER, (short)(0), B2DVars.BIT_OBJECT); //Light has the Mask and category bits of the Player 
 	}
 	public void createConeLight(Body b, RayHandler rh, Color color, float distance, float facingDirection)
 	{
