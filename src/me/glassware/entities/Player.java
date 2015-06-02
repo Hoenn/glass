@@ -63,7 +63,7 @@ public class Player extends Entity
 		
 		inventory = new Array<Item>();
 		hurtSound= Game.manager.get("res/sounds/magic154.ogg");
-		maxHealth=110;
+		maxHealth=100;
 		currentHealth=maxHealth;
 
 		tileSight=sight;

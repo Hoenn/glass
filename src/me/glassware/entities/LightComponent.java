@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class LightComponent
 {
-	private static final int maxRaysCast=499;
+	private static final int maxRaysCast=500;
 	private PointLight pointLight;
 	private ConeLight coneLight;
 	public LightComponent()
